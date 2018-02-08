@@ -3,6 +3,11 @@
 		<h1><center>New Equipments</h1></center>
 			<form action="<?php echo base_url();?>equipments/new-equipments" method="post">
 				<div class="form-group">
+                        <div class="col-sm-6">
+                              <h5>Ctrl No.</h5>
+                              <input type="text" class="form-control input-style" name="ctrl_no" id="ctrl_no" placeholder="Input Control No.">
+                              <span class="text-danger"><?php echo form_error('ctrl_no'); ?></span>
+                        </div>
                    	<div class="col-sm-6">
                    		<h5>Product Name:</h5>
                			<input type="text" class="form-control input-style" name="prod_name" id="prod_name" placeholder="Input Product Name">

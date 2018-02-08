@@ -55,9 +55,12 @@ class ILEPM extends CI_Controller {
 	public function consumable_new()
 	{
 		if($this->session->userdata('username')){
+
+			$this->form_validation->set_rules('yearone', 'Year', 'required');
 			$this->form_validation->set_rules('part_no', 'Part Number', 'required');
 			$this->form_validation->set_rules('unit_name', 'Unit Name', 'required');
 			$this->form_validation->set_rules('description', 'Description', 'required');
+			$this->form_validation->set_rules('qty', 'Quantity', 'required');
 
 			$data['example']	=	$this->ilepm_model->getConsumablesUnitNames();
 
@@ -65,8 +68,12 @@ class ILEPM extends CI_Controller {
 				$param['part_no']		=	$this->input->post('part_no');
 				$param['unit_name']		=	$this->input->post('unit_name');
 				$param['description']	=	$this->input->post('description');
+				$param['yearone'] 		= 	$this->input->post('yearone');
+				$param['term']			= 	$this->input->post('term');
+				$param['qty']			= 	$this->input->post('qty');
 
 				$this->ilepm_model->add_consumables($param);
+				$this->ilepm_model->add_quantityPerConsumables($param);
 				redirect(base_url() . 'consumables/new-consumables');
 			}else{
 				$this->load->view('templates/header');
@@ -104,14 +111,22 @@ class ILEPM extends CI_Controller {
 		if($this->session->userdata('username')){
 
 			$this->form_validation->set_rules('unit_name', 'Unit Name', 'required');
+			$this->form_validation->set_rules('yearone', 'Year', 'required');
+
+			$data['term']			= 'first';
+			$data['unit_name']		= 'IC';
+			$data['yearone'] 		= 2017;
 
 			$data['example']		= $this->ilepm_model->getConsumablesUnitNames();
-			$data['sample'] 		= $this->ilepm_model->getConsumablesTable();
+			$data['sample'] 		= $this->ilepm_model->getConsumablesTable($data);
 
 			if($this->form_validation->run()){
-				$unit_name			= $this->input->post('unit_name');
+				$data['unit_name']			= $this->input->post('unit_name');
+				$data['yearone'] 			= $this->input->post('yearone');
+				$data['yeartwo']			= $this->input->post('yeartwo');
+				$data['term']			 	= $this->input->post('term');
 
-				$data['sample']		= $this->ilepm_model->getConsumablesTableByUnit($unit_name);
+				$data['sample']		= $this->ilepm_model->getConsumablesTableByUnit($data);
 				$this->load->view('templates/header');
 				$this->load->view('templates/sidebar');
 				$this->load->view('pages/consumables/consumable_manage', $data);
@@ -130,6 +145,7 @@ class ILEPM extends CI_Controller {
 	public function equipment_new()
 	{
 		if($this->session->userdata('username')){
+			$this->form_validation->set_rules('ctrl_no', 'Control No.', 'required');
 			$this->form_validation->set_rules('prod_name', 'Product Name', 'required');
 			$this->form_validation->set_rules('unit_name', 'Unit Name', 'required');
 			$this->form_validation->set_rules('procedure', 'Procedure', 'required');
@@ -138,13 +154,14 @@ class ILEPM extends CI_Controller {
 			$data['example']	=	$this->ilepm_model->getEquipmentUnitNames();
 
 			if($this->form_validation->run()){
+				$param['ctrl_no']		=	$this->input->post('ctrl_no');
 				$param['prod_name']		=	$this->input->post('prod_name');
 				$param['serial_no']		=	$this->input->post('serial_no');
-				$unit_name				=	$this->input->post('unit_name');
+				$param['unit_name']		=	$this->input->post('unit_name');
 				$param['procedure']		=	$this->input->post('procedure');
 				$param['criteria']		=	$this->input->post('criteria');
 
-				$unit = explode(" ", $unit_name);
+				/*$unit = explode(" ", $unit_name);
 				$sum = "";
 
 				for($i = 0; $i < count($unit); $i++){
@@ -152,7 +169,8 @@ class ILEPM extends CI_Controller {
 				}
 
 
-				$this->ilepm_model->add_equipments($param, $sum);
+				$this->ilepm_model->add_equipments($param, $sum);*/
+				$this->ilepm_model->add_equipments($param);
 				redirect(base_url() . 'equipments/new-equipments');
 			}else{
 				$this->load->view('templates/header');

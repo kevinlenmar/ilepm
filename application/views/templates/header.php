@@ -4,13 +4,16 @@
   <title>ILEPM</title>
   <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/bower_components/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/bower_components/jquery-ui-1.12.1/jquery-ui.css">
   <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/dist/css/AdminLTE.min.css">
   <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/dist/css/skins/_all-skins.min.css">
   <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/dist/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/dist/css/dataTables.bootstrap.min.css">
   <link rel="stylesheet" type="text/css" type="text/css" href="<?php echo base_url();?>assets/dist/css/myowncss/myowncss.css">
+  <script src="<?php echo base_url();?>assets/bower_components/jquery-ui-1.12.1/jquery-1.12.4.js"></script>
   <script src="<?php echo base_url();?>assets/bower_components/jquery/dist/jquery.min.js"></script>
   <script src="<?php echo base_url();?>assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="<?php echo base_url();?>assets/bower_components/jquery-ui-1.12.1/jquery-ui.js"></script>
   <script src="<?php echo base_url();?>assets/dist/js/adminlte.min.js"></script>
   <script src="<?php echo base_url();?>assets/dist/js/demo.js"></script>
 </head>  
