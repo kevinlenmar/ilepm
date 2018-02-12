@@ -27,6 +27,9 @@ class ILEPM_Model extends CI_Model
 		}
 	}
 
+	/*						Create														*/
+
+	/*				Users						*/
 	public function add_users($param){
 		$data = array(
 			'username'		=>	$param['username'],
@@ -37,10 +40,87 @@ class ILEPM_Model extends CI_Model
 			'lastname'		=>	$param['lastname'],
 			'contactnumber'	=>	$param['contactnumber'],
 
-		);
+			);
 
 		return $this->db->insert('users', $data);
 	}
+
+	/*				Consumables						*/
+
+	public function add_consumables_unit($param){
+
+		$consumable = array(
+			'part_number'		=>	$param['part_no'],
+			'description'		=>	$param['description'],
+			'category'			=>	$param['category'],
+			);
+
+		$this->db->insert('consumable', $consumable);
+
+		$idConsumable = $this->db->insert_id();
+
+		$quantityperconsumableunit = array(
+			'idConsumableUnit'	=>	$idConsumable,
+			'first'				=>	NULL,
+			'second'			=>	NULL,
+			'summer'			=>	NULL,
+			'year'				=>	NULL,
+			'qty'				=>	0,
+			);
+
+		$this->db->insert('quantityperconsumableunit', $quantityperconsumableunit);
+
+		return $this->db->trans_complete();
+	}
+
+	public function add_consumables_category($param){
+		$consumable_category = array(
+			'category_name'			=>	$param['category'],
+			);
+
+		return $this->db->insert('consumable_category', $consumable_category);
+	}
+
+	public function addConsumablesCSV($param){
+
+	}
+
+	public function getConsumablesCategory(){
+
+		$this->db->from('consumable_category');
+		$this->db->order_by('category_name', 'asc');
+
+		$query = $this->db->get();
+
+		return $query->result();
+	}
+
+	public function getConsumablesTable(){		
+
+		$this->db->select('cs.part_number, cs.description, qs.first, qs.second, qs.summer');
+		$this->db->from('consumable cs');
+		$this->db->join('quantityperconsumableunit qs', 'qs.idConsumableUnit = cs.id ', 'left');
+
+		$query = $this->db->get();
+
+		return $query->result();	
+
+	}
+
+	public function getConsumablesTableByCategory($param){
+
+		$this->db->select('cs.part_number, cs.description, qs.first, qs.second, qs.summer');
+		$this->db->from('consumable cs');
+		$this->db->join('quantityperconsumableunit qs', 'qs.idConsumableUnit = cs.id ', 'left');
+		$this->db->where('cs.category', $param['category']);
+		$this->db->where('qs.year', $param['yearone']);
+
+		$query = $this->db->get();
+
+		return $query->result();
+	}
+
+	/*				Equipments						*/
 
 	public function add_equipments($param){
 		$data = array(
@@ -50,91 +130,9 @@ class ILEPM_Model extends CI_Model
 			'unit_name'			=>	$param['unit_name'],
 			'procedures'		=>	$param['procedure'],
 			'standard_criteria'	=>	$param['criteria'],
-		);
+			);
 
 		return $this->db->insert('equipments', $data);
-	}
-
-	/*public function add_equipments($param, $unit_name){
-		$data = array(
-			'product_name'			=>	$param['prod_name'],
-			'serial_no'				=>	$param['serial_no'],
-			'procedures'			=>	$param['procedure'],
-			'standard_criteria'		=>	$param['criteria'],
-		);
-
-		return $this->db->insert($unit_name, $data);
-	}*/
-
-	/*public function add_equipments_unit($unit, $unit_name){
-
-		$this->db->query('use ilepm');
-
-		$fields = array(
-		  'ctrl_no' => array(
-		    'type' => 'INT',
-		    'constraint' => 11,
-		    'unsigned' => TRUE,
-		    'auto_increment' => TRUE
-		  ),
-		  'product_name' => array(
-		    'type' => 'VARCHAR',
-		    'constraint' => 255
-		  ),
-		  'serial_no' => array(
-		    'type' => 'VARCHAR',
-		    'constraint' => 255
-		  ),
-		  'procedures' => array(
-		    'type' => 'VARCHAR',
-		    'constraint' => 255
-		  ),
-		  'standard_criteria' => array(
-		    'type' => 'VARCHAR',
-		    'constraint' => 255
-		  )
- 		);
-
-		$this->dbforge->add_field($fields);
-		$this->dbforge->add_key('ctrl_no', TRUE);
-		$this->dbforge->create_table($unit, TRUE);
-
-		$data = array(
-			'unit'		=>		$unit_name,
-		);
-
-		return $this->db->insert('equipment_unit_names', $data);
-	}*/
-
-	public function add_consumables($param){
-		$data = array(
-			'part_number'			=>	$param['part_no'],
-			'unit_name'				=>	$param['unit_name'],
-			'description'			=>	$param['description'],
-		);
-
-		return $this->db->insert('consumables', $data);
-
-	}
-
-	public function add_quantityPerConsumables($param){
-		$data = array(
-			'part_number'			=>	$param['part_no'],
-			'unit_name'				=>	$param['unit_name'],
-			'term'					=>	$param['term'],
-			'year'					=>	$param['yearone'],
-			'qty'					=> 	$param['qty'],
-		);
-
-		return $this->db->insert('quantityperconsumable', $data);
-	}
-
-	public function add_consumables_unit($param){
-		$data = array(
-			'unit'					=>	$param['unit_name'],
-		);
-
-		return $this->db->insert('consumables_unit_names', $data);
 	}
 
 	public function getSampleTable(){
@@ -152,63 +150,23 @@ class ILEPM_Model extends CI_Model
 		return $query->result();
 	}
 
-	public function getConsumablesUnitNames(){
-
-		$this->db->from('consumables_unit_names');
-
-		$query = $this->db->get();
-
-		return $query->result();
-	}
-
-	public function getConsumablesTableByUnit($data){
-
-		$this->db->select('cs.part_number, cs.description, qs.qty');
-		$this->db->from('consumables cs');
-		$this->db->join('quantityperconsumable qs', 'qs.id = cs.id','qs.part_number = cs.part_number', 'inner');
-		$this->db->where('qs.unit_name', $data['unit_name']);
-		$this->db->where('qs.term', $data['term']);
-		$this->db->where('qs.year', $data['yearone']);
-
-		$query = $this->db->get();
-
-		return $query->result();
-	}
-
-	public function getConsumablesTable($data){		
-
-		$this->db->select('cs.part_number, cs.description, qs.qty');
-		$this->db->from('consumables cs');
-		$this->db->join('quantityperconsumable qs', 'qs.id = cs.id', 'qs.part_number = cs.part_number', 'inner');
-		$this->db->where('qs.unit_name', $data['unit_name']);
-		$this->db->where('qs.term', $data['term']);
-		$this->db->where('qs.year', $data['yearone']);
-
-		$query = $this->db->get();
-
-		return $query->result();
-	}
-
-	/*public function getEquipmentTable(){
+	public function getEquipmentTable(){
 		
-		$this->db->from('digitalmultimeters');
+		$this->db->from('equipments');
 
 		$query = $this->db->get();
 		
 		return $query->result();
-	}*/
+	}
 
 	public function getEquipmentUnitNames(){
 
 		$this->db->from('equipment_unit_names');
+		$this->db->order_by('unit', 'asc');
 
 		$query = $this->db->get();
 
-		if($query->num_rows() > 0){
-			return $query->result();
-		}else{
-			return false;
-		}
+		return $query->result();
 	}
 
 	/*public function getEquipmentTableByUnit($unit_name){

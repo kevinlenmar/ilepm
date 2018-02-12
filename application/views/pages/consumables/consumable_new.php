@@ -34,8 +34,8 @@
                               <select class="form-control" id="unit_name" name="unit_name" style="width: 300px;">
                                     <option value="">Not yet selected</option>
                                     <?php
-                                          foreach ($example as $item) {
-                                          echo '<option value="'.$item->unit.'">'.$item->unit.'</option>';
+                                          foreach ($unit as $item) {
+                                          echo '<option value="'.$item->id.'">'.$item->unit_name.'</option>';
                                           }
                                     ?>
                               </select>

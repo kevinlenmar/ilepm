@@ -11,7 +11,7 @@
                                     <option value="">Not Selected</option>
                                     <?php
                                         foreach($example as $item) {
-                                            echo '<option value="'.$item->unit.'">'.$item->unit.'</option>';
+                                            echo '<option value="'.$item->id.'">'.$item->unit.'</option>';
                                         }
                                     ?>
                                 </select>

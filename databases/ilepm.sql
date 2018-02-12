@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 06, 2018 at 11:11 AM
+-- Generation Time: Feb 12, 2018 at 02:24 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -23,164 +23,129 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `analogdigitaltrainer2`
+-- Table structure for table `consumable`
 --
 
-CREATE TABLE `analogdigitaltrainer2` (
-  `ctrl_no` int(11) UNSIGNED NOT NULL,
-  `product_name` varchar(255) NOT NULL,
-  `serial_no` varchar(255) NOT NULL,
-  `procedures` varchar(255) NOT NULL,
-  `standard_criteria` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `analogdigitaltrainer2`
---
-
-INSERT INTO `analogdigitaltrainer2` (`ctrl_no`, `product_name`, `serial_no`, `procedures`, `standard_criteria`) VALUES
-(1, 'Alexan Digital Trainer', '10018464', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(2, 'Alexan Digital Trainer', '10018485', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(3, 'Alexan Digital Trainer', '10018476', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(4, 'Alexan Digital Trainer', '10018474', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(5, 'Alexan Digital Trainer', '10018526', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(6, 'Alexan Digital Trainer', '10018525', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(7, 'Alexan Digital Trainer', '10018479', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(8, 'Alexan Digital Trainer', '10018482', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(9, 'Alexan Digital Trainer', '10018478', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(10, 'Alexan Digital Trainer', '10018480', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(11, 'Alexan Digital Trainer', '10018530', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(12, 'Alexan Digital Trainer', '10015231', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(13, 'Alexan Digital Trainer', '10018471', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(14, 'Alexan Digital Trainer', '10018533', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(15, 'Alexan Digital Trainer', '10018527', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(16, 'Alexan Digital Trainer', '10018483', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(17, 'Alexan Digital Trainer', '10018534', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(18, 'Alexan Digital Trainer', '10018528', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(19, 'Alexan Digital Trainer', '10018470', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(20, 'Alexan Digital Trainer', '10018467', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(21, 'Alexan Digital Trainer', '10018524', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(22, 'Alexan Digital Trainer', '10018532', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(23, 'Alexan Digital Trainer', '10018473', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(24, 'Alexan Digital Trainer', '10018529', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(25, 'Alexan Digital Trainer', '10018481', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(26, 'Alexan Digital Trainer', '10018477', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(27, 'Alexan Digital Trainer', '10018469', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(28, 'Alexan Digital Trainer', '10018472', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(29, 'Alexan Digital Trainer', '10018484', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(30, 'Alexan Digital Trainer', '10018535', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(31, 'Alexan Digital Trainer', '10018536', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional'),
-(32, 'Alexan Digital Trainer', '10018468', 'check condition and functionality by testing', 'LEDS, switches, piezo/speaker, monostable and astable timers are functional');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `analogmultimeter`
---
-
-CREATE TABLE `analogmultimeter` (
-  `ctrl_no` int(11) UNSIGNED NOT NULL,
-  `product_name` varchar(255) NOT NULL,
-  `serial_no` varchar(255) NOT NULL,
-  `procedures` varchar(255) NOT NULL,
-  `standard_criteria` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `analogmultimeter`
---
-
-INSERT INTO `analogmultimeter` (`ctrl_no`, `product_name`, `serial_no`, `procedures`, `standard_criteria`) VALUES
-(1, 'Sanwa YX-6360TRF Multitester', '1389963', 'check condition and functionality by testing', 'Voltmeter, Ammeter, Ohmmeter, continuity tester are functional'),
-(3, 'Sanwa YX-6360TRF Multitester', '139013', 'check condition and functionality by testing', 'Voltmeter, Ammeter, Ohmmeter, continuity tester are functional'),
-(5, 'Sanwa YX-6360TRF Multitester', '2235687', 'check condition and functionality by testing', 'Voltmeter, Ammeter, Ohmmeter, continuity tester are functional'),
-(9, 'Sanwa YX-6360TRF Multitester', '9111264', 'check condition and functionality by testing', 'Voltmeter, Ammeter, Ohmmeter, continuity tester are functional'),
-(10, 'Sanwa YX-6360TRF Multitester', '', 'check condition and functionality by testing', 'Voltmeter, Ammeter, Ohmmeter, continuity tester are functional'),
-(12, 'Sanwa YX-6360TRF Multitester', '', 'check condition and functionality by testing', 'Voltmeter, Ammeter, Ohmmeter, continuity tester are functional'),
-(13, 'Sanwa YX-6360TRF Multitester', '3140598', 'check condition and functionality by testing', 'Voltmeter, Ammeter, Ohmmeter, continuity tester are functional'),
-(15, 'Sanwa YX-6360TRF Multitester', '', 'check condition and functionality by testing', 'Voltmeter, Ammeter, Ohmmeter, continuity tester are functional'),
-(17, 'Sanwa YX-6360TRF Multitester', '', 'check condition and functionality by testing', 'Voltmeter, Ammeter, Ohmmeter, continuity tester are functional'),
-(18, 'Sanwa YX-6360TRF Multitester', '3140597', 'check condition and functionality by testing', 'Voltmeter, Ammeter, Ohmmeter, continuity tester are functional'),
-(19, 'Sanwa YX-6360TRF Multitester', '3140895', 'check condition and functionality by testing', 'Voltmeter, Ammeter, Ohmmeter, continuity tester are functional');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `consumables`
---
-
-CREATE TABLE `consumables` (
+CREATE TABLE `consumable` (
   `id` int(11) NOT NULL,
-  `part_number` varchar(255) NOT NULL,
-  `unit_name` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL
+  `part_number` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `category` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `consumables`
+-- Dumping data for table `consumable`
 --
 
-INSERT INTO `consumables` (`id`, `part_number`, `unit_name`, `description`) VALUES
-(1, '7400', 'IC', 'QUAD 2-INPUT-AND GATES\r\n'),
-(2, 'SCR (S4006LS3)', 'Transistors', 'SENSITIVE SCRs (0.8A TO 10A)'),
-(3, 'PN200', 'Transistors', 'PNP GENERAL PURPOSE AMPLIFIER\r\n');
+INSERT INTO `consumable` (`id`, `part_number`, `description`, `category`) VALUES
+(2, '7400', 'QUAD 2-INPUT-AND GATES\r\n', 1),
+(3, '7401', 'QUADRAPLE 2-INPUT POSITIVE-NAND GATES WITH OPEN COLLECTOR OUTPUTS\r\n', 1),
+(4, '7402', 'QUAD 2-INPUT NOR GATES\r\n', 1),
+(5, '7403', 'QUAD 2-INPUT NAND GATES WITH OPEN COLLECTOR OUTPUTS\r\n', 1),
+(6, '7404', 'HEX INVERTER - NOT GATES\r\n', 1),
+(7, '7406', 'HEX INVERTER BUFFERS/DRIVERS WITH OPEN-COLLECTOR HIGH-VOLTAGE OUTPUTS\r\n', 1),
+(8, '7408', 'QUAD 2-INPUT AND GATES\r\n', 1),
+(9, '7410', 'TRIPLE 3-INPUT NAND GATES\r\n', 1),
+(10, '7414', 'HEX INVERTERS WITH SCHMITT TRIGGER\r\n', 1),
+(11, '7420', 'DUAL 4-INPUT NAND GATES\r\n', 1),
+(12, '7432', 'QUAD 2-INPUT OR GATES\r\n', 1),
+(13, '7442', 'BCD/DECIMAL DECODERS\r\n', 1),
+(14, '7447', 'BCD TO 7-SEGMENT DECODER/DRIVER (LOW=ON)\r\n', 1),
+(15, '7448', 'BCD TO 7-SEGMENT DECODER/DRIVER\r\n', 1),
+(16, '7474', 'DUAL POSITIVE-EDGE-TRIGGERED D FLIP-FLOPS WITH PRESET, CLEAR AND COMPLEMENTARY OUTPUTS\r\n', 1),
+(17, '7475', '4-BIT BISTABLE LATCHES\r\n', 1),
+(18, '7476', 'DUAL JK LEVEL-TRIGGERED FLIP-FLOP  (WITH PRESET AND PRECLEAR)\r\n', 1),
+(19, '7483', '4-BIT BINARY ADDERS WITH FAST CARRY\r\n', 1),
+(20, '7485', '4-BIT MAGNITUDE COMPARATORS\r\n', 1),
+(21, '7486', 'QUAD 2-INPUT EXCLUSIVE-OR GATES\r\n', 1),
+(22, '7490', 'DECADE AND BINARY COUNTERS\r\n', 1),
+(23, '7492', 'DIVIDE-BY-TWELVE AND BINARY COUNTERS\r\n', 1),
+(24, '7493', 'DECADE AND BINARY COUNTERS\r\n', 1),
+(25, '7495', '4-BIT SHIFT REGISTER\r\n', 1),
+(26, '74122', 'RETRIGGERABLE ONE-SHOT WITH CLEAR AND COMPLEMENTARY OUTPUTS\r\n', 1),
+(27, '74125', 'QUAD TRI-STATE BUFFERS\r\n', 1),
+(28, '74126', 'QUAD TRI-STATE BUFFERS\r\n', 1),
+(29, '74138', 'DECODERS/DEMULTIPLEXERS\r\n\r\n', 1),
+(30, '74139', 'DECODERS/DEMULTIPLEXERS\r\n', 1),
+(31, '74147', '10-LINE TO 4-LINE AND 8-LINE TO 3-LINE PRIORITY ENCODERS\r\n', 1),
+(32, '74151', 'DATA SELECTOR/MULTIPLEXERS\r\n', 1),
+(33, '74153', 'DUAL 4-LINE TO 1-LINE DATA SELECTOR/MULTIPLEXER\r\n', 1),
+(34, '74154', '4-LINE TO 16-LINE DECODERS/DEMULTIPLEXERS\r\n', 1),
+(35, '74155', 'DUAL 2-LINE TO 4-LINE DECODERS/DEMULTIPLEXERS\r\n', 1),
+(36, '74157', 'QUAD 2-LINE TO 1-LINE DATA SELECTORS/MULTIPLEXERS\r\n', 1),
+(37, '74158', 'QUAD 2-LINE TO 1-LINE DATA SELECTORS/MULTIPLEXERS', 1),
+(38, '74164', '8-BIT SERIAL IN/PARALLEL OUT SHIFT REGISTERS', 1),
+(39, '74174', 'HEX/QUAD D FLIP-FLOP WITH CLEAR', 1),
+(40, '74175', 'HEX/QUAD D FLIP-FLOP WITH CLEAR', 1),
+(41, '74191', 'SYNCHRONOUS 4-BIT UP/DOWN COUNTERS WITH MODE CONTROL', 1),
+(42, '74192', 'SYNCRHONOUS 4-BIT UP/DOWN COUNTERS(DUAL CLOCK WITH CLEAR)', 1),
+(43, '74193', 'SYNCHRONOUS 4-BIT UP/DOWN COUNTERS WITH DUAL CLOCK WITH CLEAR', 1),
+(44, '74194', '4-BIT BIDIRECTIONAL UNIVERSAL SHIFT REGISTER', 1),
+(45, '74221', 'DUAL NON-RETRIGGERABLE ONE-SHOT WITH CLEAR AND COMPLIMENTARY OUTPUTS /SCHMITT  TRIGGER', 1),
+(46, '74240', 'OCTAL TRI-STATE BUFFERS /LINE DRIVERS/LINE RECEIVERS', 1),
+(47, '74241', '12 - AND 14-BIT HYBRID SYNCHRO/RESOLVER-TO-DIGITAL', 1),
+(48, '74242', 'QUADRAPLE BUS TRANSCEIVERS', 1),
+(49, '74243', 'QUADRAPLE BUS TRANSCEIVERS', 1),
+(50, '74244', 'OCTAL TRI-STATE BUFFERS/LINE DRIVERS/LINE RECEIVERS', 1),
+(51, '74245', '3-STATE OCTAL BUS TRANSCEIVER', 1),
+(52, '74259', '8-BIT ADDRESSABLE LATCHES', 1),
+(53, '74279', 'QUAD S-R LATCHES', 1),
+(54, '74367', 'HEX BUS DRIVERS WITH 3-STATE OUTPUTS\r\n', 1),
+(55, '74373', '3 STATE OCTAL D-TYPE TRANSPARENT LATCHES AND EDGE TRIGGERED FLIP-FLOPS\r\n', 1),
+(56, '74374', 'TRI-STATE OCTAL D-TYPE TRANSPARENT LATCHES AND EDGE TRIGGERED FLIP-FLOPS\r\n', 1),
+(57, '74375', '4-BIT LATCHES', 1),
+(58, '74472', 'SHIELDED SURFACE MOUNT INDUCTORS', 1),
+(59, '74595', 'STMicroelectronics - 8 BIT SHIFT REGISTER WITH OUTPUT LATCHES 3 STATE', 1),
+(60, 'MAX3232', '3-V OT 5.5-V MULTICHANNEL RS-232 LINE DRIVER/RECEIVER WITH±15-kV ESD PROTECTION', 1),
+(61, 'MAX232N', 'DUAL ELA-232 DRIVERS/RECEIVERS', 1),
+(62, 'TC4001(CMOS)', 'QUAD 2 INPUT NOR GATE', 1),
+(63, '555 Timer', 'TIMING CIRCUIT', 1),
+(64, 'ULN2003', 'HIGH-VOLTAGE, HIGH CURRENT DARLIGNTON ARRAYS\r\n', 1),
+(65, 'MOC3041', '\"OPTICALLY COUPLED BILATERAL SWITCH LIGHT \r\nACTIVATED\"\r\n', 1),
+(66, 'S4006LS3', 'SENSITIVE SCRs (0.8A TO 10A)\r\n', 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `consumables_unit_names`
+-- Table structure for table `consumable_category`
 --
 
-CREATE TABLE `consumables_unit_names` (
+CREATE TABLE `consumable_category` (
   `id` int(11) NOT NULL,
-  `unit` varchar(255) NOT NULL
+  `category_name` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `consumables_unit_names`
+-- Dumping data for table `consumable_category`
 --
 
-INSERT INTO `consumables_unit_names` (`id`, `unit`) VALUES
+INSERT INTO `consumable_category` (`id`, `category_name`) VALUES
 (1, 'IC'),
 (2, 'Transistors'),
-(3, 'Fuse'),
-(4, 'Sensor');
+(3, 'FUSE');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `digitalmultimeters`
+-- Table structure for table `equipments`
 --
 
-CREATE TABLE `digitalmultimeters` (
-  `ctrl_no` int(11) UNSIGNED NOT NULL,
-  `product_name` varchar(255) NOT NULL,
-  `serial_no` varchar(255) NOT NULL,
-  `procedures` varchar(255) NOT NULL,
-  `standard_criteria` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `equipments` (
+  `id` int(11) NOT NULL,
+  `ctrl_no` int(11) DEFAULT NULL,
+  `product_name` varchar(255) DEFAULT NULL,
+  `serial_no` varchar(255) DEFAULT NULL,
+  `unit_name` int(11) DEFAULT NULL,
+  `procedures` varchar(255) DEFAULT NULL,
+  `standard_criteria` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `digitalmultimeters`
+-- Dumping data for table `equipments`
 --
 
-INSERT INTO `digitalmultimeters` (`ctrl_no`, `product_name`, `serial_no`, `procedures`, `standard_criteria`) VALUES
-(1, 'Sanwa DMM CD800a', '06M182696', 'check condition and functionality by testing', 'Voltmeter, Ammeter, Ohmmeter, continuity tester are functional'),
-(2, 'Sanwa DMM CD800a', '06M182681', 'check condition and functionality by testing', 'Voltmeter, Ammeter, Ohmmeter, continuity tester are functional'),
-(3, 'Sanwa DMM CD800a', '06M182707', 'check condition and functionality by testing', 'Voltmeter, Ammeter, Ohmmeter, continuity tester are functional'),
-(4, 'Sanwa DMM CD800a', '06M182709', 'check condition and functionality by testing', 'Voltmeter, Ammeter, Ohmmeter, continuity tester are functional'),
-(5, 'Sanwa DMM CD800a', '06M182706', 'check condition and functionality by testing', 'Voltmeter, Ammeter, Ohmmeter, continuity tester are functional'),
-(6, 'Sanwa DMM CD800a', '06M182697', 'check condition and functionality by testing', 'Voltmeter, Ammeter, Ohmmeter, continuity tester are functional'),
-(7, 'Sanwa DMM CD800a', '04M138809', 'check condition and functionality by testing', 'Voltmeter, Ammeter, Ohmmeter, continuity tester are functional'),
-(8, 'Sanwa DMM CD800a', '06M182691', 'check condition and functionality by testing', 'Voltmeter, Ammeter, Ohmmeter, continuity tester are functional'),
-(9, 'Sanwa DMM CD800a', '06M182692', 'check condition and functionality by testing', 'Voltmeter, Ammeter, Ohmmeter, continuity tester are functional'),
-(10, 'Sanwa DMM CD800a', '04M138806', 'check condition and functionality by testing', 'Voltmeter, Ammeter, Ohmmeter, continuity tester are functional'),
-(11, 'Sanwa DMM CD800a', '06M182700', 'check condition and functionality by testing', 'Voltmeter, Ammeter, Ohmmeter, continuity tester are functional'),
-(12, 'Sanwa DMM CD800a', '06M182698', 'check condition and functionality by testing', 'Voltmeter, Ammeter, Ohmmeter, continuity tester are functional'),
-(13, 'Sanwa DMM CD800a', '06M182701', 'check condition and functionality by testing', 'Voltmeter, Ammeter, Ohmmeter, continuity tester are functional'),
-(14, 'Sanwa DMM CD800a', '06M182695', 'check condition and functionality by testing', 'Voltmeter, Ammeter, Ohmmeter, continuity tester are functional'),
-(15, 'Sanwa DMM CD800a', '06M182677', 'check condition and functionality by testing', 'Voltmeter, Ammeter, Ohmmeter, continuity tester are functional'),
-(16, 'Sanwa DMM CD800a', '06M182699', 'check condition and functionality by testing', 'Voltmeter, Ammeter, Ohmmeter, continuity tester are functional');
+INSERT INTO `equipments` (`id`, `ctrl_no`, `product_name`, `serial_no`, `unit_name`, `procedures`, `standard_criteria`) VALUES
+(1, 1, 'Sanwa DMM CD800a', '06M182696', 12, 'check condition and functionality by testing', 'Voltmeter, Ammeter, Ohmmeter, continuity tester are functional');
 
 -- --------------------------------------------------------
 
@@ -206,41 +171,17 @@ INSERT INTO `equipment_unit_names` (`id`, `unit`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `picprogrammerequipments`
+-- Table structure for table `quantityperconsumableunit`
 --
 
-CREATE TABLE `picprogrammerequipments` (
-  `ctrl_no` int(11) UNSIGNED NOT NULL,
-  `product_name` varchar(255) NOT NULL,
-  `serial_no` varchar(255) NOT NULL,
-  `procedures` varchar(255) NOT NULL,
-  `standard_criteria` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `quantityperconsumable`
---
-
-CREATE TABLE `quantityperconsumable` (
+CREATE TABLE `quantityperconsumableunit` (
   `id` int(11) NOT NULL,
-  `part_number` varchar(255) NOT NULL,
-  `unit_name` varchar(255) NOT NULL,
-  `term` varchar(255) NOT NULL,
-  `month` varchar(255) NOT NULL,
-  `year` year(4) NOT NULL,
-  `qty` int(11) NOT NULL
+  `idConsumableUnit` int(11) DEFAULT NULL,
+  `first` varchar(255) DEFAULT NULL,
+  `second` varchar(255) NOT NULL,
+  `summer` varchar(255) NOT NULL,
+  `year` year(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `quantityperconsumable`
---
-
-INSERT INTO `quantityperconsumable` (`id`, `part_number`, `unit_name`, `term`, `month`, `year`, `qty`) VALUES
-(1, '7400', 'IC', 'first', 'march', 2017, 12),
-(2, 'SCR (S4006LS3)', 'Transistors', 'second', 'october', 2016, 6),
-(3, 'PN200', 'Transistors', 'first', 'march', 2017, 5);
 
 -- --------------------------------------------------------
 
@@ -273,34 +214,24 @@ INSERT INTO `users` (`username`, `password`, `department`, `usertype`, `firstnam
 --
 
 --
--- Indexes for table `analogdigitaltrainer2`
+-- Indexes for table `consumable`
 --
-ALTER TABLE `analogdigitaltrainer2`
-  ADD PRIMARY KEY (`ctrl_no`);
+ALTER TABLE `consumable`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `category` (`category`);
 
 --
--- Indexes for table `analogmultimeter`
+-- Indexes for table `consumable_category`
 --
-ALTER TABLE `analogmultimeter`
-  ADD PRIMARY KEY (`ctrl_no`);
-
---
--- Indexes for table `consumables`
---
-ALTER TABLE `consumables`
+ALTER TABLE `consumable_category`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `consumables_unit_names`
+-- Indexes for table `equipments`
 --
-ALTER TABLE `consumables_unit_names`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `digitalmultimeters`
---
-ALTER TABLE `digitalmultimeters`
-  ADD PRIMARY KEY (`ctrl_no`);
+ALTER TABLE `equipments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `unit_name` (`unit_name`);
 
 --
 -- Indexes for table `equipment_unit_names`
@@ -309,16 +240,11 @@ ALTER TABLE `equipment_unit_names`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `picprogrammerequipments`
+-- Indexes for table `quantityperconsumableunit`
 --
-ALTER TABLE `picprogrammerequipments`
-  ADD PRIMARY KEY (`ctrl_no`);
-
---
--- Indexes for table `quantityperconsumable`
---
-ALTER TABLE `quantityperconsumable`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `quantityperconsumableunit`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idConsumableUnit` (`idConsumableUnit`);
 
 --
 -- Indexes for table `users`
@@ -331,45 +257,52 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `analogdigitaltrainer2`
+-- AUTO_INCREMENT for table `consumable`
 --
-ALTER TABLE `analogdigitaltrainer2`
-  MODIFY `ctrl_no` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+ALTER TABLE `consumable`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 --
--- AUTO_INCREMENT for table `analogmultimeter`
+-- AUTO_INCREMENT for table `consumable_category`
 --
-ALTER TABLE `analogmultimeter`
-  MODIFY `ctrl_no` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
---
--- AUTO_INCREMENT for table `consumables`
---
-ALTER TABLE `consumables`
+ALTER TABLE `consumable_category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
--- AUTO_INCREMENT for table `consumables_unit_names`
+-- AUTO_INCREMENT for table `equipments`
 --
-ALTER TABLE `consumables_unit_names`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT for table `digitalmultimeters`
---
-ALTER TABLE `digitalmultimeters`
-  MODIFY `ctrl_no` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+ALTER TABLE `equipments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `equipment_unit_names`
 --
 ALTER TABLE `equipment_unit_names`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
--- AUTO_INCREMENT for table `picprogrammerequipments`
+-- AUTO_INCREMENT for table `quantityperconsumableunit`
 --
-ALTER TABLE `picprogrammerequipments`
-  MODIFY `ctrl_no` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `quantityperconsumableunit`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `quantityperconsumable`
+-- Constraints for dumped tables
 --
-ALTER TABLE `quantityperconsumable`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- Constraints for table `consumable`
+--
+ALTER TABLE `consumable`
+  ADD CONSTRAINT `consumable_ibfk_1` FOREIGN KEY (`category`) REFERENCES `consumable_category` (`id`);
+
+--
+-- Constraints for table `equipments`
+--
+ALTER TABLE `equipments`
+  ADD CONSTRAINT `equipments_ibfk_1` FOREIGN KEY (`unit_name`) REFERENCES `equipment_unit_names` (`id`);
+
+--
+-- Constraints for table `quantityperconsumableunit`
+--
+ALTER TABLE `quantityperconsumableunit`
+  ADD CONSTRAINT `quantityperconsumableunit_ibfk_1` FOREIGN KEY (`idConsumableUnit`) REFERENCES `consumable` (`id`);
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
