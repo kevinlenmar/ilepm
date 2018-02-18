@@ -12,7 +12,7 @@
 					}
 					?>
 				</select>
-				<span class="text-danger"><?php echo form_error('unit_name'); ?></span>
+				<span class="text-danger"><?php echo form_error('category'); ?></span>
 			</div>
 			<div class="col-sm-12">
 				<input type="file" name="csvfile" id="csv" accept="CSV">

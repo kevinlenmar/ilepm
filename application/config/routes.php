@@ -8,36 +8,36 @@ $route['dashboard'] = 'ilepm/dashboard';
 
 /* 				Consumables					 */
 
-$route['consumables/new-consumables-category'] = 'ilepm/consumable_new_category';
+$route['consumables/new-consumables-category'] = 'consumable/consumable_new_category';
 
-$route['consumables/new-consumables-unit']	=	'ilepm/consumable_new_unit';
+$route['consumables/new-consumables-unit']	=	'consumable/consumable_new_unit';
 
-$route['consumables/list-of-consumables'] = 'ilepm/consumable_list';
+$route['consumables/list-of-consumables'] = 'consumable/consumable_list';
 
-$route['consumables/list-of-consumables-year'] = 'ilepm/consumable_year';
+$route['consumables/list-of-consumables-year'] = 'consumable/consumable_year';
 
-$route['consumables/list-of-consumables-year-create'] = 'ilepm/consumable_create_year';
+$route['consumables/list-of-consumables-year-create'] = 'consumable/consumable_create_year';
 
-$route['consumables/csv'] = 'ilepm/consumable_csv';
+$route['consumables/csv'] = 'consumable/consumable_csv';
 
-$route['consumables/add-consumables-csv'] = 'ilepm/addConsumablesCSV';
-
-/* 				Modal Consumable					 */
-
-$route['consumables/add-quantity-modal'] = 'ilepm/addQuantityModal';
+$route['consumables/add-consumables-csv'] = 'consumable/addConsumablesCSV';
 
 
 /* 				Equipments					 */
 
-$route['equipments/csv'] = 'ilepm/equipment_csv';
+$route['equipments/new-equipments-category'] = 'equipment/equipment_new_category';
 
-$route['equipments/add-equipments-csv'] = 'ilepm/addEquipmentCSV';
+$route['equipments/new-equipments-unit'] = 'equipment/equipment_new_unit';
 
-$route['equipments/new-equipments'] = 'ilepm/equipment_new';
+$route['equipments/list-of-equipments'] = 'equipment/equipment_list';
 
-$route['equipments/new-equipment-unit'] = 'ilepm/equipment_new_unit';
+$route['equipments/list-of-equipments-year'] = 'equipment/equipment_year';
 
-$route['equipments/manage'] = 'ilepm/equipment_manage';
+$route['equipments/list-of-equipments-year-create'] = 'equipment/equipment_create_year';
+
+$route['equipments/csv'] = 'equipment/equipment_csv';
+
+$route['equipments/add-equipments-csv'] = 'equipment/addEquipmentCSV';
 
 /* 				Users					 */
 
@@ -45,12 +45,12 @@ $route['users/new'] = 'ilepm/users_new';
 
 $route['users/manage'] = 'ilepm/users_manage';
 
-$route['login'] = 'ilepm/login';
+$route['login'] = 'login/home';
 
-$route['signout'] = 'ilepm/signout';
+$route['signout'] = 'login/signout';
 
 $route['profile'] = 'ilepm/profile';
 
-$route['default_controller'] = 'ilepm/login';
+$route['default_controller'] = 'login/home';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

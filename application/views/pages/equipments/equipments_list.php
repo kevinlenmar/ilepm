@@ -1,10 +1,10 @@
 <div class="content-wrapper">
-    <h1><center> List of Consumables </center></h1>
+    <h1><center>List of Equipment</center></h1>
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <form action="<?php echo base_url();?>consumables/list-of-consumables" method="post" id="consumableForm">
+                    <form action="<?php echo base_url();?>equipments/list-of-equipments" method="post" id="equipmentForm">
                         <div class="col-sm-12">
                             <h5>Category:</h5>
                             <select class="form-control" id="category" name="category" onchange="getCategory(this);">
@@ -15,6 +15,7 @@
                                 }
                                 ?>
                             </select>
+                            <span class="text-danger"><?php echo form_error('category'); ?></span>
                         </div>
                         <div class="col-sm-4" style="margin: 10px 0px 10px 0px;">
                             <div class="col-sm-1">
@@ -35,60 +36,58 @@
                             <input type="button" class="btn btn-primary" name="btnYear" id="btnYear" value="Proceed">
                         </div>
                         <div class="dataTable_wrapper col-sm-12">
-                            <table id="consumableTable" class="table table-striped table-bordered" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>Part Number</th>
-                                        <th>Description</th>
-                                        <th>1st Semester</th>
-                                        <th>2nd Semester</th>
-                                        <th>Summer</th>
-                                        <th class="text-center" data-priority="2"><i class="fa fa-wrench fa-fw"></i></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php 
-                                    foreach($table as $item){
-                                        echo '<tr>
-                                        <td>'.$item->part_number.'</td>
-                                        <td>'.$item->description.'</td>
-                                        <td>'.$item->first.'</td>
-                                        <td>'.$item->second.'</td>
-                                        <td>'.$item->summer.'</td>
-                                        <td>
-                                            <div class="text-center">
-                                                <input type="checkbox" name="checkbox" onchange="toggleCheckbox(this)" value="'.$item->id.'">
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    ';
-                                }
-                                ?> 
-                            </tbody>
-                        </table>
-                    </div>
-                </form>
-            </div>
+                           <table id="equipmentTable" class="table table-striped table-bordered" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>CRTL Number</th>
+                                    <th>Product Name</th>
+                                    <th>Serial Number</th>
+                                    <th>Procedure</th>
+                                    <th>Standard/Criteria</th>
+                                    <th>1st Semester</th>
+                                    <th>2nd Semester</th>
+                                    <th>Summer</th>
+                                    <th class="text-center" data-priority="2"><i class="fa fa-wrench fa-fw"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php 
+                                foreach($table as $item){
+                                    echo '<tr>
+                                    <td>'.$item->ctrl_no.'</td>
+                                    <td>'.$item->product_name.'</td>
+                                    <td>'.$item->serial_no.'</td>
+                                    <td>'.$item->procedures.'</td>
+                                    <td>'.$item->standard_criteria.'</td>
+                                    <td>'.$item->first.'</td>
+                                    <td>'.$item->second.'</td>
+                                    <td>'.$item->summer.'</td>
+                                    <td>
+                                        <div class="text-center">
+                                            <input type="checkbox" name="checkbox" onchange="toggleCheckbox(this)" value="'.$item->id.'">
+                                        </div>
+                                    </td>
+                                </tr>
+                                ';
+                            }
+                            ?> 
+                        </tbody>
+                    </table>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 </div>
+</div>
 
+<script src="<?php echo base_url(); ?>assets/dist/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/dist/js/dataTables.bootstrap.min.js"></script>
 
 <script type="text/javascript">
-    var formCreate = $("#consumableForm");
+    var formCreate = $("#equipmentForm");
     $(document).ready(function() {
-        $('#consumableTable').DataTable({
-            'order': [[0, 'asc']],
-            "aoColumns": [
-            { "sType": "num" },
-            null,
-            null,
-            null,
-            null,
-            null,
-            ],
-        });
+        $('#equipmentTable').DataTable();
 
         jQuery.validator.setDefaults({
             debug: true,
@@ -112,32 +111,22 @@
     });
 
     function getTable(data){
-        var newData = $(data).find('#consumableTable').html();
-        $('#consumableTable').DataTable().destroy();
-        $('#consumableTable').html(newData);
-        $('#consumableTable').DataTable({
-            'order': [[0, 'asc']],
-            "aoColumns": [
-            { "sType": "num" },
-            null,
-            null,
-            null,
-            null,
-            null,
-            ],
-        }).draw();
+        var newData = $(data).find('#equipmentTable').html();
+        $('#equipmentTable').DataTable().destroy();
+        $('#equipmentTable').html(newData);
+        $('#equipmentTable').DataTable().draw();
     }
 
     function getCategory(sel){
-        var url = "<?php echo base_url();?>consumables/list-of-consumables"; 
+        var url = "<?php echo base_url();?>equipments/list-of-equipments"; 
         $.ajax({
            type: "POST",
            url: url,
-         data: $('#consumableForm').serialize(), // serializes the form's elements.
-         success: function(data){
-            getTable(data);
-        }
-    });
+               data: $("#equipmentForm").serialize(), // serializes the form's elements.
+               success: function(data){
+                getTable(data);
+            }
+        });
     }
 
     function getYear(sel){
@@ -146,15 +135,15 @@
     }
 
     $('#btnYear').click(function(){
-        var url = "<?php echo base_url();?>consumables/list-of-consumables-year";
+        var url = "<?php echo base_url();?>equipments/list-of-equipments-year";
 
         if(formCreate.valid() === false){
-            
+
         }else{
             $.ajax({
                 type: "POST",
                 url: url,
-                data: $('#consumableForm').serialize(),
+                data: $('#equipmentForm').serialize(),
                 success: function(data){
                     if(data == "There's no data for this year. Do you want to create?"){
                         if(confirm(data)){
@@ -172,7 +161,7 @@
     });
 
     function createTableForYear(){
-        var url = "<?php echo base_url();?>consumables/list-of-consumables-year-create";
+        var url = "<?php echo base_url();?>equipments/list-of-equipments-year-create";
         var year = $('#yearone').val();
         $.ajax({
             type: 'POST',
@@ -186,29 +175,4 @@
             }
         });
     }
-
-    function toggleCheckbox(sel){
-        var val = [];
-        $(':checkbox:checked').each(function(i){
-          val[i] = $(this).val();
-          /*$.ajax({
-            type: 'POST',
-            url: url,
-            data:{
-                'id': val[i];
-            },
-            success: function(data){
-
-            }
-        });*/
-    });
-    }
 </script>
-
-
-<script src="<?php echo base_url(); ?>assets/dist/js/jquery.dataTables.min.js"></script>
-<script src="<?php echo base_url(); ?>assets/dist/js/dataTables.bootstrap.min.js"></script>
-
-</body>
-</html>
-
