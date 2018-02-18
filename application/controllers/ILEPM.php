@@ -158,11 +158,11 @@ class ILEPM extends CI_Controller {
 	public function consumable_csv(){
 		if($this->session->userdata('username')){
 
-			$data['category']		=	$this->ilepm_model->getConsumablesUnitNames();
+			$data['category']		=	$this->ilepm_model->getConsumablesCategory();
 
 			$param['category']		=	$this->input->post('category');
 
-			$this->ilepm_model->addConsumablesCSV($param);
+			$this->addConsumablesCSV($param);
 
 			$this->load->view('templates/header');
 			$this->load->view('templates/sidebar');
@@ -183,7 +183,7 @@ class ILEPM extends CI_Controller {
 		$this->ilepm_model->add_consumable_quantity($param);
 	}
 
-	/*public function addConsumablesCSV($param){
+	public function addConsumablesCSV($param){
 
 		$this->form_validation->set_rules('category', 'Category', 'required');
 		
@@ -206,7 +206,7 @@ class ILEPM extends CI_Controller {
 		}else{
 			redirect(base_url() . 'consumables/csv');
 		}
-	}*/
+	}
 
 	/*public function addEquipmentCSV(){
 		// print_r($_FILES);
