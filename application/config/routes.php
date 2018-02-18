@@ -14,6 +14,10 @@ $route['consumables/new-consumables-unit']	=	'ilepm/consumable_new_unit';
 
 $route['consumables/list-of-consumables'] = 'ilepm/consumable_list';
 
+$route['consumables/list-of-consumables-year'] = 'ilepm/consumable_year';
+
+$route['consumables/list-of-consumables-year-create'] = 'ilepm/consumable_create_year';
+
 $route['consumables/csv'] = 'ilepm/consumable_csv';
 
 $route['consumables/add-consumables-csv'] = 'ilepm/addConsumablesCSV';

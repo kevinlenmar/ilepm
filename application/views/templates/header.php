@@ -16,6 +16,7 @@
   <script src="<?php echo base_url();?>assets/bower_components/jquery-ui-1.12.1/jquery-ui.js"></script>
   <script src="<?php echo base_url();?>assets/dist/js/adminlte.min.js"></script>
   <script src="<?php echo base_url();?>assets/dist/js/demo.js"></script>
+  <script src="<?php echo base_url();?>assets/dist/js/jquery.validate.min.js"></script>
 </head>  
 
 <body class="hold-transition skin-blue fixed sidebar-mini">

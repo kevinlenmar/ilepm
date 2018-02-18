@@ -117,9 +117,9 @@ class ILEPM extends CI_Controller {
 
 			if($this->form_validation->run()){
 				$param['category']			= $this->input->post('category');
-				$param['year']				= $this->input->post('yearone');
 
 				$data['table'] = $this->ilepm_model->getConsumablesTableByCategory($param);
+
 				$this->load->view('templates/header');
 				$this->load->view('templates/sidebar');
 				$this->load->view('pages/consumables/consumable_list', $data);
@@ -132,7 +132,27 @@ class ILEPM extends CI_Controller {
 		}else{
 			redirect(base_url() . 'login');
 		}
-		
+	}
+
+	public function consumable_year(){
+		$param['category']	=	$this->input->post('category');
+		$param['year']		=	$this->input->post('yearone');
+
+		if($this->ilepm_model->getConsumablesTableByCategoryByYear($param)){
+			$data['table']	=	$this->ilepm_model->getConsumablesTableByCategoryByYear($param);
+
+			$this->load->view('templates/header');
+			$this->load->view('templates/sidebar');
+			$this->load->view('pages/consumables/consumable_list', $data);
+		}else{
+			echo "There's no data for this year. Do you want to create?";
+		}
+	}
+
+	public function consumable_create_year(){
+		$param['year']		=	$this->input->post('year');
+
+		$data['table'] = $this->ilepm_model->createConsumablesTableByYear($param);
 	}
 
 	public function consumable_csv(){
@@ -156,14 +176,11 @@ class ILEPM extends CI_Controller {
 
 	public function addQuantityModal(){
 
-		$this->form_validation->set_rules('year', 'Year', 'required');
-		$this->form_validation->set_rules('quantity', 'quantity', 'required');
+		$param['term']		=	$this->input->post('term');
+		$param['year']		=	$this->input->post('year');
+		$param['quantity']	=	$this->input->post('quantity');
 
-		if($this->form_validation->run()){
-
-		}else{
-			redirect(base_url() . 'consumables/list-of-consumables');
-		}
+		$this->ilepm_model->add_consumable_quantity($param);
 	}
 
 	/*public function addConsumablesCSV($param){

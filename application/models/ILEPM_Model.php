@@ -55,22 +55,7 @@ class ILEPM_Model extends CI_Model
 			'category'			=>	$param['category'],
 			);
 
-		$this->db->insert('consumable', $consumable);
-
-		$idConsumable = $this->db->insert_id();
-
-		$quantityperconsumableunit = array(
-			'idConsumableUnit'	=>	$idConsumable,
-			'first'				=>	NULL,
-			'second'			=>	NULL,
-			'summer'			=>	NULL,
-			'year'				=>	NULL,
-			'qty'				=>	0,
-			);
-
-		$this->db->insert('quantityperconsumableunit', $quantityperconsumableunit);
-
-		return $this->db->trans_complete();
+		return $this->db->insert('consumable', $consumable);
 	}
 
 	public function add_consumables_category($param){
@@ -81,9 +66,23 @@ class ILEPM_Model extends CI_Model
 		return $this->db->insert('consumable_category', $consumable_category);
 	}
 
-	public function addConsumablesCSV($param){
+	public function add_consumable_quantity($param){
+		
 
+		$quantityperconsumableunit = array(
+			'idConsumableUnit'	=>	$idConsumable,
+			'first'				=>	$param['quantity'],
+			'second'			=>	13,
+			'summer'			=>	14,
+			'year'				=>	$param['year'],
+			);
+
+		return $this->db->insert('quantityperconsumableunit', $quantityperconsumableunit);
 	}
+
+	/*public function addConsumablesCSV($param){
+
+	}*/
 
 	public function getConsumablesCategory(){
 
@@ -97,9 +96,10 @@ class ILEPM_Model extends CI_Model
 
 	public function getConsumablesTable(){		
 
-		$this->db->select('cs.part_number, cs.description, qs.first, qs.second, qs.summer');
+		$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer');
 		$this->db->from('consumable cs');
 		$this->db->join('quantityperconsumableunit qs', 'qs.idConsumableUnit = cs.id ', 'left');
+		$this->db->group_by('cs.part_number');
 
 		$query = $this->db->get();
 
@@ -109,15 +109,49 @@ class ILEPM_Model extends CI_Model
 
 	public function getConsumablesTableByCategory($param){
 
-		$this->db->select('cs.part_number, cs.description, qs.first, qs.second, qs.summer');
+		$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer');
 		$this->db->from('consumable cs');
 		$this->db->join('quantityperconsumableunit qs', 'qs.idConsumableUnit = cs.id ', 'left');
 		$this->db->where('cs.category', $param['category']);
-		$this->db->where('qs.year', $param['yearone']);
+		$this->db->group_by('cs.part_number');
 
 		$query = $this->db->get();
 
 		return $query->result();
+	}
+
+	public function getConsumablesTableByCategoryByYear($param){
+		$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer');
+		$this->db->from('consumable cs');
+		$this->db->join('quantityperconsumableunit qs', 'qs.idConsumableUnit = cs.id ', 'left');
+		$this->db->where('cs.category', $param['category']);
+		$this->db->where('qs.year', $param['year']);
+		$this->db->group_by('cs.part_number');
+
+		$query = $this->db->get();
+
+		return $query->result();
+	}
+
+	public function createConsumablesTableByYear($param){
+
+		$query = $this->db->select('id');
+
+		$query = $this->db->get('consumable');
+
+		foreach ($query->result() as $item) {
+			$quantityperconsumableunit = array(
+				'idConsumableUnit'	=>	$item->id,
+				'first'				=>	0,
+				'second'			=>	0,
+				'summer'			=>	0,
+				'year'				=>	$param['year'],
+				);
+
+			$this->db->insert('quantityperconsumableunit', $quantityperconsumableunit);
+		}
+
+		return $this->db->trans_complete();
 	}
 
 	/*				Equipments						*/
@@ -151,11 +185,11 @@ class ILEPM_Model extends CI_Model
 	}
 
 	public function getEquipmentTable(){
-		
+
 		$this->db->from('equipments');
 
 		$query = $this->db->get();
-		
+
 		return $query->result();
 	}
 
