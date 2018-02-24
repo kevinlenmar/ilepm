@@ -86,7 +86,7 @@ class Consumable extends CI_Controller
 		$param['category']	=	$this->input->post('category');
 		$param['year']		=	$this->input->post('yearone');
 
-		if($this->consumable_model->getConsumablesTableByCategoryByYear($param)){
+		if($this->consumable_model->getConsumablesTableByYear($param)){
 			$data['table']	=	$this->consumable_model->getConsumablesTableByCategoryByYear($param);
 
 			$this->load->view('templates/header');
@@ -142,5 +142,18 @@ class Consumable extends CI_Controller
 			$this->load->view('templates/sidebar');
 			$this->load->view('pages/consumables/consumables_csv', $data);
 		}
+	}
+
+	/*					UPDATE 					*/
+
+	public function getConsumableTableListById(){
+		$param['id']	=	$this->input->post('check_list');
+		$param['year'] 	=	$this->input->post('yearone');
+
+		$data['table'] = $this->consumable_model->getConsumableTableById($param);
+
+		$this->load->view('templates/header');
+		$this->load->view('templates/sidebar');
+		$this->load->view('pages/consumables/consumable_list', $data);
 	}
 }

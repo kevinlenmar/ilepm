@@ -45,6 +45,27 @@ class Consumable_Model extends CI_Model
 		return $this->db->insert('quantityperconsumableunit', $quantityperconsumableunit);
 	}
 
+	public function createConsumablesTableByYear($param){
+
+		$query = $this->db->select('id');
+
+		$query = $this->db->get('consumable');
+
+		foreach ($query->result() as $item) {
+			$quantityperconsumableunit = array(
+				'idConsumableUnit'	=>	$item->id,
+				'first'				=>	0,
+				'second'			=>	0,
+				'summer'			=>	0,
+				'year'				=>	$param['year'],
+				);
+
+			$this->db->insert('quantityperconsumableunit', $quantityperconsumableunit);
+		}
+
+		return $this->db->trans_complete();
+	}
+
 	public function getConsumablesCategory(){
 
 		$this->db->from('consumable_category');
@@ -94,24 +115,29 @@ class Consumable_Model extends CI_Model
 		return $query->result();
 	}
 
-	public function createConsumablesTableByYear($param){
+	public function getConsumablesTableByYear($param){
+		$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer');
+		$this->db->from('consumable cs');
+		$this->db->join('quantityperconsumableunit qs', 'qs.idConsumableUnit = cs.id ', 'left');
+		$this->db->where('qs.year', $param['year']);
+		$this->db->group_by('cs.part_number');
 
-		$query = $this->db->select('id');
+		$query = $this->db->get();
 
-		$query = $this->db->get('consumable');
+		return $query->result();
+	}
 
-		foreach ($query->result() as $item) {
-			$quantityperconsumableunit = array(
-				'idConsumableUnit'	=>	$item->id,
-				'first'				=>	0,
-				'second'			=>	0,
-				'summer'			=>	0,
-				'year'				=>	$param['year'],
-				);
+	public function getConsumableTableById($param){	
 
-			$this->db->insert('quantityperconsumableunit', $quantityperconsumableunit);
-		}
+		$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer');
+		$this->db->from('consumable cs');
+		$this->db->join('quantityperconsumableunit qs', 'qs.idConsumableUnit = cs.id ', 'left');
+		$this->db->where_in('cs.id', $param['id']);
+		$this->db->where('qs.year', $param['year']);
+		
 
-		return $this->db->trans_complete();
+		$query = $this->db->get()->result();
+
+		return $query;
 	}
 }

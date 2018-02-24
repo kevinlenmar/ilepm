@@ -1,5 +1,7 @@
 <div class="content-wrapper">
-    <h1><center> List of Consumables </center></h1>
+    <h1>
+        <center> List of Consumables </center>
+    </h1>
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
@@ -34,6 +36,11 @@
                         <div class="col-sm-4" style="margin-top: 10px">
                             <input type="button" class="btn btn-primary" name="btnYear" id="btnYear" value="Proceed">
                         </div>
+                        <div class="col-sm-1" style="margin-top: 10px; float: right">
+                            <input type="button" class="btn btn-primary" name="btnEdit1" id="btnEdit1" value="Edit">
+                        </div>
+                        <div class="dataTable_wrapper col-sm-12" id="anotherTable">
+                        </div>
                         <div class="dataTable_wrapper col-sm-12">
                             <table id="consumableTable" class="table table-striped table-bordered" width="100%" cellspacing="0">
                                 <thead>
@@ -57,7 +64,7 @@
                                         <td>'.$item->summer.'</td>
                                         <td>
                                             <div class="text-center">
-                                                <input type="checkbox" name="checkbox" onchange="toggleCheckbox(this)" value="'.$item->id.'">
+                                                <input type="checkbox" name="check_list[]" value="'.$item->id.'">
                                             </div>
                                         </td>
                                     </tr>
@@ -66,6 +73,9 @@
                                 ?> 
                             </tbody>
                         </table>
+                        <div class="col-sm-1" style="margin-top: 10px; float: right">
+                            <input type="button" class="btn btn-primary" name="btnEdit2" id="btnEdit2" value="Edit">
+                        </div>
                     </div>
                 </form>
             </div>
@@ -82,13 +92,18 @@
             'order': [[0, 'asc']],
             "aoColumns": [
             { "sType": "num" },
-            null,
-            null,
-            null,
-            null,
-            null,
-            ],
-        });
+            { "render": function(data, type, row){
+                return data.split('\n').join("<br/>");
+            }
+        },
+        null,
+        null,
+        null,
+        null,
+        ],
+    });
+
+
 
         jQuery.validator.setDefaults({
             debug: true,
@@ -128,6 +143,13 @@
         }).draw();
     }
 
+    function getOtherTable(data){
+        var newData = $(data).find('#consumableTableByCheck').html();
+        $('#consumableTableByCheck').DataTable().destroy();
+        $('#consumableTableByCheck').html(newData);
+        $('#consumableTableByCheck').DataTable().draw();
+    }
+
     function getCategory(sel){
         var url = "<?php echo base_url();?>consumables/list-of-consumables"; 
         $.ajax({
@@ -149,7 +171,7 @@
         var url = "<?php echo base_url();?>consumables/list-of-consumables-year";
 
         if(formCreate.valid() === false){
-            
+
         }else{
             $.ajax({
                 type: "POST",
@@ -187,22 +209,37 @@
         });
     }
 
-    function toggleCheckbox(sel){
-        var val = [];
-        $(':checkbox:checked').each(function(i){
-          val[i] = $(this).val();
-          /*$.ajax({
-            type: 'POST',
-            url: url,
-            data:{
-                'id': val[i];
-            },
-            success: function(data){
+    $('#btnEdit1').click(function(){
+        var url = "<?php echo base_url();?>consumables/list-edit-of-consumables";
 
-            }
-        });*/
+        if(formCreate.valid() === false){
+
+        }else{
+
+            document.getElementById("anotherTable").innerHTML = "<table id='consumableTableByCheck' class='table table-striped table-bordered' width='100%' cellspacing='0'>" +
+            "<thead>" +
+            "<tr>" + 
+            "<th>Part Number</th>" +
+            "<th>Description</th>" +
+            "<th>1st Semester</th>" +
+            "<th>2nd Semester</th>" +
+            "<th>Summer</th>" +
+            "</tr>" +
+            "</thead>" +
+            "<tbody>" +
+            "</tbody>" +
+            "</table>";
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: $('#consumableForm').serialize(),
+                success: function(data){
+                    getOtherTable(data);
+                }
+            });
+        }
     });
-    }
 </script>
 
 
