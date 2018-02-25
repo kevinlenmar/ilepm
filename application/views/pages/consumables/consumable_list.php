@@ -64,7 +64,7 @@
                                         <td>'.$item->summer.'</td>
                                         <td>
                                             <div class="text-center">
-                                                <input type="checkbox" name="check_list[]" value="'.$item->id.'">
+                                                <input type="checkbox" name="check_list" value="'.$item->id.'">
                                             </div>
                                         </td>
                                     </tr>
@@ -86,9 +86,22 @@
 
 
 <script type="text/javascript">
+    var editor;
     var formCreate = $("#consumableForm");
     $(document).ready(function() {
         $('#consumableTable').DataTable({
+            'dom': "<'row'<'col-sm-4'l><'col-sm-5 text-center visible-lg'B><'col-sm-3'f>>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            'buttons': [
+            {
+                'extend': 'excel',
+                'text': '<i class="fa fa-file-excel-o fg-green"></i>&nbsp;Excel',
+                'exportOptions': {
+                    'columns': ':visible'
+                }
+            },
+            ],
             'order': [[0, 'asc']],
             "aoColumns": [
             { "sType": "num" },
@@ -102,8 +115,6 @@
         null,
         ],
     });
-
-
 
         jQuery.validator.setDefaults({
             debug: true,
@@ -131,6 +142,18 @@
         $('#consumableTable').DataTable().destroy();
         $('#consumableTable').html(newData);
         $('#consumableTable').DataTable({
+            'dom': "<'row'<'col-sm-4'l><'col-sm-5 text-center visible-lg'B><'col-sm-3'f>>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            'buttons': [
+            {
+                'extend': 'excel',
+                'text': '<i class="fa fa-file-excel-o fg-green"></i>&nbsp;Excel',
+                'exportOptions': {
+                    'columns': ':visible'
+                }
+            },
+            ],
             'order': [[0, 'asc']],
             "aoColumns": [
             { "sType": "num" },
@@ -141,13 +164,6 @@
             null,
             ],
         }).draw();
-    }
-
-    function getOtherTable(data){
-        var newData = $(data).find('#consumableTableByCheck').html();
-        $('#consumableTableByCheck').DataTable().destroy();
-        $('#consumableTableByCheck').html(newData);
-        $('#consumableTableByCheck').DataTable().draw();
     }
 
     function getCategory(sel){
@@ -211,7 +227,6 @@
 
     $('#btnEdit1').click(function(){
         var url = "<?php echo base_url();?>consumables/list-edit-of-consumables";
-
         if(formCreate.valid() === false){
 
         }else{
@@ -225,27 +240,76 @@
             "<th>2nd Semester</th>" +
             "<th>Summer</th>" +
             "</tr>" +
-            "</thead>" +
-            "<tbody>" +
-            "</tbody>" +
+            "</thead>"+
             "</table>";
 
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: $('#consumableForm').serialize(),
-                success: function(data){
-                    getOtherTable(data);
-                }
+            $('#consumableTableByCheck').DataTable({
+                "ajax":{
+                    url: url,
+                    type: 'POST',
+                    data: function(d){
+                        d.id = $('input[name=check_list]').val();
+                        d.year = $('#yearone').val();
+                        console.log(d.id);
+                    },
+                    select: true,
+                },
             });
-        }
-    });
-</script>
+
+            var editorOpts = {
+                table: "#consumableTableByCheck",
+                fields: [ {
+                    label: "Part Number:",
+                    name: "part_number"
+                }, {
+                    label: "Description:",
+                    name: "description"
+                }, {
+                    label: "1st Semester:",
+                    name: "first"
+                }, {
+                    label: "2nd Semester:",
+                    name: "second"
+                }, {
+                    label: "Summer:",
+                    name: "summer"
+                },
+                ]
+            };
 
 
-<script src="<?php echo base_url(); ?>assets/dist/js/jquery.dataTables.min.js"></script>
-<script src="<?php echo base_url(); ?>assets/dist/js/dataTables.bootstrap.min.js"></script>
-
+                /*editor = new $.fn.dataTable.Editor( {
+                    table: "#consumableTableByCheck",
+                    fields: [ {
+                        label: "Part Number:",
+                        name: "part_number"
+                    }, {
+                        label: "Description:",
+                        name: "description"
+                    }, {
+                        label: "1st Semester:",
+                        name: "first"
+                    }, {
+                        label: "2nd Semester:",
+                        name: "second"
+                    }, {
+                        label: "Summer:",
+                        name: "summer"
+                    },
+                    ]
+                } );*/
+            }
+        });
+    </script>
+    <script src="<?php echo base_url(); ?>assets/dist/js/jquery.dataTables.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/dist/js/dataTables.bootstrap.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/dist/js/dataTables.buttons.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/dist/js/dataTables.select.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/dist/js/buttons.flash.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/dist/js/jszip.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/dist/js/vfs_fonts.js"></script>
+    <script src="<?php echo base_url(); ?>assets/dist/js/buttons.html5.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/dist/js/buttons.print.min.js"></script>
 </body>
 </html>
 

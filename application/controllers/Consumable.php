@@ -59,7 +59,7 @@ class Consumable extends CI_Controller
 		if($this->session->userdata('username')){
 
 			$this->form_validation->set_rules('category', 'Category', 'required');
-
+			
 			$data['category']	= $this->consumable_model->getConsumablesCategory();
 			$data['table'] 		= $this->consumable_model->getConsumablesTable();
 
@@ -147,13 +147,35 @@ class Consumable extends CI_Controller
 	/*					UPDATE 					*/
 
 	public function getConsumableTableListById(){
-		$param['id']	=	$this->input->post('check_list');
-		$param['year'] 	=	$this->input->post('yearone');
+		$draw = intval($this->input->post("draw"));
+		$start = intval($this->input->post("start"));
+		$length = intval($this->input->post("length"));
 
-		$data['table'] = $this->consumable_model->getConsumableTableById($param);
+		$param['id']	=	$this->input->post('id');
+		$param['year'] 	=	$this->input->post('year');
 
-		$this->load->view('templates/header');
-		$this->load->view('templates/sidebar');
-		$this->load->view('pages/consumables/consumable_list', $data);
+		$consumables = $this->consumable_model->getConsumableTableById($param);
+
+		$data = array();
+
+		foreach ($consumables->result() as $items) {
+			$data[] = array(
+				$items->part_number,
+				$items->description,
+				$items->first,
+				$items->second,
+				$items->summer,
+			);
+		}
+
+		$output = array(
+			"draw" => $draw,
+			"recordsTotal" => $consumables->num_rows(),
+			"recordsFiltered" => $consumables->num_rows(),
+			"data" => $data
+		);
+
+		echo json_encode($output);
+		exit();
 	}
 }

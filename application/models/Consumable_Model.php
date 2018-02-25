@@ -128,7 +128,8 @@ class Consumable_Model extends CI_Model
 	}
 
 	public function getConsumableTableById($param){	
-
+		extract($param);
+		
 		$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer');
 		$this->db->from('consumable cs');
 		$this->db->join('quantityperconsumableunit qs', 'qs.idConsumableUnit = cs.id ', 'left');
@@ -136,7 +137,7 @@ class Consumable_Model extends CI_Model
 		$this->db->where('qs.year', $param['year']);
 		
 
-		$query = $this->db->get()->result();
+		$query = $this->db->get();
 
 		return $query;
 	}
