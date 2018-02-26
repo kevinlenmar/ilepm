@@ -17,6 +17,7 @@
   <script src="<?php echo base_url();?>assets/dist/js/adminlte.min.js"></script>
   <script src="<?php echo base_url();?>assets/dist/js/demo.js"></script>
   <script src="<?php echo base_url();?>assets/dist/js/jquery.validate.min.js"></script>
+  <script src="<?php echo base_url(); ?>assets/dist/js/jquery.jeditable.mini.js"></script>
   <!-- <script src="<?php echo base_url(); ?>assets/dist/js/dataTables.editor.min.js"></script> -->
 </head>  
 

@@ -64,7 +64,7 @@
                                         <td>'.$item->summer.'</td>
                                         <td>
                                             <div class="text-center">
-                                                <input type="checkbox" name="check_list" value="'.$item->id.'">
+                                                <input type="checkbox" name="check_list[]" value="'.$item->id.'">
                                             </div>
                                         </td>
                                     </tr>
@@ -83,6 +83,49 @@
     </div>
 </div>
 </div>
+
+<!-- <div class="modal" id="myModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Edit items</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body">
+    <form action="" method="POST">
+        <div class="form-group">
+            <label class="col-form-label">Part Number</label>
+            <input type="text" name="part_number" class="form-control">
+        </div>
+        <div class="form-group">
+            <label class="col-form-label">Description</label>
+            <input type="text" name="description" class="form-control">
+        </div>
+        <div class="form-group">
+            <div class="form-group col-sm-4">
+                <label class="col-form-label">1st Semester Quantity</label>
+                <input type="text" name="first" class="form-control">
+            </div>
+            <div class="form-group col-sm-4">
+                <label class="col-form-label">2nd Semester Quantity</label>
+                <input type="text" name="second" class="form-control">
+            </div>
+            <div class="form-group col-sm-4">
+                <label class="col-form-label">Summer Quantity</label>
+                <input type="text" name="summer" class="form-control">
+            </div>
+        </div>
+        <div class="modal-footer" style="margin-top: 40px;">
+            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+    </form>
+</div>
+</div>
+</div>
+</div> -->
 
 
 <script type="text/javascript">
@@ -115,6 +158,10 @@
         null,
         ],
     });
+
+        $('#consumableTable tbody').on('click', 'tr', function(){
+            /*$('#myModal').modal('show');*/
+        });
 
         jQuery.validator.setDefaults({
             debug: true,
@@ -169,8 +216,8 @@
     function getCategory(sel){
         var url = "<?php echo base_url();?>consumables/list-of-consumables"; 
         $.ajax({
-           type: "POST",
-           url: url,
+         type: "POST",
+         url: url,
          data: $('#consumableForm').serialize(), // serializes the form's elements.
          success: function(data){
             getTable(data);
@@ -202,7 +249,6 @@
                         }
                     }else{
                         getTable(data);
-                        console.log(data);
                     }
                 }
             });
@@ -219,97 +265,95 @@
                 'year': year,
             },
             success: function(data){
-                console.log(data);
+                getTable(data);
                 alert("Success");
             }
         });
     }
 
     $('#btnEdit1').click(function(){
-        var url = "<?php echo base_url();?>consumables/list-edit-of-consumables";
+
         if(formCreate.valid() === false){
 
         }else{
+            getOtherTable();
+        }
+    });
 
-            document.getElementById("anotherTable").innerHTML = "<table id='consumableTableByCheck' class='table table-striped table-bordered' width='100%' cellspacing='0'>" +
-            "<thead>" +
-            "<tr>" + 
-            "<th>Part Number</th>" +
-            "<th>Description</th>" +
-            "<th>1st Semester</th>" +
-            "<th>2nd Semester</th>" +
-            "<th>Summer</th>" +
-            "</tr>" +
-            "</thead>"+
-            "</table>";
+    function getOtherTable(){
+        var url = "<?php echo base_url();?>consumables/list-display-of-consumables";
+        document.getElementById("anotherTable").innerHTML = "<table id='consumableTableByCheck' class='table table-striped table-bordered' width='100%' cellspacing='0'>" +
+        "<thead>" +
+        "<tr>" + 
+        "<th>Part Number</th>" +
+        "<th>Description</th>" +
+        "<th>1st Semester</th>" +
+        "<th>2nd Semester</th>" +
+        "<th>Summer</th>" +
+        "</tr>" +
+        "</thead>"+
+        "<tbody>" +
+        "</tbody>"+
+        "</table>";
 
-            $('#consumableTableByCheck').DataTable({
-                "ajax":{
-                    url: url,
-                    type: 'POST',
-                    data: function(d){
-                        d.id = $('input[name=check_list]').val();
-                        d.year = $('#yearone').val();
-                        console.log(d.id);
-                    },
-                    select: true,
+        var searchIDs = $("#consumableTable input:checkbox:checked").map(function(){
+          return $(this).val();
+      }).get();
+
+        var table = $('#consumableTableByCheck').DataTable({
+            "bProcessing": true,
+            "bServerSide": true,
+            "ajax":{
+                url: url,
+                type: 'POST',
+                data: function(d){
+                    d.id = searchIDs;
+                    d.year = $('#yearone').val();
                 },
-            });
-
-            var editorOpts = {
-                table: "#consumableTableByCheck",
-                fields: [ {
-                    label: "Part Number:",
-                    name: "part_number"
-                }, {
-                    label: "Description:",
-                    name: "description"
-                }, {
-                    label: "1st Semester:",
-                    name: "first"
-                }, {
-                    label: "2nd Semester:",
-                    name: "second"
-                }, {
-                    label: "Summer:",
-                    name: "summer"
-                },
-                ]
-            };
-
-
-                /*editor = new $.fn.dataTable.Editor( {
-                    table: "#consumableTableByCheck",
-                    fields: [ {
-                        label: "Part Number:",
-                        name: "part_number"
-                    }, {
-                        label: "Description:",
-                        name: "description"
-                    }, {
-                        label: "1st Semester:",
-                        name: "first"
-                    }, {
-                        label: "2nd Semester:",
-                        name: "second"
-                    }, {
-                        label: "Summer:",
-                        name: "summer"
-                    },
-                    ]
-                } );*/
-            }
+                select: true,
+                "columns": [
+                {'data': 'part_number'},
+                {'data': 'description'},
+                {'data': 'first'},
+                {'data': 'second'},
+                {'data': 'summer'},
+                ],
+            },
         });
-    </script>
-    <script src="<?php echo base_url(); ?>assets/dist/js/jquery.dataTables.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/dist/js/dataTables.bootstrap.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/dist/js/dataTables.buttons.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/dist/js/dataTables.select.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/dist/js/buttons.flash.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/dist/js/jszip.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/dist/js/vfs_fonts.js"></script>
-    <script src="<?php echo base_url(); ?>assets/dist/js/buttons.html5.min.js"></script>
-    <script src="<?php echo base_url(); ?>assets/dist/js/buttons.print.min.js"></script>
+
+        $('#consumableTableByCheck').on('click', 'td', function() {
+          var $this = $(this);
+          var idx = table.cell( this ).index().column;
+          var title = table.column(idx).header();
+          var $input = $('<input>', {
+            value: $this.text(),
+            type: 'text',
+            name: $(title).html(),
+            blur: function() {
+             $this.text(this.value);
+             $.ajax({
+                url: '<?php echo base_url();?>consumables/edit-consumables',
+                data:{
+                    
+                },
+             });
+         },
+         keyup: function(e) {
+             if (e.which === 13) $input.blur();
+         }
+     }).appendTo( $this.empty() ).focus();
+      });
+    }
+</script>
+<script src="<?php echo base_url(); ?>assets/dist/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/dist/js/dataTables.bootstrap.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/dist/js/dataTables.buttons.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/dist/js/dataTables.select.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/dist/js/buttons.flash.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/dist/js/jszip.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/dist/js/vfs_fonts.js"></script>
+<script src="<?php echo base_url(); ?>assets/dist/js/buttons.html5.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/dist/js/buttons.print.min.js"></script>
 </body>
 </html>
 

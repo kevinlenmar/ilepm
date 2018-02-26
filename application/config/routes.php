@@ -22,7 +22,9 @@ $route['consumables/csv'] = 'consumable/consumable_csv';
 
 $route['consumables/add-consumables-csv'] = 'consumable/addConsumablesCSV';
 
-$route['consumables/list-edit-of-consumables'] = 'consumable/getConsumableTableListById';
+$route['consumables/list-display-of-consumables'] = 'consumable/getConsumableTableListById';
+
+$route['consumables/edit-consumables'] = 'consumable/editConsumableTable';
 
 /* 				Equipments					 */
 

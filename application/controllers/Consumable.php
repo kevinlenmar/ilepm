@@ -101,6 +101,10 @@ class Consumable extends CI_Controller
 		$param['year']		=	$this->input->post('year');
 
 		$data['table'] = $this->consumable_model->createConsumablesTableByYear($param);
+
+		$this->load->view('templates/header');
+		$this->load->view('templates/sidebar');
+		$this->load->view('pages/consumables/consumable_list', $data);
 	}
 
 	public function consumable_csv(){
@@ -165,7 +169,7 @@ class Consumable extends CI_Controller
 				$items->first,
 				$items->second,
 				$items->summer,
-			);
+				);
 		}
 
 		$output = array(
@@ -173,9 +177,13 @@ class Consumable extends CI_Controller
 			"recordsTotal" => $consumables->num_rows(),
 			"recordsFiltered" => $consumables->num_rows(),
 			"data" => $data
-		);
+			);
 
 		echo json_encode($output);
 		exit();
+	}
+
+	public function editConsumableTable(){
+
 	}
 }
