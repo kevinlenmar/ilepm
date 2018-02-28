@@ -33,6 +33,19 @@ class ILEPM extends CI_Controller {
 		echo json_encode($year);
 	}
 
+	public function users_new(){
+		if($this->session->userdata('username')){
+
+			
+			
+			$this->load->view('templates/header');
+			$this->load->view('templates/sidebar');
+			$this->load->view('pages/users/users_new');
+		}else{
+			redirect(base_url() . 'login');
+		}
+	}
+
 	public function users_manage()
 	{
 		if($this->session->userdata('username')){

@@ -38,9 +38,11 @@ $route['consumables/edited-consumables'] = 'consumable/editConsumableTableQuanti
 
 $route['consumables/get-consumable-by-year'] = 'consumable/get_consumable_year';
 
-$route['consumables/flagged'] = 'consumable/flag';
+$route['consumables/flag'] = 'consumable/flag';
 
-$route['consumables/flag'] = 'consumable/viewFlag';
+$route['consumables/unflag'] = 'consumable/unflag';
+
+/*$route['consumables/flag'] = 'consumable/viewFlag';*/
 
 $route['filter-consumables'] = 'consumable/filter';
 

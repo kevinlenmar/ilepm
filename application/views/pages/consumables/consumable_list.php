@@ -35,7 +35,7 @@
                         </div>
                         <div class="col-sm-4 pull-left" style="margin-top: 10px">
                             <input type="button" class="btn btn-primary" name="btnShow" id="btnShow" value="Show">
-                            <input type="button" class="btn btn-primary" name="btnCreate" id="btnCreate" value="Copy and Create" disabled="true">
+                            <input type="button" class="btn btn-primary" name="btnCreate" id="btnCreate" value="Copy and Create" style="display: none;">
                         </div>
                         <div class="col-sm-3" style="margin-top: 10px;">
                             <div class="col-sm-2">
@@ -52,12 +52,6 @@
                         <div class="col-sm-1" style="margin-top: 10px; float: right">
                             <input type="button" class="btn btn-primary" name="btnEdit1" id="btnEdit1" value="Edit">
                         </div>
-                        <!-- <div class="col-sm-1" style="margin-top: 10px; float: right">
-                            <input type="button" class="btn btn-primary" name="btnFlag" id="btnFlag" value="Flag">
-                        </div> -->
-                        <!-- <div class="col-sm-1" style="margin-top: 10px; float: right">
-                            <input type="button" class="btn btn-primary" name="btnViewFlag" id="btnViewFlag" value="View Flag">
-                        </div> -->
                         <div>
                             <div class="dataTable_wrapper col-sm-12" id="anotherTable">
                             </div>
@@ -88,26 +82,26 @@
                                             <div class="text-center">
                                                 <input type="checkbox" name="check_list[]" value="'.$item->id.'">
                                             </div>
-                                        </td>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary" name="btnFlag" id="btnFlag" value="'.$item->id.'">Flag</button>
-                                    </td>
-                                </tr>
-                                ';
-                            }
-                            ?> 
-                        </tbody>
-                    </table>
-                    <div class="col-sm-1" style="margin-top: 10px; float: right">
-                        <input type="button" class="btn btn-primary" name="btnEdit2" id="btnEdit2" value="Edit">
-                    </div>
+                                        </td>';
+                                        if($item->flag != 1){
+                                            echo '<td><button type="button" class="btn btn-primary" onclick="consumable_hide('."'".$item->id."'".');">Hide</button></td>';
+                                        }else{
+                                            echo '<td><button type="button" class="btn btn-primary" onclick="consumable_unhide('."'".$item->id."'".');">Unhide</button></td>';
+                                        }
+                                        echo '</tr>';
+                                    }
+                                    ?> 
+                                </tbody>
+                            </table>
+                            <div class="col-sm-1" style="margin-top: 10px; float: right">
+                                <input type="button" class="btn btn-primary" name="btnEdit2" id="btnEdit2" value="Edit">
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
-</div>
-</div>
 </div>
 
 
@@ -197,8 +191,8 @@
     function getCategory(sel){
         var url = "<?php echo base_url();?>consumables/list-of-consumables"; 
         $.ajax({
-           type: "POST",
-           url: url,
+         type: "POST",
+         url: url,
          data: $('#consumableForm').serialize(), // serializes the form's elements.
          success: function(data){
             getTable(data);
@@ -216,9 +210,9 @@
             data: $('#consumableForm').serialize(),
             success: function(data){
                 if(data == 'true'){
-                    $('#btnCreate').prop('disabled', true);
+                    $('#btnCreate').hide();
                 }else{
-                    $('#btnCreate').prop('disabled', false);
+                    $('#btnCreate').show();
                 }
             }
         });
@@ -368,10 +362,10 @@
             type: 'text',
             name: $(title).html(),
             blur: function() {
-               $this.text(this.value);
-               var val = this.value;
+             $this.text(this.value);
+             var val = this.value;
 
-               if(colName == "partNo"){
+             if(colName == "partNo"){
                 partNumber = val;
             } else if(colName == "description"){
                 description = val;
@@ -389,6 +383,9 @@
                     'id': id[5],
                     'part_number': partNumber,
                     'description': description,
+                    'category': $('#category').val(),
+                    'filter': $('#filter').val(),
+                    'year': $('#yearone').val(),
                 },
                 success: function(data){
                     getTable(data);
@@ -404,6 +401,9 @@
                     'second': second,
                     'summer': summer,
                     'year': year[6],
+                    'category': $('#category').val(),
+                    'filter': $('#filter').val(),
+                    'yearone': $('#yearone').val(),
                 },
                 success: function(data){
                     getTable(data);
@@ -411,9 +411,9 @@
             });
         },
         keyup: function(e) {
-           if (e.which === 13) $input.blur();
-       }
-   }).appendTo( $this.empty() ).focus();
+         if (e.which === 13) $input.blur();
+     }
+ }).appendTo( $this.empty() ).focus();
       });
 
         $('#btnConfirm').click(function(){
@@ -433,77 +433,37 @@
         });
     }
 
-    function getFlagTable(){
-        var url = "<?php echo base_url();?>consumables/flag";
-        document.getElementById("anotherTable").style.border = '1px solid black';
-        document.getElementById("anotherTable").style.marginBottom = '30px';
-        document.getElementById("anotherTable").innerHTML = "<div style='margin-top: 30px'><button class='btn btn-primary' type='submit' id='btnConfirm'>Confirm</button><table id='consumableTableByFlag' class='table table-striped table-bordered' width='100%' cellspacing='0'>" +
-        "<thead>" +
-        "<tr>" + 
-        "<th>Part Number</th>" +
-        "<th>Description</th>" +
-        "<th>1st Semester</th>" +
-        "<th>2nd Semester</th>" +
-        "<th>Summer</th>" +
-        "<th></th>" +
-        "</tr>" +
-        "</thead>"+
-        "<tbody>" +
-        "</tbody>"+
-        "</table>";
-
-        $('#consumableTableByFlag').on('click', 'td', function() {
-            var $this = $(this);
-
-            var id = table.row( this ).data();
-            /* console.log(id);*/
-        });
-        var table = $('#consumableTableByFlag').DataTable({
-            "bProcessing": true,
-            "bServerSide": true,
-            "ajax":{
-                url: url,
-                type: 'POST',
-                data:{
-                    'flag': 1,
-                },
+    function consumable_hide(id){
+        $.ajax({
+            type: 'POST',
+            url: "<?php echo base_url();?>consumables/flag",
+            data: {
+                'id': id,
+                'category': $('#category').val(),
+                'year': $('#yearone').val(),
+                'filter': $('#filter').val(),
             },
-            columnDefs: [ {
-                targets: 5,
-                searchable: false,
-                orderable: false,
-                render: function(data, type, row){
-                    return '<input type="checkbox" name="id[]">';
-                }
-            } ],
-            select: {
-                style:    'os',
-                selector: 'td:last-child'
-            },
-            order: [[ 1, 'asc' ]]
+            success: function(data){
+                getTable(data);
+            }
         });
     }
 
-    $('#btnFlag').click(function(){
-        var url = "<?php echo base_url();?>consumables/flagged";
-
-        var searchIDs = $("#consumableTable input:checkbox:checked").map(function(){
-          return $(this).val();
-      }).get();
-
+    function consumable_unhide(id){
         $.ajax({
             type: 'POST',
-            url: url,
+            url: "<?php echo base_url();?>consumables/unflag",
             data: {
-                'id': searchIDs,
+                'id': id,
+                'category': $('#category').val(),
                 'year': $('#yearone').val(),
+                'filter': $('#filter').val(),
             },
             success: function(data){
-
+                getTable(data);
             }
-            
         });
-    });
+    }
 </script>
 <script src="<?php echo base_url(); ?>assets/dist/js/jquery.dataTables.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/dist/js/dataTables.bootstrap.min.js"></script>

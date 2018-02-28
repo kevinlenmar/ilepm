@@ -100,21 +100,16 @@ class Consumable extends CI_Controller
 	public function get_consumable(){
 		$param['category']	=	$this->input->post('category');
 		$param['year']		=	$this->input->post('yearone');
+		$param['filter']	=	$this->input->post('filter');
 
 		if($this->consumable_model->getConsumablesTableByYear($param)){
-			if($param['category'] == 'all'){
-				$data['table'] = $this->consumable_model->getConsumablesTableByYear($param);
 
-				$this->load->view('templates/header');
-				$this->load->view('templates/sidebar');
-				$this->load->view('pages/consumables/consumable_list', $data);
-			}else{
-				$data['table']	=	$this->consumable_model->getConsumablesTableByCategoryByYear($param);
+			$data['table']	=	$this->consumable_model->getConsumablesTableByCategoryByYear($param);
 
-				$this->load->view('templates/header');
-				$this->load->view('templates/sidebar');
-				$this->load->view('pages/consumables/consumable_list', $data);
-			}
+			$this->load->view('templates/header');
+			$this->load->view('templates/sidebar');
+			$this->load->view('pages/consumables/consumable_list', $data);
+
 		}else{
 			echo 'false';
 		}
@@ -170,7 +165,7 @@ class Consumable extends CI_Controller
 	public function addConsumablesCSV(){
 
 		$this->form_validation->set_rules('category', 'Category', 'required');
-		
+
 		$data['category']		=	$this->consumable_model->getConsumablesCategory();
 
 		if($this->form_validation->run()){
@@ -248,10 +243,13 @@ class Consumable extends CI_Controller
 		$param['id']			= $this->input->post('id');
 		$param['part_number'] 	= $this->input->post('part_number');
 		$param['description'] 	= $this->input->post('description');
+		$param['category']		= $this->input->post('category');
+		$param['filter']		= $this->input->post('filter');
+		$param['year']			= $this->input->post('year');
 
 		$this->consumable_model->updateConsumableTableConsumable($param);
 
-		$data['table']	=	$this->consumable_model->getConsumablesTable();
+		$data['table']	=	$this->consumable_model->getConsumablesTableByCategoryByYear($param);
 
 		$this->load->view('templates/header');
 		$this->load->view('templates/sidebar');
@@ -263,11 +261,14 @@ class Consumable extends CI_Controller
 		$param['first'] 		= $this->input->post('first');
 		$param['second'] 		= $this->input->post('second');
 		$param['summer']		= $this->input->post('summer');
-		$param['year']			= $this->input->post('year');
+		$param['yearone']		= $this->input->post('year');
+		$param['category']		= $this->input->post('category');
+		$param['year']			= $this->input->post('yearone');
+		$param['filter']		= $this->input->post('filter');
 
 		$this->consumable_model->updateConsumableTableQuantity($param);
 
-		$data['table']	=	$this->consumable_model->getConsumablesTable();
+		$data['table']	=	$this->consumable_model->getConsumablesTableByCategoryByYear($param);
 
 		$this->load->view('templates/header');
 		$this->load->view('templates/sidebar');
@@ -276,44 +277,32 @@ class Consumable extends CI_Controller
 
 	public function flag(){	
 
-		$param['id'] = $this->input->post('id');
-		$param['year'] = $this->input->post('year');
+		$id					= $this->input->post('id');
+		$param['category'] 	= $this->input->post('category');
+		$param['filter']	= $this->input->post('filter');
+		$param['year']		= $this->input->post('year');
 
-		$data = $this->consumable_model->updateFlag($param);
+		$this->consumable_model->updateFlag($id);
 
-		echo json_encode($data);
+		$data['table']	=	$this->consumable_model->getConsumablesTableByCategoryByYear($param);
+
+		$this->load->view('templates/header');
+		$this->load->view('templates/sidebar');
+		$this->load->view('pages/consumables/consumable_list', $data);
 	}
 
-	public function viewFlag(){
-		$draw = intval($this->input->post("draw"));
-		$start = intval($this->input->post("start"));
-		$length = intval($this->input->post("length"));
-		
-		$param['flag'] = $this->input->post('flag');
+	public function unflag(){
+		$id					= $this->input->post('id');
+		$param['category'] 	= $this->input->post('category');
+		$param['filter']	= $this->input->post('filter');
+		$param['year']		= $this->input->post('year');
 
-		$consumables = $this->consumable_model->getConsumableTableByFlag($param);
-		
-		$data = array();
+		$this->consumable_model->updateUnflag($id);
 
-		foreach ($consumables->result() as $items) {
-			$data[] = array(
-				$items->part_number,
-				$items->description,
-				$items->first,
-				$items->second,
-				$items->summer,
-				);
-		}
+		$data['table']	=	$this->consumable_model->getConsumablesTableByCategoryByYear($param);
 
-		$output = array(
-			"draw " => $draw,
-			"recordsTotal" => $consumables->num_rows(),
-			"recordsFiltered" => $consumables->num_rows(),
-			"data" => $data
-			);
-
-		echo json_encode($output);
-		exit();
-
+		$this->load->view('templates/header');
+		$this->load->view('templates/sidebar');
+		$this->load->view('pages/consumables/consumable_list', $data);
 	}
 }

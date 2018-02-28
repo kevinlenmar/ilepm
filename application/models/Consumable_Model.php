@@ -18,6 +18,7 @@ class Consumable_Model extends CI_Model
 			'part_number'		=>	$param['part_no'],
 			'description'		=>	$param['description'],
 			'category'			=>	$param['category'],
+			'flag'				=>	0,
 			);
 
 		return $this->db->insert('consumable', $consumable);
@@ -44,7 +45,6 @@ class Consumable_Model extends CI_Model
 				'second'			=>	0,
 				'summer'			=>	0,
 				'year'				=>	$param['year'],
-				'flag'				=>	0,
 				);
 
 			$this->db->insert('quantityperconsumableunit', $quantityperconsumableunit);
@@ -65,7 +65,7 @@ class Consumable_Model extends CI_Model
 
 	public function getConsumablesTable(){		
 
-		$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer');
+		$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer, cs.flag');
 		$this->db->from('consumable cs');
 		$this->db->join('quantityperconsumableunit qs', 'qs.idConsumableUnit = cs.id ', 'left');
 		$this->db->group_by('cs.part_number');
@@ -78,7 +78,7 @@ class Consumable_Model extends CI_Model
 
 	public function getConsumablesTableByCategory($param){
 
-		$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer');
+		$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer, cs.flag');
 		$this->db->from('consumable cs');
 		$this->db->join('quantityperconsumableunit qs', 'qs.idConsumableUnit = cs.id ', 'left');
 		$this->db->where('cs.category', $param['category']);
@@ -90,12 +90,56 @@ class Consumable_Model extends CI_Model
 	}
 
 	public function getConsumablesTableByCategoryByYear($param){
-		$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer');
-		$this->db->from('consumable cs');
-		$this->db->join('quantityperconsumableunit qs', 'qs.idConsumableUnit = cs.id ', 'left');
-		$this->db->where('cs.category', $param['category']);
-		$this->db->where('qs.year', $param['year']);
-		$this->db->group_by('cs.part_number');
+
+		if($param['category'] == 'all'){
+			if($param['filter'] == 'all'){
+				$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer, cs.flag');
+				$this->db->from('consumable cs');
+				$this->db->join('quantityperconsumableunit qs', 'qs.idConsumableUnit = cs.id ', 'left');
+				$this->db->where('qs.year', $param['year']);
+				$this->db->group_by('cs.part_number');
+			}else if($param['filter'] == 'hide'){
+				$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer, cs.flag');
+				$this->db->from('consumable cs');
+				$this->db->join('quantityperconsumableunit qs', 'qs.idConsumableUnit = cs.id ', 'left');
+				$this->db->where('qs.year', $param['year']);
+				$this->db->where('flag', 1);
+				$this->db->group_by('cs.part_number');
+			}else if($param['filter'] == 'unhide'){
+				$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer, cs.flag');
+				$this->db->from('consumable cs');
+				$this->db->join('quantityperconsumableunit qs', 'qs.idConsumableUnit = cs.id ', 'left');
+				$this->db->where('qs.year', $param['year']);
+				$this->db->where('flag', 0);
+				$this->db->group_by('cs.part_number');
+			}
+		}else{
+
+			if($param['filter'] == 'all'){
+				$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer, cs.flag');
+				$this->db->from('consumable cs');
+				$this->db->join('quantityperconsumableunit qs', 'qs.idConsumableUnit = cs.id ', 'left');
+				$this->db->where('cs.category', $param['category']);
+				$this->db->where('qs.year', $param['year']);
+				$this->db->group_by('cs.part_number');
+			}else if($param['filter'] == 'hide'){
+				$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer, cs.flag');
+				$this->db->from('consumable cs');
+				$this->db->join('quantityperconsumableunit qs', 'qs.idConsumableUnit = cs.id ', 'left');
+				$this->db->where('cs.category', $param['category']);
+				$this->db->where('qs.year', $param['year']);
+				$this->db->where('flag', 1);
+				$this->db->group_by('cs.part_number');
+			}else if($param['filter'] == 'unhide'){
+				$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer, cs.flag');
+				$this->db->from('consumable cs');
+				$this->db->join('quantityperconsumableunit qs', 'qs.idConsumableUnit = cs.id ', 'left');
+				$this->db->where('cs.category', $param['category']);
+				$this->db->where('qs.year', $param['year']);
+				$this->db->where('flag', 0);
+				$this->db->group_by('cs.part_number');
+			}
+		}
 
 		$query = $this->db->get();
 
@@ -103,7 +147,8 @@ class Consumable_Model extends CI_Model
 	}
 
 	public function getConsumablesTableByYear($param){
-		$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer');
+
+		$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer, cs.flag');
 		$this->db->from('consumable cs');
 		$this->db->join('quantityperconsumableunit qs', 'qs.idConsumableUnit = cs.id ', 'left');
 		$this->db->where('qs.year', $param['year']);
@@ -116,7 +161,7 @@ class Consumable_Model extends CI_Model
 
 	public function getConsumableTableById($param){	
 
-		$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer, qs.year');
+		$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer, qs.year, cs.flag');
 		$this->db->from('consumable cs');
 		$this->db->join('quantityperconsumableunit qs', 'qs.idConsumableUnit = cs.id ', 'left');
 		$this->db->where_in('cs.id', $param['id']);
@@ -131,14 +176,14 @@ class Consumable_Model extends CI_Model
 
 		if($param['category'] == 'all'){
 			if($param['filter'] == 'all'){
-				$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer, qs.year');
+				$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer, qs.year, cs.flag');
 				$this->db->from('consumable cs');
 				$this->db->join('quantityperconsumableunit qs', 'qs.idConsumableUnit = cs.id ', 'left');
 				$this->db->where('qs.year', $param['year']);
 				$this->db->group_by('cs.part_number');
 
 			}else if($param['filter'] == 'hide'){
-				$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer, qs.year');
+				$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer, qs.year, cs.flag');
 				$this->db->from('consumable cs');
 				$this->db->join('quantityperconsumableunit qs', 'qs.idConsumableUnit = cs.id ', 'left');
 				$this->db->where('qs.year', $param['year']);
@@ -146,7 +191,7 @@ class Consumable_Model extends CI_Model
 				$this->db->group_by('cs.part_number');
 
 			}else if($param['filter'] == 'unhide'){
-				$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer, qs.year');
+				$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer, qs.year, cs.flag');
 				$this->db->from('consumable cs');
 				$this->db->join('quantityperconsumableunit qs', 'qs.idConsumableUnit = cs.id ', 'left');
 				$this->db->where('qs.year', $param['year']);
@@ -155,7 +200,7 @@ class Consumable_Model extends CI_Model
 			}
 		}else{
 			if($param['filter'] == 'all'){
-				$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer, qs.year');
+				$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer, qs.year, cs.flag');
 				$this->db->from('consumable cs');
 				$this->db->join('quantityperconsumableunit qs', 'qs.idConsumableUnit = cs.id ', 'left');
 				$this->db->where('cs.category', $param['category']);
@@ -163,7 +208,7 @@ class Consumable_Model extends CI_Model
 				$this->db->group_by('cs.part_number');
 
 			}else if($param['filter'] == 'hide'){
-				$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer, qs.year');
+				$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer, qs.year, cs.flag');
 				$this->db->from('consumable cs');
 				$this->db->join('quantityperconsumableunit qs', 'qs.idConsumableUnit = cs.id ', 'left');
 				$this->db->where('cs.category', $param['category']);
@@ -172,7 +217,7 @@ class Consumable_Model extends CI_Model
 				$this->db->group_by('cs.part_number');
 
 			}else if($param['filter'] == 'unhide'){
-				$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer, qs.year');
+				$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer, qs.year, cs.flag');
 				$this->db->from('consumable cs');
 				$this->db->join('quantityperconsumableunit qs', 'qs.idConsumableUnit = cs.id ', 'left');
 				$this->db->where('cs.category', $param['category']);
@@ -223,21 +268,20 @@ class Consumable_Model extends CI_Model
 			);
 
 		$this->db->where('idConsumableUnit', $param['id']);
-		$this->db->where('year', $param['year']);	
+		$this->db->where('year', $param['yearone']);	
 		$this->db->update('quantityperconsumableunit', $quantityperconsumableunit);
 	}
 
-	public function updateFlag($param){
+	public function updateFlag($id){
 
 		$this->db->set('flag', 1);
-		$this->db->where_in('idConsumableUnit', $param['id']);
-		$this->db->where('year', $param['year']);
+		$this->db->where('id', $id);
 
-		return $this->db->update('quantityperconsumableunit');
+		return $this->db->update('consumable');
 	}
 
 	public function getConsumableTableByFlag($param){
-		$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer');
+		$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer, cs.flag');
 		$this->db->from('consumable cs');
 		$this->db->join('quantityperconsumableunit qs', 'qs.idConsumableUnit = cs.id ', 'left');
 		$this->db->where('qs.flag', 1);
@@ -246,5 +290,12 @@ class Consumable_Model extends CI_Model
 		$query = $this->db->get();
 
 		return $query;
+	}
+
+	public function updateUnflag($id){
+		$this->db->set('flag', 0);
+		$this->db->where('id', $id);
+
+		return $this->db->update('consumable');
 	}
 }
