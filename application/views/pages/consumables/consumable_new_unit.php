@@ -1,6 +1,6 @@
 <div class="container">
 	<div class="content-wrapper content-wrapper-2">
-      <h1><center>New Consumable Unit</center></h1>
+      <h1><center>Add Consumable Unit</center></h1>
         <form action="<?php echo base_url();?>consumables/new-consumables-unit" method="post">
           <div class="col-sm-6">
             <h5>Part Number:</h5>

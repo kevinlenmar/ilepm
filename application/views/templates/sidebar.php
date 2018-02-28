@@ -13,8 +13,8 @@
           <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
             <ul class="treeview-menu">
-             <li><a href="<?php echo base_url();?>consumables/new-consumables-category"><i class="fa fa-circle-o"></i>New Category</a></li>
-             <li><a href="<?php echo base_url();?>consumables/new-consumables-unit"><i class="fa fa-circle-o"></i>New Consumable Unit</a></li>
+             <li><a href="<?php echo base_url();?>consumables/new-consumables-category"><i class="fa fa-circle-o"></i>New Category Consumables</a></li>
+             <li><a href="<?php echo base_url();?>consumables/new-consumables-unit"><i class="fa fa-circle-o"></i>Add Consumable Unit</a></li>
              <li><a href="<?php echo base_url();?>consumables/list-of-consumables"><i class="fa fa-circle-o"></i>List of Consumables</a></li>
              <li><a href="<?php echo base_url();?>consumables/csv"><i class="fa fa-circle-o"></i>Import CSV</a></li>
            </ul>
@@ -29,8 +29,8 @@
        <span class="pull-right-container">
         <i class="fa fa-angle-left pull-right"></i>
         <ul class="treeview-menu">
-         <li><a href="<?php echo base_url();?>equipments/new-equipments-category"><i class="fa fa-circle-o"></i>New Category</a></li>
-         <li><a href="<?php echo base_url();?>equipments/new-equipments-unit"><i class="fa fa-circle-o"></i>New Equipments Unit</a></li>
+         <li><a href="<?php echo base_url();?>equipments/new-equipments-category"><i class="fa fa-circle-o"></i>New Category Equipments</a></li>
+         <li><a href="<?php echo base_url();?>equipments/new-equipments-unit"><i class="fa fa-circle-o"></i>Add Equipments Unit</a></li>
          <li><a href="<?php echo base_url();?>equipments/list-of-equipments"><i class="fa fa-circle-o"></i>List of Equipments</a></li>
          <li><a href="<?php echo base_url();?>equipments/csv"><i class="fa fa-circle-o"></i>Import CSV</a></li>
        </ul>

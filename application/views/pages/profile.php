@@ -15,7 +15,6 @@
 			<div class="col-sm-6">
 				<h2>Contact Number:</h2> <h4><?php echo ucfirst($sample[0]->contactnumber);?></h4>
 			</div>
-			<input type="date" name="">
 		</div>
 	</div>
 </div>

@@ -5,6 +5,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $route['dashboard'] = 'ilepm/dashboard';
 
+$route['dashboard/consumable-data'] = 'ilepm/getDashboardYear';
+
+$route['dashboard/equipment-data'] = 'ilepm/getEDashboardYear';
+
 
 /* 				Consumables					 */
 
@@ -16,6 +20,10 @@ $route['consumables/list-of-consumables'] = 'consumable/consumable_list';
 
 $route['consumables/list-of-consumables-year'] = 'consumable/consumable_year';
 
+$route['consumables/show-consumables'] = 'consumable/get_consumable';
+
+$route['consumables/create-consumables-button'] = 'consumable/get_consumable_year_show';
+
 $route['consumables/list-of-consumables-year-create'] = 'consumable/consumable_create_year';
 
 $route['consumables/csv'] = 'consumable/consumable_csv';
@@ -25,6 +33,17 @@ $route['consumables/add-consumables-csv'] = 'consumable/addConsumablesCSV';
 $route['consumables/list-display-of-consumables'] = 'consumable/getConsumableTableListById';
 
 $route['consumables/edit-consumables'] = 'consumable/editConsumableTable';
+
+$route['consumables/edited-consumables'] = 'consumable/editConsumableTableQuantity';
+
+$route['consumables/get-consumable-by-year'] = 'consumable/get_consumable_year';
+
+$route['consumables/flagged'] = 'consumable/flag';
+
+$route['consumables/flag'] = 'consumable/viewFlag';
+
+$route['filter-consumables'] = 'consumable/filter';
+
 
 /* 				Equipments					 */
 

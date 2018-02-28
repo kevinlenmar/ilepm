@@ -13,40 +13,25 @@ class ILEPM extends CI_Controller {
 			$this->load->view('templates/header');
 			$this->load->view('templates/sidebar');
 			$this->load->view('pages/dashboard');
+
 		}else{
 			redirect(base_url() . 'login');
 		}
 	}
 
-	/* 							Consumables								*/
+	public function getDashboardYear(){
 
-	/*public function addEquipmentCSV(){
-		// print_r($_FILES);
-		$data = array();
-		$filename=$_FILES["csvfile"]["tmp_name"]; 
+		$year = $this->ilepm_model->getDashboard();
+		
+		echo json_encode($year);
+	}	
 
-		$unit_name 		= $this->input->post('unit_name');
+	public function getEDashboardYear(){
 
-		$unit = explode(" ", $unit_name);
-		$sum = "";
-
-		for($i = 0; $i < count($unit); $i++){
-			$sum .= $unit[$i];
-		}
-
-		if($_FILES["csvfile"]["size"] > 0){
-			$file = fopen($filename, "r");
-			fgets($file);
-			while (($getData = fgetcsv($file, 10000, ",")) !== FALSE)
-			{
-				$this->db->query("INSERT INTO ".$sum."(ctrl_no, product_name, serial_no, procedures, standard_criteria) VALUES(".$getData[0].", '".$getData[1]."', '".$getData[2]."', '".$getData[3]."', '".$getData[4]."')");
-			}
-			redirect(base_url() . 'equipments/csv');
-		}
-	}*/
-
-
-	
+		$year = $this->equipment_model->getEDashboard();
+		
+		echo json_encode($year);
+	}
 
 	public function users_manage()
 	{

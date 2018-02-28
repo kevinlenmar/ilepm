@@ -13,7 +13,7 @@ class Consumable extends CI_Controller
 				$param['category']		=	$this->input->post('category');
 
 				$this->consumable_model->add_consumables_category($param);
-				redirect(base_url() . 'consumables/new-consumables-unit');
+				redirect(base_url() . 'consumables/new-consumables-category');
 			}else{
 				$this->load->view('templates/header');
 				$this->load->view('templates/sidebar');
@@ -82,7 +82,7 @@ class Consumable extends CI_Controller
 		}
 	}
 
-	public function consumable_year(){
+	/*public function consumable_year(){
 		$param['category']	=	$this->input->post('category');
 		$param['year']		=	$this->input->post('yearone');
 
@@ -93,14 +93,61 @@ class Consumable extends CI_Controller
 			$this->load->view('templates/sidebar');
 			$this->load->view('pages/consumables/consumable_list', $data);
 		}else{
-			echo "There's no data for this year. Do you want to create?";
+			echo "false";
 		}
+	}*/
+
+	public function get_consumable(){
+		$param['category']	=	$this->input->post('category');
+		$param['year']		=	$this->input->post('yearone');
+
+		if($this->consumable_model->getConsumablesTableByYear($param)){
+			if($param['category'] == 'all'){
+				$data['table'] = $this->consumable_model->getConsumablesTableByYear($param);
+
+				$this->load->view('templates/header');
+				$this->load->view('templates/sidebar');
+				$this->load->view('pages/consumables/consumable_list', $data);
+			}else{
+				$data['table']	=	$this->consumable_model->getConsumablesTableByCategoryByYear($param);
+
+				$this->load->view('templates/header');
+				$this->load->view('templates/sidebar');
+				$this->load->view('pages/consumables/consumable_list', $data);
+			}
+		}else{
+			echo 'false';
+		}
+	}
+
+	public function get_consumable_year_show(){
+
+		$param['year']		=	$this->input->post('yearone');
+
+		if($this->consumable_model->getConsumablesTableByYear($param)){
+			echo 'true';
+		}else{
+			echo 'false';
+		}
+	}
+
+	public function get_consumable_year(){
+		$param['category']	=	$this->input->post('category');
+		$param['year']		=	$this->input->post('yearone');
+
+		$data['table'] = $this->consumable_model->getConsumablesTableByYear($param);
+
+		$this->load->view('templates/header');
+		$this->load->view('templates/sidebar');
+		$this->load->view('pages/consumables/consumable_list', $data);
 	}
 
 	public function consumable_create_year(){
 		$param['year']		=	$this->input->post('year');
 
-		$data['table'] = $this->consumable_model->createConsumablesTableByYear($param);
+		$this->consumable_model->createConsumablesTableByYear($param);
+
+		$data['table'] = $this->consumable_model->getConsumablesTableByYear($param);
 
 		$this->load->view('templates/header');
 		$this->load->view('templates/sidebar');
@@ -148,8 +195,6 @@ class Consumable extends CI_Controller
 		}
 	}
 
-	/*					UPDATE 					*/
-
 	public function getConsumableTableListById(){
 		$draw = intval($this->input->post("draw"));
 		$start = intval($this->input->post("start"));
@@ -169,6 +214,8 @@ class Consumable extends CI_Controller
 				$items->first,
 				$items->second,
 				$items->summer,
+				$items->id,
+				$items->year,
 				);
 		}
 
@@ -183,7 +230,90 @@ class Consumable extends CI_Controller
 		exit();
 	}
 
+	public function filter(){
+		$param['filter'] 	=	$this->input->post('filter');
+		$param['year']		=	$this->input->post('yearone');
+		$param['category']	=	$this->input->post('category');
+
+		$data['table']		=	$this->consumable_model->getConsumablesTableByFilter($param);
+
+		$this->load->view('templates/header');
+		$this->load->view('templates/sidebar');
+		$this->load->view('pages/consumables/consumable_list', $data);
+	}
+
+	/*					UPDATE 					*/
+
 	public function editConsumableTable(){
+		$param['id']			= $this->input->post('id');
+		$param['part_number'] 	= $this->input->post('part_number');
+		$param['description'] 	= $this->input->post('description');
+
+		$this->consumable_model->updateConsumableTableConsumable($param);
+
+		$data['table']	=	$this->consumable_model->getConsumablesTable();
+
+		$this->load->view('templates/header');
+		$this->load->view('templates/sidebar');
+		$this->load->view('pages/consumables/consumable_list', $data);
+	}
+
+	public function editConsumableTableQuantity(){
+		$param['id']			= $this->input->post('id');
+		$param['first'] 		= $this->input->post('first');
+		$param['second'] 		= $this->input->post('second');
+		$param['summer']		= $this->input->post('summer');
+		$param['year']			= $this->input->post('year');
+
+		$this->consumable_model->updateConsumableTableQuantity($param);
+
+		$data['table']	=	$this->consumable_model->getConsumablesTable();
+
+		$this->load->view('templates/header');
+		$this->load->view('templates/sidebar');
+		$this->load->view('pages/consumables/consumable_list', $data);
+	}
+
+	public function flag(){	
+
+		$param['id'] = $this->input->post('id');
+		$param['year'] = $this->input->post('year');
+
+		$data = $this->consumable_model->updateFlag($param);
+
+		echo json_encode($data);
+	}
+
+	public function viewFlag(){
+		$draw = intval($this->input->post("draw"));
+		$start = intval($this->input->post("start"));
+		$length = intval($this->input->post("length"));
+		
+		$param['flag'] = $this->input->post('flag');
+
+		$consumables = $this->consumable_model->getConsumableTableByFlag($param);
+		
+		$data = array();
+
+		foreach ($consumables->result() as $items) {
+			$data[] = array(
+				$items->part_number,
+				$items->description,
+				$items->first,
+				$items->second,
+				$items->summer,
+				);
+		}
+
+		$output = array(
+			"draw " => $draw,
+			"recordsTotal" => $consumables->num_rows(),
+			"recordsFiltered" => $consumables->num_rows(),
+			"data" => $data
+			);
+
+		echo json_encode($output);
+		exit();
 
 	}
 }
