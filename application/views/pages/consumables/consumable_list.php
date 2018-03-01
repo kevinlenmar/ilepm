@@ -1,6 +1,6 @@
 <div class="content-wrapper">
     <h1>
-        <center> List of Consumables </center>
+        <center><i class="fa fa-files-o"></i>&nbsp List of Consumables </center>
     </h1>
     <div class="row">
         <div class="col-lg-12">
@@ -19,7 +19,7 @@
                             </select>
                         </div>
                         <div class="col-sm-4" style="margin: 10px 0px 10px 0px;">
-                            <div class="col-sm-1">
+                            <div class="col-sm-1" style="margin-left: -15px">
                                 <h5>SY:</h5>
                             </div>
                             <div class="col-sm-1" style="width: 150px;">
@@ -35,7 +35,7 @@
                         </div>
                         <div class="col-sm-4 pull-left" style="margin-top: 10px">
                             <input type="button" class="btn btn-primary" name="btnShow" id="btnShow" value="Show">
-                            <input type="button" class="btn btn-primary" name="btnCreate" id="btnCreate" value="Copy and Create" style="display: none;">
+                            <input type="button" class="btn btn-primary" name="btnCreate" id="btnCreate" value="Create" style="display: none;">
                         </div>
                         <div class="col-sm-3" style="margin-top: 10px;">
                             <div class="col-sm-2">
@@ -43,9 +43,9 @@
                             </div>
                             <div class="col-sm-10">
                                 <select class="form-control" id="filter" name="filter" onchange="getFilter(this);">
+                                    <option value="unhide">View Items</option>
+                                    <option value="hide">View Hidden Items</option>
                                     <option value="all">View All</option>
-                                    <option value="hide">View Hide Items</option>
-                                    <option value="unhide">View Unhide Items</option>
                                 </select>
                             </div>
                         </div>
@@ -56,7 +56,7 @@
                             <div class="dataTable_wrapper col-sm-12" id="anotherTable">
                             </div>
                         </div>
-                        <div class="dataTable_wrapper col-sm-12">
+                        <div class="dataTable_wrapper col-sm-12" style="border:1px solid; padding: 8px">
                             <table id="consumableTable" class="table table-striped table-bordered" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
@@ -93,7 +93,7 @@
                                     ?> 
                                 </tbody>
                             </table>
-                            <div class="col-sm-1" style="margin-top: 10px; float: right">
+                            <div class="col-sm-1" style="margin:10px 0px 0px 1000px">
                                 <input type="button" class="btn btn-primary" name="btnEdit2" id="btnEdit2" value="Edit">
                             </div>
                         </div>
@@ -191,8 +191,8 @@
     function getCategory(sel){
         var url = "<?php echo base_url();?>consumables/list-of-consumables"; 
         $.ajax({
-         type: "POST",
-         url: url,
+           type: "POST",
+           url: url,
          data: $('#consumableForm').serialize(), // serializes the form's elements.
          success: function(data){
             getTable(data);
@@ -230,7 +230,7 @@
                 data: $('#consumableForm').serialize(),
                 success: function(data){
                     if(data == 'false'){
-                        $.alert('No Data for this year');
+                        $.alert('No data for this year');
                     }else{
                         getTable(data);
                     }
@@ -241,7 +241,6 @@
     });
 
     $('#btnCreate').click(function(){
-        var url = "<?php echo base_url();?>consumables/list-of-consumables-year";
 
         if(formCreate.valid() === false){
 
@@ -250,11 +249,17 @@
                 title: 'There is no data for this year. Do you want to create?',
                 content: '',
                 buttons: {
-                    confirm: function () {
-                        createTableForYear();
+                    confirm: {
+                        btnClass: 'btn-blue',
+                        action: function(){
+                            createTableForYear();
+                        }
                     },
-                    cancel: function () {
-                        $.alert('Canceled!');
+                    cancel: {
+                       btnClass: 'btn-red',
+                        action: function(){
+                            $.alert('Canceled!');
+                        }
                     },
                 }
             });
@@ -272,7 +277,7 @@
             },
             success: function(data){
                 $.alert('Success!');
-                $('#btnCreate').prop('disabled', true);
+                $('#btnCreate').hide();
                 getTable(data);
             }
         });
@@ -301,7 +306,7 @@
         var url = "<?php echo base_url();?>consumables/list-display-of-consumables";
         document.getElementById("anotherTable").style.border = '1px solid black';
         document.getElementById("anotherTable").style.marginBottom = '30px';
-        document.getElementById("anotherTable").innerHTML = "<div style='margin-top: 30px'><button class='btn btn-primary' type='submit' id='btnConfirm'>Confirm</button><table id='consumableTableByCheck' class='table table-striped table-bordered' width='100%' cellspacing='0'>" +
+        document.getElementById("anotherTable").innerHTML = "<h3>Editting Table</h3> <div style='padding:8px'><table id='consumableTableByCheck' class='table table-striped table-bordered' width='100%' cellspacing='0'>" +
         "<thead>" +
         "<tr>" + 
         "<th name='partNo'>Part Number</th>" +
@@ -314,6 +319,7 @@
         "<tbody>" +
         "</tbody>"+
         "</table>"+ 
+        "<button class='btn btn-primary' type='submit' id='btnConfirm' style='margin-left:966px'>Confirm</button>"
         "</div>";
 
         var searchIDs = $("#consumableTable input:checkbox:checked").map(function(){
@@ -331,15 +337,6 @@
                     d.year = $('#yearone').val();
                 },
                 select: true,
-                "columns": [
-                {'data': 'part_number'},
-                {'data': 'description'},
-                {'data': 'first'},
-                {'data': 'second'},
-                {'data': 'summer'},
-                {'data': 'id'},
-                {'data': 'year'},
-                ],
             },
         });
 
@@ -362,10 +359,10 @@
             type: 'text',
             name: $(title).html(),
             blur: function() {
-             $this.text(this.value);
-             var val = this.value;
+               $this.text(this.value);
+               var val = this.value;
 
-             if(colName == "partNo"){
+               if(colName == "partNo"){
                 partNumber = val;
             } else if(colName == "description"){
                 description = val;
@@ -411,9 +408,9 @@
             });
         },
         keyup: function(e) {
-         if (e.which === 13) $input.blur();
-     }
- }).appendTo( $this.empty() ).focus();
+           if (e.which === 13) $input.blur();
+       }
+   }).appendTo( $this.empty() ).focus();
       });
 
         $('#btnConfirm').click(function(){
@@ -436,7 +433,7 @@
     function consumable_hide(id){
         $.ajax({
             type: 'POST',
-            url: "<?php echo base_url();?>consumables/flag",
+            url: "<?php echo base_url();?>equipment/flag",
             data: {
                 'id': id,
                 'category': $('#category').val(),
@@ -452,7 +449,7 @@
     function consumable_unhide(id){
         $.ajax({
             type: 'POST',
-            url: "<?php echo base_url();?>consumables/unflag",
+            url: "<?php echo base_url();?>equipment/unflag",
             data: {
                 'id': id,
                 'category': $('#category').val(),

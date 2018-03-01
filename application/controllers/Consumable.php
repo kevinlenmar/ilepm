@@ -82,21 +82,6 @@ class Consumable extends CI_Controller
 		}
 	}
 
-	/*public function consumable_year(){
-		$param['category']	=	$this->input->post('category');
-		$param['year']		=	$this->input->post('yearone');
-
-		if($this->consumable_model->getConsumablesTableByYear($param)){
-			$data['table']	=	$this->consumable_model->getConsumablesTableByCategoryByYear($param);
-
-			$this->load->view('templates/header');
-			$this->load->view('templates/sidebar');
-			$this->load->view('pages/consumables/consumable_list', $data);
-		}else{
-			echo "false";
-		}
-	}*/
-
 	public function get_consumable(){
 		$param['category']	=	$this->input->post('category');
 		$param['year']		=	$this->input->post('yearone');
@@ -282,9 +267,9 @@ class Consumable extends CI_Controller
 		$param['filter']	= $this->input->post('filter');
 		$param['year']		= $this->input->post('year');
 
-		$this->consumable_model->updateFlag($id);
+		$this->ilepm_model->updateFlag($id);
 
-		$data['table']	=	$this->consumable_model->getConsumablesTableByCategoryByYear($param);
+		$data['table']	=	$this->consumable_model->getEquipmentTableByCategoryByYear($param);
 
 		$this->load->view('templates/header');
 		$this->load->view('templates/sidebar');
@@ -297,9 +282,9 @@ class Consumable extends CI_Controller
 		$param['filter']	= $this->input->post('filter');
 		$param['year']		= $this->input->post('year');
 
-		$this->consumable_model->updateUnflag($id);
+		$this->ilepm_model->updateUnflag($id);
 
-		$data['table']	=	$this->consumable_model->getConsumablesTableByCategoryByYear($param);
+		$data['table']	=	$this->consumable_model->getEquipmentTableByCategoryByYear($param);
 
 		$this->load->view('templates/header');
 		$this->load->view('templates/sidebar');

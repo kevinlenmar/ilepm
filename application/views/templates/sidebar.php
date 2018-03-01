@@ -13,7 +13,7 @@
           <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
             <ul class="treeview-menu">
-             <li><a href="<?php echo base_url();?>consumables/new-consumables-category"><i class="fa fa-circle-o"></i>New Category Consumables</a></li>
+              <li><a href="<?php echo base_url();?>consumables/new-consumables-category"><i class="fa fa-circle-o"></i>Add Consumable Category</a></li>
              <li><a href="<?php echo base_url();?>consumables/new-consumables-unit"><i class="fa fa-circle-o"></i>Add Consumable Unit</a></li>
              <li><a href="<?php echo base_url();?>consumables/list-of-consumables"><i class="fa fa-circle-o"></i>List of Consumables</a></li>
              <li><a href="<?php echo base_url();?>consumables/csv"><i class="fa fa-circle-o"></i>Import CSV</a></li>
@@ -29,8 +29,8 @@
        <span class="pull-right-container">
         <i class="fa fa-angle-left pull-right"></i>
         <ul class="treeview-menu">
-         <li><a href="<?php echo base_url();?>equipments/new-equipments-category"><i class="fa fa-circle-o"></i>New Category Equipments</a></li>
-         <li><a href="<?php echo base_url();?>equipments/new-equipments-unit"><i class="fa fa-circle-o"></i>Add Equipments Unit</a></li>
+         <li><a href="<?php echo base_url();?>equipments/new-equipments-category"><i class="fa fa-circle-o"></i>Add Equipment Category</a></li>
+         <li><a href="<?php echo base_url();?>equipments/new-equipments-unit"><i class="fa fa-circle-o"></i>Add Equipment Unit</a></li>
          <li><a href="<?php echo base_url();?>equipments/list-of-equipments"><i class="fa fa-circle-o"></i>List of Equipments</a></li>
          <li><a href="<?php echo base_url();?>equipments/csv"><i class="fa fa-circle-o"></i>Import CSV</a></li>
        </ul>
@@ -39,15 +39,15 @@
  </li>
  <li class="treeview">
   <a href="#">
-    <i class="fa fa-pie-chart"></i>
+    <i class="fa fa-user"></i>
     <span>Users</span>
     <span class="pull-right-container">
       <i class="fa fa-angle-left pull-right"></i>
     </span>
   </a>
   <ul class="treeview-menu">
-   <li><a href="<?php echo base_url();?>users/new"><i class="fa fa-circle-o"></i>New</a></li>
-   <li><a href="<?php echo base_url();?>users/manage"><i class="fa fa-circle-o"></i>Manage</a></li>
+   <li><a href="<?php echo base_url();?>users/new"><i class="fa fa-user-plus"></i>Add User</a></li>
+   <li><a href="<?php echo base_url();?>users/manage"><i class="fa fa-users"></i>Manage Users</a></li>
  </ul>
 </li>
 </aside>

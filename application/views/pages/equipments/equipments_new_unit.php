@@ -1,7 +1,7 @@
 <div class="container">
-	<div class="content-wrapper content-wrapper-2">
+	<div class="content-wrapper content-wrapper-2" style="border: 1px solid">
             <h1>
-                  <center>Add Equipment Unit</center>
+                  <center><i class="fa fa-files-o"></i>&nbsp Add Equipment Unit</center>
             </h1>
             <form action="<?php echo base_url();?>equipments/new-equipments-unit" method="post">
                   <div class="form-group">

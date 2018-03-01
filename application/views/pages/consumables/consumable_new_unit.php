@@ -1,6 +1,6 @@
 <div class="container">
-	<div class="content-wrapper content-wrapper-2">
-      <h1><center>Add Consumable Unit</center></h1>
+	<div class="content-wrapper content-wrapper-2" style="border: 1px solid">
+      <h1><center><i class="fa fa-files-o"></i>&nbsp Add Consumable Unit</center></h1>
         <form action="<?php echo base_url();?>consumables/new-consumables-unit" method="post">
           <div class="col-sm-6">
             <h5>Part Number:</h5>
@@ -9,7 +9,7 @@
           </div>
           <div class="col-sm-6">
             <h5>Category:</h5>
-              <select class="form-control" id="category" name="category" style="width: 300px;">
+              <select class="form-control" id="category" name="category" style="width: 310px;">
                 <option value="">Not yet selected</option>
                   <?php
                     foreach ($category as $item) {

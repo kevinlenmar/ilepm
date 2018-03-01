@@ -42,8 +42,6 @@ $route['consumables/flag'] = 'consumable/flag';
 
 $route['consumables/unflag'] = 'consumable/unflag';
 
-/*$route['consumables/flag'] = 'consumable/viewFlag';*/
-
 $route['filter-consumables'] = 'consumable/filter';
 
 
@@ -63,6 +61,23 @@ $route['equipments/csv'] = 'equipment/equipment_csv';
 
 $route['equipments/add-equipments-csv'] = 'equipment/addEquipmentCSV';
 
+$route['equipments/create-equipments-button'] = 'equipment/get_equipment_year_show';
+
+$route['equipments/show-equipments'] = 'equipment/get_equipment';
+
+$route['equipments/list-of-equipments-create'] = 'equipment/create_list_equipment';
+
+$route['equipments/filter-equipments'] = 'equipment/filter';
+
+$route['equipments/flag'] = 'equipment/flag';
+
+$route['equipments/unflag'] = 'equipment/unflag';
+
+$route['equipments/list-display-of-equipments'] = 'equipment/getEquipmentTableListById';
+
+$route['equipments/edit-equipments'] = 'equipment/editEquipmentTable';
+
+$route['equipments/edited-equipments'] = 'equipment/editEquipmentTableQuantity';
 /* 				Users					 */
 
 $route['users/new'] = 'ilepm/users_new';

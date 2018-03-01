@@ -89,7 +89,7 @@ class Equipment extends CI_Controller
 
 	}
 
-	public function equipment_year(){
+	/*public function equipment_year(){
 		$param['category']	=	$this->input->post('category');
 		$param['year']		=	$this->input->post('yearone');
 
@@ -102,12 +102,32 @@ class Equipment extends CI_Controller
 		}else{
 			echo "There's no data for this year. Do you want to create?";
 		}
-	}
+	}*/
 
-	public function equipment_create_year(){
+	/*public function equipment_create_year(){
 		$param['year']		=	$this->input->post('year');
 
-		$data['table'] = $this->equipment_model->createEquipmentTableByYear($param);
+		$this->equipment_model->createEquipmentTableByYear($param);
+
+		echo 'ni sulod';
+
+		$data['table'] = $this->equipment_model->getEquipmentTableByYear($param);
+
+		$this->load->view('templates/header');
+		$this->load->view('templates/sidebar');
+		$this->load->view('pages/equipments/equipments_list', $data);
+	}*/
+
+	public function create_list_equipment(){
+		$param['year']	=	$this->input->post('year');
+
+		$this->equipment_model->createEquipmentTableByYear($param);
+
+		$data['table'] = $this->equipment_model->getEquipmentTableByYear($param);
+
+		$this->load->view('templates/header');
+		$this->load->view('templates/sidebar');
+		$this->load->view('pages/equipments/equipments_list', $data);
 	}
 
 	public function equipment_csv()
@@ -149,5 +169,154 @@ class Equipment extends CI_Controller
 			$this->load->view('templates/sidebar');
 			$this->load->view('pages/equipments/equipments_csv', $data);
 		}
+	}
+
+	public function get_equipment_year_show(){
+
+		$param['year']		=	$this->input->post('yearone');
+
+		if($this->equipment_model->getEquipmentTableByYear($param)){
+			echo 'true';
+		}else{
+			echo 'false';
+		}
+	}
+
+	public function get_equipment(){
+		$param['category']	=	$this->input->post('category');
+		$param['year']		=	$this->input->post('yearone');
+		$param['filter']	=	$this->input->post('filter');
+
+		if($this->equipment_model->getEquipmentTableByYear($param)){
+
+			$data['table']	=	$this->equipment_model->getEquipmentTableByCategoryByYear($param);
+
+			$this->load->view('templates/header');
+			$this->load->view('templates/sidebar');
+			$this->load->view('pages/equipments/equipments_list', $data);
+
+		}else{
+			echo 'false';
+		}
+	}
+
+	public function getEquipmentTableListById(){
+		$draw = intval($this->input->post("draw"));
+		$start = intval($this->input->post("start"));
+		$length = intval($this->input->post("length"));
+
+		$param['id']	=	$this->input->post('id');
+		$param['year'] 	=	$this->input->post('year');
+
+		$equipments = $this->equipment_model->getEquipmentTableById($param);
+
+		$data = array();
+
+		foreach ($equipments->result() as $items) {
+			$data[] = array(
+				$items->ctrl_no,
+				$items->product_name,
+				$items->serial_no,
+				$items->procedures,
+				$items->standard_criteria,
+				$items->firstremark,
+				$items->secondremark,
+				$items->summerremark,
+				$items->id,
+				$items->year,
+				);
+		}
+
+		$output = array(
+			"draw" => $draw,
+			"recordsTotal" => $equipments->num_rows(),
+			"recordsFiltered" => $equipments->num_rows(),
+			"data" => $data
+			);
+
+		echo json_encode($output);
+		exit();
+	}
+
+	public function filter(){
+		$param['filter'] 	=	$this->input->post('filter');
+		$param['year']		=	$this->input->post('yearone');
+		$param['category']	=	$this->input->post('category');
+
+		$data['table']		=	$this->equipment_model->getEquipmentTableByFilter($param);
+
+		$this->load->view('templates/header');
+		$this->load->view('templates/sidebar');
+		$this->load->view('pages/equipments/equipments_list', $data);
+	}
+
+	public function flag(){	
+
+		$id					= $this->input->post('id');
+		$param['category'] 	= $this->input->post('category');
+		$param['filter']	= $this->input->post('filter');
+		$param['year']		= $this->input->post('year');
+
+		$this->equipment_model->updateFlag($id);
+
+		$data['table']	=	$this->equipment_model->getEquipmentTableByCategoryByYear($param);
+
+		$this->load->view('templates/header');
+		$this->load->view('templates/sidebar');
+		$this->load->view('pages/equipments/equipments_list', $data);
+	}
+
+	public function unflag(){
+		$id					= $this->input->post('id');
+		$param['category'] 	= $this->input->post('category');
+		$param['filter']	= $this->input->post('filter');
+		$param['year']		= $this->input->post('year');
+
+		$this->equipment_model->updateUnflag($id);
+
+		$data['table']	=	$this->equipment_model->getEquipmentTableByCategoryByYear($param);
+
+		$this->load->view('templates/header');
+		$this->load->view('templates/sidebar');
+		$this->load->view('pages/equipments/equipments_list', $data);
+	}
+
+	public function editEquipmentTable(){
+		$param['id']				=	$this->input->post('id');
+		$param['ctrl_no']			=	$this->input->post('ctrl_no');
+		$param['product_name']		=	$this->input->post('product_name');
+		$param['serial_no']			=	$this->input->post('serial_no');
+		$param['procedures']		=	$this->input->post('procedures');
+		$param['standard_criteria']	=	$this->input->post('standard_criteria');
+		$param['category']			=	$this->input->post('category');
+		$param['filter']			=	$this->input->post('filter');
+		$param['year']				=	$this->input->post('year');
+
+		$this->equipment_model->updateEquipmentTableEquipment($param);
+
+		$data['table']	=	$this->equipment_model->getEquipmentTableByCategoryByYear($param);
+
+		$this->load->view('templates/header');
+		$this->load->view('templates/sidebar');
+		$this->load->view('pages/equipments/equipments_list', $data);
+	}
+
+	public function editEquipmentTableQuantity(){
+		$param['id']			= $this->input->post('id');
+		$param['first']			= $this->input->post('first');
+		$param['second']		= $this->input->post('second');
+		$param['summer']		= $this->input->post('summer');
+		$param['yearone']		= $this->input->post('year');
+		$param['category']		= $this->input->post('category');
+		$param['year']			= $this->input->post('yearone');
+		$param['filter']		= $this->input->post('filter');
+
+		$this->equipment_model->updateEquipmentTableQuantity($param);
+
+		$data['table']	=	$this->equipment_model->getEquipmentTableByCategoryByYear($param);
+
+		$this->load->view('templates/header');
+		$this->load->view('templates/sidebar');
+		$this->load->view('pages/equipments/equipments_list', $data);
 	}
 }

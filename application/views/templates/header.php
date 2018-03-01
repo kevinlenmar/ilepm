@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>ILEPM</title>
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/dist/css/myowncss/myowncss.css">
   <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/bower_components/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/bower_components/jquery-ui-1.12.1/jquery-ui.css">
@@ -25,11 +26,11 @@
 <body class="hold-transition skin-blue fixed sidebar-mini">
   <div>
     <header class="main-header">
-      <a href="<?php echo base_url();?>dashboard" class="logo" style="background-color: maroon">
+      <a href="<?php echo base_url();?>dashboard" class="logo" style="background-color:maroon">
         <span class="logo-lg"><b>ILEPM</b>
         </span>
       </a>
-      <nav class="navbar navbar-static-top" style="background-color: maroon">
+      <nav class="navbar navbar-static-top" style="background-color:maroon">
         <div class="navbar-custom-menu">
           <ul class="nav navbar-nav">
             <li class="dropdown user user-menu">
@@ -38,7 +39,7 @@
                 <span class="hidden-xs"><?php echo $this->session->userdata('name')->firstname, ' ', $this->session->userdata('name')->lastname; ?></span>
               </a>
               <ul class="dropdown-menu">
-                <li class="user-header" style="background-color: maroon">
+                <li class="user-header" style="background-color:maroon">
                   <img src="<?php echo base_url().$this->session->userdata('name')->image; ?>" class="img-circle" alt="User Image"/>
                   <p>
                     <?php echo $this->session->userdata('name')->firstname, ' ', $this->session->userdata('name')->lastname; ?></span>

@@ -19,3 +19,13 @@
 	border: 0;
 	background: transparent
 }
+
+h5
+{
+	font-weight: bold;
+}
+
+#bg
+{
+	background-color: maroon;
+}
