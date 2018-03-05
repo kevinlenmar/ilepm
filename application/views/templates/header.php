@@ -26,7 +26,7 @@
 <body class="hold-transition skin-blue fixed sidebar-mini">
   <div>
     <header class="main-header">
-      <a href="<?php echo base_url();?>dashboard" class="logo" style="background-color:maroon">
+      <a href="<?php echo base_url();?>home" class="logo" style="background-color:maroon">
         <span class="logo-lg"><b>ILEPM</b>
         </span>
       </a>
@@ -35,12 +35,12 @@
           <ul class="nav navbar-nav">
             <li class="dropdown user user-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <img src="<?php echo base_url().$this->session->userdata('name')->image; ?>" class="user-image">
+                <!-- <img src="<?php echo base_url().$this->session->userdata('name')->image; ?>" class="user-image"> -->
                 <span class="hidden-xs"><?php echo $this->session->userdata('name')->firstname, ' ', $this->session->userdata('name')->lastname; ?></span>
               </a>
               <ul class="dropdown-menu">
                 <li class="user-header" style="background-color:maroon">
-                  <img src="<?php echo base_url().$this->session->userdata('name')->image; ?>" class="img-circle" alt="User Image"/>
+                  <!-- <img src="<?php echo base_url().$this->session->userdata('name')->image; ?>" class="img-circle" alt="User Image"/> -->
                   <p>
                     <?php echo $this->session->userdata('name')->firstname, ' ', $this->session->userdata('name')->lastname; ?></span>
                     <small><?php echo $this->session->userdata('name')->department; ?></small>

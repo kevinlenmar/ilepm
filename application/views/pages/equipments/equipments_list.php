@@ -57,6 +57,7 @@
                             </div>
                         </div>
                         <div class="dataTable_wrapper col-sm-12" style="border:1px solid; padding: 8px">
+                        <!-- <label>School Year: 2017 - 2018</label> -->
                          <table id="equipmentTable" class="table table-striped table-bordered" width="100%" cellspacing="0">
                             <thead>
                                 <tr>

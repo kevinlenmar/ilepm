@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-
+$route['home']		=	'ilepm/home';
 
 $route['dashboard'] = 'ilepm/dashboard';
 
@@ -88,12 +88,12 @@ $route['users/new'] = 'user/users_new';
 
 $route['users/manage'] = 'user/users_manage';
 
-$route['login'] = 'login/home';
+$route['login'] = 'login/login_user';
 
 $route['signout'] = 'login/signout';
 
 $route['profile'] = 'ilepm/profile';
 
-$route['default_controller'] = 'login/home';
+$route['default_controller'] = 'login/login_user';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

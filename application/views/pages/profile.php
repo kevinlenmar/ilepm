@@ -9,9 +9,9 @@
 			<div class="col-sm-6">
 				<h2>Department:</h2> <h4><?php echo $sample[0]->department;?></h4>
 			</div>
-			<div class="col-sm-6 pull-left">
+			<!-- <div class="col-sm-6 pull-left">
 				<h2>User Type:</h2> <h4><?php echo ucfirst($sample[0]->usertype);?></h4>
-			</div>
+			</div> -->
 			<div class="col-sm-6">
 				<h2>Contact Number:</h2> <h4><?php echo ucfirst($sample[0]->contactnumber);?></h4>
 			</div>

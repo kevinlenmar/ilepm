@@ -6,7 +6,7 @@
 class Consumable extends CI_Controller
 {
 	public function consumable_new_category(){
-		if($this->session->userdata('username')){
+		if($this->session->userdata('id')){
 			$this->form_validation->set_rules('category', 'Category', 'required');
 
 			if($this->form_validation->run()){
@@ -27,7 +27,7 @@ class Consumable extends CI_Controller
 
 	public function consumable_new_unit(){
 
-		if($this->session->userdata('username')){
+		if($this->session->userdata('id')){
 
 			$this->form_validation->set_rules('part_no', 'Part Number', 'required');
 			$this->form_validation->set_rules('category', 'Category', 'required');
@@ -57,7 +57,7 @@ class Consumable extends CI_Controller
 	}
 
 	public function consumable_list(){	
-		if($this->session->userdata('username')){
+		if($this->session->userdata('id')){
 			
 			$data['category']		= $this->consumable_model->getConsumablesCategory();
 			$data['list_year'] 		= $this->consumable_model->getConsumablesYear();
@@ -138,7 +138,7 @@ class Consumable extends CI_Controller
 	}
 
 	public function consumable_csv(){
-		if($this->session->userdata('username')){
+		if($this->session->userdata('id')){
 
 			$data['category']		=	$this->consumable_model->getConsumablesCategory();
 

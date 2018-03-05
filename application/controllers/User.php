@@ -8,7 +8,7 @@ class User extends CI_Controller
 	
 	public function users_new(){
 
-		if($this->session->userdata('username')){
+		if($this->session->userdata('id')){
 
 			$this->form_validation->set_rules('username', 'Employee ID', 'required');
 			$this->form_validation->set_rules('firstname', 'First Name', 'required');
@@ -38,7 +38,7 @@ class User extends CI_Controller
 
 	public function users_manage()
 	{
-		if($this->session->userdata('username')){
+		if($this->session->userdata('id')){
 			
 			$data['sample'] = $this->user_model->getUsersTable();
 			$this->load->view('templates/header');

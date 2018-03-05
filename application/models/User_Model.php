@@ -20,7 +20,6 @@ class User_Model extends CI_Model
 			'firstname'		=>	$param['firstname'],
 			'lastname'		=>	$param['lastname'],
 			'contactnumber'	=>	$param['contact'],
-
 			);
 
 		return $this->db->insert('users', $data);

@@ -7,7 +7,7 @@ class Equipment extends CI_Controller
 {
 
 	public function equipment_new_category(){
-		if($this->session->userdata('username')){
+		if($this->session->userdata('id')){
 			$this->form_validation->set_rules('category', 'Category', 'required');
 
 			if($this->form_validation->run()){
@@ -29,7 +29,7 @@ class Equipment extends CI_Controller
 	
 	public function equipment_new_unit()
 	{
-		if($this->session->userdata('username')){
+		if($this->session->userdata('id')){
 			$this->form_validation->set_rules('ctrl_no', 'Control No.', 'required');
 			$this->form_validation->set_rules('prod_name', 'Product Name', 'required');
 			$this->form_validation->set_rules('serial_no', 'Serial No', 'required');
@@ -63,7 +63,7 @@ class Equipment extends CI_Controller
 
 	public function equipment_list()
 	{
-		if($this->session->userdata('username')){
+		if($this->session->userdata('id')){
 
 			$data['table'] 		= $this->equipment_model->getEquipmentTable();
 			$data['category']	= $this->equipment_model->getEquipmentCategory();
@@ -106,7 +106,7 @@ class Equipment extends CI_Controller
 
 	public function equipment_csv()
 	{
-		if($this->session->userdata('username')){
+		if($this->session->userdata('id')){
 			$data['category']		=	$this->equipment_model->getEquipmentCategory();
 
 			$this->load->view('templates/header');

@@ -4,12 +4,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class ILEPM extends CI_Controller {
 
 	/*							ILEPM functions											*/
+
+	public function home(){
+		if($this->session->userdata('id')){
+			$this->load->view('templates/header');
+			$this->load->view('templates/sidebar');
+			$this->load->view('pages/home');
+
+		}else{
+			redirect(base_url() . 'login');
+		}
+	}
 	
 	/*						Dashboard											*/
 
 	public function dashboard()
 	{
-		if($this->session->userdata('username')){
+		if($this->session->userdata('id')){
 			$this->load->view('templates/header');
 			$this->load->view('templates/sidebar');
 			$this->load->view('pages/dashboard');
@@ -35,7 +46,7 @@ class ILEPM extends CI_Controller {
 
 	public function profile()
 	{
-		if($this->session->userdata('username')){
+		if($this->session->userdata('id')){
 			$username = $this->input->get('username');
 			if($username == null){
 				$username = $this->session->userdata('username');

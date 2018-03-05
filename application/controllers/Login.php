@@ -6,9 +6,9 @@
 class Login extends CI_Controller
 {
 	
-	public function home(){
+	public function login_user(){
 
-		if($this->session->userdata('username') == NULL){
+		if($this->session->userdata('id') == NULL){
 
 			$this->form_validation->set_rules('username', 'Username', 'required');
 			$this->form_validation->set_rules('password', 'Password', 'required');
@@ -20,11 +20,13 @@ class Login extends CI_Controller
 				if($data = $this->login_model->can_login($username, $password)){
 
 					$session_data = array(
+						'id'		=>	$data[0]->id,
 						'username'	=>	$username,
 						'name'		=>	$data[0],
+						'login'		=>	TRUE,
 						);
 					$this->session->set_userdata($session_data);
-					redirect(base_url() . 'dashboard');
+					redirect(base_url() . 'home');
 				}else{
 					$this->session->set_flashdata('error', 'Invalid Username and Password');
 					redirect(base_url() . 'login');
@@ -33,13 +35,13 @@ class Login extends CI_Controller
 				$this->load->view('pages/login/login');
 			}
 		}else{
-			redirect(base_url() . 'dashboard');
+			redirect(base_url() . 'home');
 		}
 		
 	}
 
 	public function signout(){
-		$this->session->unset_userdata('username');
+		$this->session->unset_userdata('id');
 		redirect(base_url() . 'login');
 	}
 }
