@@ -26,6 +26,8 @@ $route['consumables/create-consumables-button'] = 'consumable/get_consumable_yea
 
 $route['consumables/list-of-consumables-year-create'] = 'consumable/consumable_create_year';
 
+$route['consumables/duplicate-table']	= 'consumable/consumable_duplicate_table';
+
 $route['consumables/csv'] = 'consumable/consumable_csv';
 
 $route['consumables/add-consumables-csv'] = 'consumable/addConsumablesCSV';
@@ -63,6 +65,8 @@ $route['equipments/add-equipments-csv'] = 'equipment/addEquipmentCSV';
 
 $route['equipments/create-equipments-button'] = 'equipment/get_equipment_year_show';
 
+$route['equipments/duplicate-table']	= 'equipment/equipment_duplicate_table';
+
 $route['equipments/show-equipments'] = 'equipment/get_equipment';
 
 $route['equipments/list-of-equipments-create'] = 'equipment/create_list_equipment';
@@ -80,9 +84,9 @@ $route['equipments/edit-equipments'] = 'equipment/editEquipmentTable';
 $route['equipments/edited-equipments'] = 'equipment/editEquipmentTableQuantity';
 /* 				Users					 */
 
-$route['users/new'] = 'ilepm/users_new';
+$route['users/new'] = 'user/users_new';
 
-$route['users/manage'] = 'ilepm/users_manage';
+$route['users/manage'] = 'user/users_manage';
 
 $route['login'] = 'login/home';
 

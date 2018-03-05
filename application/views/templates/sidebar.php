@@ -1,11 +1,11 @@
 <aside class="main-sidebar">
   <section class="sidebar">
     <ul class="sidebar-menu" data-widget="tree">
-      <li>
+<!--       <li>
         <a href="<?php echo base_url();?>dashboard">
           <i class="fa fa-dashboard"></i>Dashboard
         </a>
-      </li>
+      </li> -->
       <li class="treeview">
         <a href="#">
           <i class="fa fa-files-o"></i>

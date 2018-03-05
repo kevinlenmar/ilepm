@@ -65,58 +65,19 @@ class Equipment extends CI_Controller
 	{
 		if($this->session->userdata('username')){
 
-			$this->form_validation->set_rules('category', 'Category', 'required');
-
-			$data['table'] 	= $this->equipment_model->getEquipmentTable();
+			$data['table'] 		= $this->equipment_model->getEquipmentTable();
 			$data['category']	= $this->equipment_model->getEquipmentCategory();
+			$data['list_year']	= $this->equipment_model->getEquipmentYear();
 
-			if($this->form_validation->run()){
-
-				$param['category'] 		= $this->input->post('category');
-
-				$data['table']	= $this->equipment_model->getEquipmentTableByCategory($param);
-				$this->load->view('templates/header');
-				$this->load->view('templates/sidebar');
-				$this->load->view('pages/equipments/equipments_list', $data);
-			}else{
-				$this->load->view('templates/header');
-				$this->load->view('templates/sidebar');
-				$this->load->view('pages/equipments/equipments_list', $data);
-			}
+			$this->load->view('templates/header');
+			$this->load->view('templates/sidebar');
+			$this->load->view('pages/equipments/equipments_list', $data);
+			
 		}else{
 			redirect(base_url() . 'login');
 		}
 
 	}
-
-	/*public function equipment_year(){
-		$param['category']	=	$this->input->post('category');
-		$param['year']		=	$this->input->post('yearone');
-
-		if($this->equipment_model->getEquipmentTableByCategoryByYear($param)){
-			$data['table']	=	$this->equipment_model->getEquipmentTableByCategoryByYear($param);
-
-			$this->load->view('templates/header');
-			$this->load->view('templates/sidebar');
-			$this->load->view('pages/equipments/equipments_list', $data);
-		}else{
-			echo "There's no data for this year. Do you want to create?";
-		}
-	}*/
-
-	/*public function equipment_create_year(){
-		$param['year']		=	$this->input->post('year');
-
-		$this->equipment_model->createEquipmentTableByYear($param);
-
-		echo 'ni sulod';
-
-		$data['table'] = $this->equipment_model->getEquipmentTableByYear($param);
-
-		$this->load->view('templates/header');
-		$this->load->view('templates/sidebar');
-		$this->load->view('pages/equipments/equipments_list', $data);
-	}*/
 
 	public function create_list_equipment(){
 		$param['year']	=	$this->input->post('year');
@@ -124,6 +85,19 @@ class Equipment extends CI_Controller
 		$this->equipment_model->createEquipmentTableByYear($param);
 
 		$data['table'] = $this->equipment_model->getEquipmentTableByYear($param);
+
+		$this->load->view('templates/header');
+		$this->load->view('templates/sidebar');
+		$this->load->view('pages/equipments/equipments_list', $data);
+	}
+
+	public function equipment_duplicate_table(){
+		$param['year']		=	$this->input->post('year');
+		$param['yearone']	=	$this->input->post('yearone');
+
+		$this->equipment_model->duplicateEquipmentsTableByYear($param);
+
+		$data['table']	=	$this->equipment_model->getEquipmentTableByYear($param);
 
 		$this->load->view('templates/header');
 		$this->load->view('templates/sidebar');

@@ -41,7 +41,8 @@ class Consumable extends CI_Controller
 				$param['description']	=	$this->input->post('description');
 
 				$this->consumable_model->add_consumables_unit($param);
-				redirect(base_url() . 'consumables/new-consumables-unit');
+				
+				redirect(base_url() . 'new-consumables-unit');
 			}else{
 
 				$this->load->view('templates/header');
@@ -57,26 +58,14 @@ class Consumable extends CI_Controller
 
 	public function consumable_list(){	
 		if($this->session->userdata('username')){
-
-			$this->form_validation->set_rules('category', 'Category', 'required');
 			
-			$data['category']	= $this->consumable_model->getConsumablesCategory();
-			$data['table'] 		= $this->consumable_model->getConsumablesTable();
+			$data['category']		= $this->consumable_model->getConsumablesCategory();
+			$data['list_year'] 		= $this->consumable_model->getConsumablesYear();
+			$data['table'] 			= $this->consumable_model->getConsumablesTable();
 
-			if($this->form_validation->run()){
-				$param['category']			= $this->input->post('category');
-
-				$data['table'] = $this->consumable_model->getConsumablesTableByCategory($param);
-
-				$this->load->view('templates/header');
-				$this->load->view('templates/sidebar');
-				$this->load->view('pages/consumables/consumable_list', $data);
-				
-			}else{
-				$this->load->view('templates/header');
-				$this->load->view('templates/sidebar');
-				$this->load->view('pages/consumables/consumable_list', $data);
-			}
+			$this->load->view('templates/header');
+			$this->load->view('templates/sidebar');
+			$this->load->view('pages/consumables/consumable_list', $data);
 		}else{
 			redirect(base_url() . 'login');
 		}
@@ -97,6 +86,7 @@ class Consumable extends CI_Controller
 
 		}else{
 			echo 'false';
+			
 		}
 	}
 
@@ -128,6 +118,19 @@ class Consumable extends CI_Controller
 		$this->consumable_model->createConsumablesTableByYear($param);
 
 		$data['table'] = $this->consumable_model->getConsumablesTableByYear($param);
+
+		$this->load->view('templates/header');
+		$this->load->view('templates/sidebar');
+		$this->load->view('pages/consumables/consumable_list', $data);
+	}
+
+	public function consumable_duplicate_table(){
+		$param['year']		=	$this->input->post('year');
+		$param['yearone']	=	$this->input->post('yearone');
+
+		$this->consumable_model->duplicateConsumablesTableByYear($param);
+
+		$data['table']	=	$this->consumable_model->getConsumablesTableByYear($param);
 
 		$this->load->view('templates/header');
 		$this->load->view('templates/sidebar');
@@ -267,9 +270,9 @@ class Consumable extends CI_Controller
 		$param['filter']	= $this->input->post('filter');
 		$param['year']		= $this->input->post('year');
 
-		$this->ilepm_model->updateFlag($id);
+		$this->consumable_model->updateFlag($id);
 
-		$data['table']	=	$this->consumable_model->getEquipmentTableByCategoryByYear($param);
+		$data['table']	=	$this->consumable_model->getConsumablesTableByCategoryByYear($param);
 
 		$this->load->view('templates/header');
 		$this->load->view('templates/sidebar');
@@ -282,9 +285,9 @@ class Consumable extends CI_Controller
 		$param['filter']	= $this->input->post('filter');
 		$param['year']		= $this->input->post('year');
 
-		$this->ilepm_model->updateUnflag($id);
+		$this->consumable_model->updateUnflag($id);
 
-		$data['table']	=	$this->consumable_model->getEquipmentTableByCategoryByYear($param);
+		$data['table']	=	$this->consumable_model->getConsumablesTableByCategoryByYear($param);
 
 		$this->load->view('templates/header');
 		$this->load->view('templates/sidebar');

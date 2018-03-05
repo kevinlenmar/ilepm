@@ -7,7 +7,7 @@
                     <form action="<?php echo base_url();?>equipments/list-of-equipments" method="post" id="equipmentForm">
                         <div class="col-sm-12">
                             <h5>Category:</h5>
-                            <select class="form-control" id="category" name="category" onchange="getCategory(this);">
+                            <select class="form-control" id="category" name="category">
                                 <option value="all">All</option>
                                 <?php
                                 foreach($category as $item) {
@@ -34,7 +34,8 @@
                         </div>
                         <div class="col-sm-4 pull-left" style="margin-top: 10px">
                             <input type="button" class="btn btn-primary" name="btnShow" id="btnShow" value="Show">
-                            <input type="button" class="btn btn-primary" name="btnCreate" id="btnCreate" value="Copy and Create" style="display: none;">
+                            <input type="button" class="btn btn-primary" name="btnCreate" id="btnCreate" value="Create" style="display: none;">
+                            <input type="button" class="btn btn-primary" name="btnDuplicate" id="btnDuplicate" value="Duplicate" style="display: none;">
                         </div>
                         <div class="col-sm-3" style="margin-top: 10px;">
                             <div class="col-sm-2">
@@ -56,7 +57,7 @@
                             </div>
                         </div>
                         <div class="dataTable_wrapper col-sm-12" style="border:1px solid; padding: 8px">
-                           <table id="equipmentTable" class="table table-striped table-bordered" width="100%" cellspacing="0">
+                         <table id="equipmentTable" class="table table-striped table-bordered" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>CRTL Number</th>
@@ -118,7 +119,6 @@
 <script src="<?php echo base_url(); ?>assets/dist/js/vfs_fonts.js"></script>
 <script src="<?php echo base_url(); ?>assets/dist/js/buttons.html5.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/dist/js/buttons.print.min.js"></script>
-<script src="<?php echo base_url(); ?>assets/dist/js/jquery-confirm.min.js"></script>
 
 <script type="text/javascript">
     var formCreate = $("#equipmentForm");
@@ -170,7 +170,7 @@
 
             messages: {
                 yearone: {
-                    required: "<span style='font-family: calibri'>The Year field is empty</span>"
+                    required: "<span style='font-family: calibri; color: red;'>The Year field is empty</span>"
                 },
             }
         });
@@ -212,18 +212,6 @@
     }).draw();
     }
 
-    function getCategory(sel){
-        var url = "<?php echo base_url();?>equipments/list-of-equipments"; 
-        $.ajax({
-           type: "POST",
-           url: url,
-               data: $("#equipmentForm").serialize(), // serializes the form's elements.
-               success: function(data){
-                getTable(data);
-            }
-        });
-    }
-
     function getYear(sel){
         var url = "<?php echo base_url();?>equipments/create-equipments-button";
         var yearData = parseInt($('#yearone').val());
@@ -235,8 +223,10 @@
             success: function(data){
                 if(data == 'true'){
                     $('#btnCreate').hide();
+                    $('#btnDuplicate').hide();
                 }else{
                     $('#btnCreate').show();
+                    $('#btnDuplicate').show();
                 }
             }
         });
@@ -273,14 +263,20 @@
                 title: 'There is no data for this year. Do you want to create?',
                 content: '',
                 buttons: {
-                    confirm: function () {
-                        createTableForYear();
+                    cconfirm: {
+                        btnClass: 'btn-blue',
+                        action: function(){
+                            createTableForYear();
+                        }
                     },
-                    cancel: function () {
+                    cancel: {
+                       btnClass: 'btn-red',
+                       action: function(){
                         $.alert('Canceled!');
-                    },
-                }
-            });
+                    }
+                },
+            }
+        });
         }
     });
 
@@ -294,10 +290,101 @@
             },
             success: function(data){
                 $.alert('Success!');
-                $('#btnCreate').prop('disabled', true);
+                $('#btnCreate').hide();
+                $('#btnDuplicate').hide();
                 getTable(data);
             }
         });
+    }
+
+    $('#btnDuplicate').click(function(){
+        if(formCreate.valid() === false){
+
+        }else{
+            $.confirm({
+                title: 'There is no data for this year. Do you want to duplicate?',
+                content: '',
+                buttons: {
+                    confirm: {
+                        btnClass: 'btn-blue',
+                        action: function(){
+                            duplicateTableForYear();
+                        }
+                    },
+                    cancel: {
+                       btnClass: 'btn-red',
+                       action: function(){
+                        $.alert('Canceled!');
+                    }
+                },
+            }
+        });
+        }
+    });
+
+    function duplicateTableForYear(){
+        var url = "<?php echo base_url();?>equipments/duplicate-table";
+        $.confirm({
+            title: 'Enter year:',
+            content: '' +
+            '<form action="" class="formName" id="duplicateForm" method="post">' +
+            '<div class="col-sm-4">' +
+            '<select class="form-control" id="year" class="year" onchange="changeYearTwo(this)">' +
+            '<?php
+            foreach ($list_year as $item) {
+                echo '<option value="'.$item->year.'">'.$item->year.'</option>';
+            }?>'+
+            '</select>' +
+            '</div>' +
+            '<div class="pull-left" style="margin-top: 10px;"> to' +
+            '</div>' +
+            '<div class="col-sm-4">' +
+            '<input type="text" class="form-control input-style" name="yeartwoo" id="yeartwoo" readonly="true">' +
+            '</div>' +
+            '</form>',
+            buttons: {
+                formSubmit: {
+                    text: 'Submit',
+                    btnClass: 'btn-blue',
+                    action: function () {
+                        $.ajax({
+                            type: 'POST',
+                            url: url,
+                            data:{
+                                year: $('#year').val(),
+                                yearone: $('#yearone').val(),
+                            },
+                            success: function(data){
+                                $.alert('Success!');
+                                getTable(data);
+                                $('#btnCreate').hide();
+                                $('#btnDuplicate').hide();
+                            }
+                        });
+                    }
+                },
+                cancel: function () {
+                    $.alert('Canceled!');
+                },
+            },
+            onContentReady: function () {
+                var jc = this;
+                var yearData = parseInt($('#year').val());
+
+                $('#yeartwoo').val(yearData + 1);
+                this.$content.find('form').on('submit', function (e) {
+
+                    e.preventDefault();
+                    jc.$$formSubmit.trigger('click');
+                });
+            }
+        });
+    }
+
+    function changeYearTwo(sel){
+        var yearData = parseInt($('#year').val());
+
+        $('#yeartwoo').val(yearData + 1);
     }
 
     function getFilter(sel){
@@ -349,8 +436,12 @@
         if(formCreate.valid() === false){
 
         }else{
-            $('#anotherTable').show();
-            getOtherTable();
+            if($('input:checkbox').is(':checked')){
+                $('#anotherTable').show();
+                getOtherTable();
+            }else{
+                $.alert('No item is selected!');
+            }
         }
     });
 
@@ -358,39 +449,43 @@
         if(formCreate.valid() === false){
 
         }else{
-            $('#anotherTable').show();
-            getOtherTable();
+            if($('input:checkbox').is(':checked')){
+                $('#anotherTable').show();
+                getOtherTable();
+            }else{
+                $.alert('No item is selected!');
+            }
         }
     });
 
     function getOtherTable(){
-       var url = "<?php echo base_url();?>equipments/list-display-of-equipments";
-       document.getElementById("anotherTable").style.border = '1px solid black';
-       document.getElementById("anotherTable").style.marginBottom = '30px';
-       document.getElementById("anotherTable").innerHTML = "<h3>Editting Table</h3> <div style='padding:8px'><table id='equipmentTableByCheck' class='table table-striped table-bordered' width='100%' cellspacing='0'>" +
-       "<thead>" +
-       "<tr>" + 
-       "<th name='ctrl_no'>CTRL Number</th>" +
-       "<th name='product_name'>Product Name</th>" +
-       "<th name='serial_no'>Serial Number</th>" +
-       "<th name='procedures'>Procedure</th>" +
-       "<th name='standard_criteria'>Standard/Criteria</th>" +
-       "<th name='first'>Remarks(1st Semester)</th>" +
-       "<th name='second'>Remarks(2nd Semester)</th>" +
-       "<th name='summer'>Remarks(Summer)</th>" +
-       "</tr>" +
-       "</thead>"+
-       "<tbody>" +
-       "</tbody>"+
-       "</table>"+ 
-       "<button class='btn btn-primary' type='submit' id='btnConfirm' style='margin-left:966px'>Confirm</button>"
-       "</div>";
+     var url = "<?php echo base_url();?>equipments/list-display-of-equipments";
+     document.getElementById("anotherTable").style.border = '1px solid black';
+     document.getElementById("anotherTable").style.marginBottom = '30px';
+     document.getElementById("anotherTable").innerHTML = "<h3>Editting Table</h3> <div style='padding:8px'><table id='equipmentTableByCheck' class='table table-striped table-bordered' width='100%' cellspacing='0'>" +
+     "<thead>" +
+     "<tr>" + 
+     "<th name='ctrl_no'>CTRL Number</th>" +
+     "<th name='product_name'>Product Name</th>" +
+     "<th name='serial_no'>Serial Number</th>" +
+     "<th name='procedures'>Procedure</th>" +
+     "<th name='standard_criteria'>Standard/Criteria</th>" +
+     "<th name='first'>Remarks(1st Semester)</th>" +
+     "<th name='second'>Remarks(2nd Semester)</th>" +
+     "<th name='summer'>Remarks(Summer)</th>" +
+     "</tr>" +
+     "</thead>"+
+     "<tbody>" +
+     "</tbody>"+
+     "</table>"+ 
+     "<button class='btn btn-primary' type='submit' id='btnConfirm' style='margin-left:966px'>Confirm</button>"
+     "</div>";
 
-       var searchIDs = $("#equipmentTable input:checkbox:checked").map(function(){
-          return $(this).val();
-      }).get();
+     var searchIDs = $("#equipmentTable input:checkbox:checked").map(function(){
+      return $(this).val();
+  }).get();
 
-       var table = $('#equipmentTableByCheck').DataTable({
+     var table = $('#equipmentTableByCheck').DataTable({
         "bProcessing": true,
         "bServerSide": true,
         "ajax":{
@@ -404,94 +499,94 @@
         },
     });
 
-       $('#equipmentTableByCheck').on('click', 'td', function() {
-          var $this = $(this);
+     $('#equipmentTableByCheck').on('click', 'td', function() {
+      var $this = $(this);
 
-          var id = table.row( this ).data();
-          var year = table.row(this).data();
-          var ctrl_no;
-          var product_name;
-          var serial_no;
-          var procedures;
-          var standard_criteria;
-          var first;
-          var second;
-          var summer;
-          var idx = table.cell( this ).index().column;
-          var title = table.column(idx).header();
+      var id = table.row( this ).data();
+      var year = table.row(this).data();
+      var ctrl_no;
+      var product_name;
+      var serial_no;
+      var procedures;
+      var standard_criteria;
+      var first;
+      var second;
+      var summer;
+      var idx = table.cell( this ).index().column;
+      var title = table.column(idx).header();
 
-          var colName = title.getAttribute("name");
-          var $input = $('<input>', {
-            value: $this.text(),
-            type: 'text',
-            name: $(title).html(),
-            blur: function() {
-               $this.text(this.value);
-               var val = this.value;
+      var colName = title.getAttribute("name");
+      var $input = $('<input>', {
+        value: $this.text(),
+        type: 'text',
+        name: $(title).html(),
+        blur: function() {
+         $this.text(this.value);
+         var val = this.value;
 
-               if(colName == 'ctrl_no'){
-                ctrl_no = val;  
-            }else if(colName == 'product_name'){
-                product_name = val;
-            }else if(colName == 'serial_no'){
-                serial_no = val;
-            }else if(colName == 'procedures'){
-                procedures = val;
-            }else if(colName == 'standard_criteria'){
-                standard_criteria = val;
-            }else if(colName == 'first'){
-                first = val;
-            }else if(colName == 'second'){
-                second = val;
-            }else if(colName == 'summer'){
-                summer = val;
+         if(colName == 'ctrl_no'){
+            ctrl_no = val;  
+        }else if(colName == 'product_name'){
+            product_name = val;
+        }else if(colName == 'serial_no'){
+            serial_no = val;
+        }else if(colName == 'procedures'){
+            procedures = val;
+        }else if(colName == 'standard_criteria'){
+            standard_criteria = val;
+        }else if(colName == 'first'){
+            first = val;
+        }else if(colName == 'second'){
+            second = val;
+        }else if(colName == 'summer'){
+            summer = val;
+        }
+
+        $.ajax({
+            type: 'POST',
+            url : '<?php echo base_url();?>equipments/edit-equipments',
+            data: {
+                'id': id[8],
+                'ctrl_no': ctrl_no,
+                'product_name': product_name,
+                'serial_no': serial_no,
+                'procedures': procedures,
+                'standard_criteria': standard_criteria,
+                'category': $('#category').val(),
+                'filter': $('#filter').val(),
+                'year': $('#yearone').val(),
+            },
+            success: function(data){
+                getTable(data);
             }
+        });
 
-            $.ajax({
-                type: 'POST',
-                url : '<?php echo base_url();?>equipments/edit-equipments',
-                data: {
-                    'id': id[8],
-                    'ctrl_no': ctrl_no,
-                    'product_name': product_name,
-                    'serial_no': serial_no,
-                    'procedures': procedures,
-                    'standard_criteria': standard_criteria,
-                    'category': $('#category').val(),
-                    'filter': $('#filter').val(),
-                    'year': $('#yearone').val(),
-                },
-                success: function(data){
-                    getTable(data);
-                }
-            });
+        $.ajax({
+            type: 'POST',
+            url : '<?php echo base_url();?>equipments/edited-equipments',
+            data: {
+                'id': id[8],
+                'first': first,
+                'second': second,
+                'summer': summer,
+                'year': year[9],
+                'category': $('#category').val(),
+                'filter': $('#filter').val(),
+                'yearone': $('#yearone').val(),
+            },
+            success: function(data){
+                getTable(data);
+            }
+        });
+    },
+    keyup: function(e) {
+     if (e.which === 13) $input.blur();
+ }
+}).appendTo( $this.empty() ).focus();
+  });
 
-            $.ajax({
-                type: 'POST',
-                url : '<?php echo base_url();?>equipments/edited-equipments',
-                data: {
-                    'id': id[8],
-                    'first': first,
-                    'second': second,
-                    'summer': summer,
-                    'year': year[9],
-                    'category': $('#category').val(),
-                    'filter': $('#filter').val(),
-                    'yearone': $('#yearone').val(),
-                },
-                success: function(data){
-                    getTable(data);
-                }
-            });
-        },
-        keyup: function(e) {
-           if (e.which === 13) $input.blur();
-       }
-   }).appendTo( $this.empty() ).focus();
-      });
-
-       $('#btnConfirm').click(function(){
+     $('#btnConfirm').click(function(){
         $('#anotherTable').hide();
     });
-   }
+ }
 </script>

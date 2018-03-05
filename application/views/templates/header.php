@@ -20,7 +20,7 @@
   <script src="<?php echo base_url();?>assets/dist/js/demo.js"></script>
   <script src="<?php echo base_url();?>assets/dist/js/jquery.validate.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/dist/js/jquery.jeditable.mini.js"></script>
-  <!-- <script src="<?php echo base_url(); ?>assets/dist/js/dataTables.editor.min.js"></script> -->
+  <script src="<?php echo base_url(); ?>assets/dist/js/jquery-confirm.min.js"></script>
 </head>  
 
 <body class="hold-transition skin-blue fixed sidebar-mini">

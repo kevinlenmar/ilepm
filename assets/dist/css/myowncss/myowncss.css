@@ -29,3 +29,9 @@ h5
 {
 	background-color: maroon;
 }
+
+.bg-lightBlue td {
+  background-color: #b3e6ff !important;
+  border-top: 1px solid #640024 !important;
+  border-bottom: 1px solid #640024 !important;
+}

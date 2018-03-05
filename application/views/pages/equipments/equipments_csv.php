@@ -1,5 +1,5 @@
 <div class="content">
-  <div class="content-wrapper content-wrapper-2">
+  <div class="content-wrapper content-wrapper-2" style="border: 1px solid">
   <h1><center>Import Equipments</center></h1>
     <form action="<?php echo base_url();?>equipments/add-equipments-csv" method="POST" enctype="multipart/form-data">
       <div class="col-sm-12">

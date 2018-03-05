@@ -35,8 +35,8 @@ class Consumable_Model extends CI_Model
 	public function createConsumablesTableByYear($param){
 
 		$query = $this->db->select('id');
-
-		$query = $this->db->get('consumable');
+		$query = $this->db->from('consumable');
+		$query = $this->db->get();
 
 		foreach ($query->result() as $item) {
 			$quantityperconsumableunit = array(
@@ -46,6 +46,27 @@ class Consumable_Model extends CI_Model
 				'summer'			=>	0,
 				'year'				=>	$param['year'],
 				);
+
+			$this->db->insert('quantityperconsumableunit', $quantityperconsumableunit);
+		}
+
+		return $this->db->trans_complete();
+	}
+
+	public function duplicateConsumablesTableByYear($param){
+		$query = $this->db->select('qs.idConsumableUnit, qs.first, qs.second, qs.summer');
+		$query = $this->db->from('quantityperconsumableunit qs');
+		$query = $this->db->where('qs.year', $param['year']);
+		$query = $this->db->get();
+
+		foreach ($query->result() as $item) {
+			$quantityperconsumableunit = array(
+				'idConsumableUnit'	=>	$item->idConsumableUnit,
+				'first'				=>	$item->first,
+				'second'			=>	$item->second,
+				'summer'			=>	$item->summer,
+				'year'				=>	$param['yearone'],
+			);
 
 			$this->db->insert('quantityperconsumableunit', $quantityperconsumableunit);
 		}
@@ -227,6 +248,16 @@ class Consumable_Model extends CI_Model
 				$this->db->group_by('cs.part_number');
 			}
 		}
+
+		$query = $this->db->get();
+
+		return $query->result();
+	}
+
+	public function getConsumablesYear(){
+		$this->db->select('year');
+		$this->db->from('quantityperconsumableunit');
+		$this->db->group_by('year');
 
 		$query = $this->db->get();
 

@@ -36,6 +36,7 @@
                         <div class="col-sm-4 pull-left" style="margin-top: 10px">
                             <input type="button" class="btn btn-primary" name="btnShow" id="btnShow" value="Show">
                             <input type="button" class="btn btn-primary" name="btnCreate" id="btnCreate" value="Create" style="display: none;">
+                            <input type="button" class="btn btn-primary" name="btnDuplicate" id="btnDuplicate" value="Duplicate" style="display: none;">
                         </div>
                         <div class="col-sm-3" style="margin-top: 10px;">
                             <div class="col-sm-2">
@@ -114,28 +115,35 @@
             "<'row'<'col-sm-12'tr>>" +
             "<'row'<'col-sm-5'i><'col-sm-7'p>>",
             'buttons': [
-            {
-                'extend': 'excel',
-                'text': '<i class="fa fa-file-excel-o fg-green"></i>&nbsp;Excel',
-                'exportOptions': {
-                    'columns': ':visible'
-                }
-            },
+                {
+                    'extend': 'excel',
+                    'text': '<i class="fa fa-file-excel-o fg-green"></i>&nbsp;Excel',
+                    'exportOptions': {
+                        'columns': ':visible'
+                    }
+                },
             ],
             'order': [[0, 'asc']],
             "aoColumns": [
-            { "sType": "num" },
-            { "render": function(data, type, row){
-                return data.split('\n').join("<br/>");
-            }
-        },
-        null,
-        null,
-        null,
-        null,
-        null,
-        ],
-    });
+                { "sType": "num" },
+                { "render": function(data, type, row){
+                    return data.split('\n').join("<br/>");
+                    }
+                },
+                null,
+                null,
+                null,
+                null,
+                null,
+            ],
+            'fnRowCallback': function(nRow, aData, iDisplayIndex, iDisplayIndexFull){
+                var flag = aData['flag'];
+                
+                if(flag === '1'){
+                    $(nRow).addClass('bg-lightBlue');
+                }
+            },
+        });
 
         jQuery.validator.setDefaults({
             debug: true,
@@ -152,7 +160,7 @@
 
             messages: {
                 yearone: {
-                    required: "<span style='font-family: calibri'>The Year field is empty</span>"
+                    required: "<span style='font-family: calibri; color: red;'>The Year field is empty</span>"
                 },
             }
         });
@@ -185,24 +193,24 @@
             null,
             null,
             ],
+            'fnRowCallback': function(nRow, aData, iDisplayIndex, iDisplayIndexFull){
+                var flag = aData['cs.flag'];
+                
+                if(flag === '1'){
+                    $(nRow).addClass('bg-lightBlue');
+                }
+            },
         }).draw();
-    }
-
-    function getCategory(sel){
-        var url = "<?php echo base_url();?>consumables/list-of-consumables"; 
-        $.ajax({
-           type: "POST",
-           url: url,
-         data: $('#consumableForm').serialize(), // serializes the form's elements.
-         success: function(data){
-            getTable(data);
-        }
-    });
     }
 
     function getYear(sel){
         var yearData = parseInt($('#yearone').val());
+        var newValue = (isNaN(yearData) ? 0 : yearData);
+        
+        var yearData = parseInt($('#yearone').val()) || 0;
+
         $('#yeartwo').val(yearData + 1);
+        
 
         $.ajax({
             type: "POST",
@@ -211,8 +219,10 @@
             success: function(data){
                 if(data == 'true'){
                     $('#btnCreate').hide();
+                    $('#btnDuplicate').hide();
                 }else{
                     $('#btnCreate').show();
+                    $('#btnDuplicate').show();
                 }
             }
         });
@@ -256,13 +266,13 @@
                         }
                     },
                     cancel: {
-                       btnClass: 'btn-red',
-                        action: function(){
-                            $.alert('Canceled!');
-                        }
-                    },
-                }
-            });
+                     btnClass: 'btn-red',
+                     action: function(){
+                        $.alert('Canceled!');
+                    }
+                },
+            }
+        });
         }
     });
 
@@ -278,9 +288,100 @@
             success: function(data){
                 $.alert('Success!');
                 $('#btnCreate').hide();
+                $('#btnDuplicate').hide();
                 getTable(data);
             }
         });
+    }
+
+    $('#btnDuplicate').click(function(){
+        if(formCreate.valid() === false){
+
+        }else{
+            $.confirm({
+                title: 'There is no data for this year. Do you want to duplicate?',
+                content: '',
+                buttons: {
+                    confirm: {
+                        btnClass: 'btn-blue',
+                        action: function(){
+                            duplicateTableForYear();
+                        }
+                    },
+                    cancel: {
+                     btnClass: 'btn-red',
+                     action: function(){
+                        $.alert('Canceled!');
+                    }
+                },
+            }
+        });
+        }
+    });
+
+    function duplicateTableForYear(){
+        var url = "<?php echo base_url();?>consumables/duplicate-table";
+        $.confirm({
+            title: 'Enter year:',
+            content: '' +
+            '<form action="" class="formName" id="duplicateForm" method="post">' +
+            '<div class="col-sm-4">' +
+            '<select class="form-control" id="year" class="year" onchange="changeYearTwo(this)">' +
+            '<?php
+            foreach ($list_year as $item) {
+                echo '<option value="'.$item->year.'">'.$item->year.'</option>';
+            }?>'+
+            '</select>' +
+            '</div>' +
+            '<div class="pull-left" style="margin-top: 10px;"> to' +
+            '</div>' +
+            '<div class="col-sm-4">' +
+            '<input type="text" class="form-control input-style" name="yeartwoo" id="yeartwoo" readonly="true">' +
+            '</div>' +
+            '</form>',
+            buttons: {
+                formSubmit: {
+                    text: 'Submit',
+                    btnClass: 'btn-blue',
+                    action: function () {
+                        $.ajax({
+                            type: 'POST',
+                            url: url,
+                            data:{
+                                year: $('#year').val(),
+                                yearone: $('#yearone').val(),
+                            },
+                            success: function(data){
+                                $.alert('Success!');
+                                getTable(data);
+                                $('#btnCreate').hide();
+                                $('#btnDuplicate').hide();
+                            }
+                        });
+                    }
+                },
+                cancel: function () {
+                    $.alert('Canceled!');
+                },
+            },
+            onContentReady: function () {
+                var jc = this;
+                var yearData = parseInt($('#year').val());
+
+                $('#yeartwoo').val(yearData + 1);
+                this.$content.find('form').on('submit', function (e) {
+
+                    e.preventDefault();
+                    jc.$$formSubmit.trigger('click');
+                });
+            }
+        });
+    }
+
+    function changeYearTwo(sel){
+        var yearData = parseInt($('#year').val());
+
+        $('#yeartwoo').val(yearData + 1);
     }
 
     $('#btnEdit1').click(function(){
@@ -288,8 +389,13 @@
         if(formCreate.valid() === false){
 
         }else{
-            $('#anotherTable').show();
-            getOtherTable();
+            if($('input:checkbox').is(':checked')){
+                $('#anotherTable').show();
+                getOtherTable();
+            }else{
+                $.alert('No item is selected!');
+            }
+            
         }
     });
 
@@ -297,8 +403,12 @@
         if(formCreate.valid() === false){
 
         }else{
-            $('#anotherTable').show();
-            getOtherTable();
+            if($('input:checkbox').is(':checked')){
+                $('#anotherTable').show();
+                getOtherTable();
+            }else{
+                $.alert('No item is selected!');
+            }
         }
     });
 
@@ -359,10 +469,10 @@
             type: 'text',
             name: $(title).html(),
             blur: function() {
-               $this.text(this.value);
-               var val = this.value;
+             $this.text(this.value);
+             var val = this.value;
 
-               if(colName == "partNo"){
+             if(colName == "partNo"){
                 partNumber = val;
             } else if(colName == "description"){
                 description = val;
@@ -408,9 +518,9 @@
             });
         },
         keyup: function(e) {
-           if (e.which === 13) $input.blur();
-       }
-   }).appendTo( $this.empty() ).focus();
+         if (e.which === 13) $input.blur();
+     }
+ }).appendTo( $this.empty() ).focus();
       });
 
         $('#btnConfirm').click(function(){
@@ -433,7 +543,7 @@
     function consumable_hide(id){
         $.ajax({
             type: 'POST',
-            url: "<?php echo base_url();?>equipment/flag",
+            url: "<?php echo base_url();?>consumables/flag",
             data: {
                 'id': id,
                 'category': $('#category').val(),
@@ -449,7 +559,7 @@
     function consumable_unhide(id){
         $.ajax({
             type: 'POST',
-            url: "<?php echo base_url();?>equipment/unflag",
+            url: "<?php echo base_url();?>consumables/unflag",
             data: {
                 'id': id,
                 'category': $('#category').val(),
@@ -471,7 +581,6 @@
 <script src="<?php echo base_url(); ?>assets/dist/js/vfs_fonts.js"></script>
 <script src="<?php echo base_url(); ?>assets/dist/js/buttons.html5.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/dist/js/buttons.print.min.js"></script>
-<script src="<?php echo base_url(); ?>assets/dist/js/jquery-confirm.min.js"></script>
 </body>
 </html>
 

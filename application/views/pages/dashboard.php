@@ -24,7 +24,7 @@
     timeout: 30000,
     success : function (data) {
         if(data) {
-            Morris.Area({
+            Morris.Bar({
                 element: 'consumables',
                 data: data,
                 xkey: 'year',
@@ -46,7 +46,7 @@
     timeout: 30000,
     success : function (data) {
         if(data) {
-            Morris.Area({
+            Morris.Line({
                 element: 'equipments',
                 data: data,
                 xkey: 'year',

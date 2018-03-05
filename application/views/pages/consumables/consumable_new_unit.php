@@ -25,7 +25,7 @@
               <span class="text-danger"><?php echo form_error('description'); ?></span>
           </div>
           <div class="button-style">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary" id="btnSubmit">Submit</button>
           </div>
         </form>
   </div>
