@@ -20,11 +20,7 @@
         	<?php 
         		foreach($sample as $item){
         			echo '<tr>
-    						<td>
-                                <a href="../profile?username='.$item->username.'">
-                                '.$item->username.'
-                                </a>
-                            </td>
+    						<td>'.$item->username.'</td>
     						<td>'.$item->firstname.'</td>
     						<td>'.$item->lastname.'</td>
     						<td>'.$item->department.'</td>

@@ -90,8 +90,8 @@ class Equipment_Model extends CI_Model
 
 		$this->db->select('eq.id, eq.ctrl_no, eq.product_name, eq.serial_no, eq.procedures, eq.standard_criteria, eq.flag, rs.firstremark, rs.secondremark, rs.summerremark');
 		$this->db->from('equipment eq');
-		$this->db->join('remarkperequipmentunit rs', 'rs.idEquipmentUnit = eq.id ', 'left');
-		$this->db->where('flag', 0);
+		$this->db->join('remarkperequipmentunit rs', 'rs.idEquipmentUnit = eq.id ', 'inner');
+		$this->db->where('year', NULL);
 
 		$query = $this->db->get();
 
@@ -236,7 +236,7 @@ class Equipment_Model extends CI_Model
 	}
 
 	public function getEquipmentTableById($param){
-		$this->db->select('eq.id, eq.ctrl_no, eq.product_name, eq.serial_no, eq.procedures, eq.standard_criteria, eq.flag, rs.firstremark, rs.secondremark, rs.summerremark, rs.year');
+		$this->db->select('eq.id, eq.ctrl_no, eq.product_name, eq.serial_no, eq.flag, rs.firstremark, rs.secondremark, rs.summerremark, rs.year');
 		$this->db->from('equipment eq');
 		$this->db->join('remarkperequipmentunit rs', 'rs.idEquipmentUnit = eq.id ', 'left');
 		$this->db->where_in('eq.id', $param['id']);
@@ -245,6 +245,17 @@ class Equipment_Model extends CI_Model
 		$query = $this->db->get();
 
 		return $query;
+	}
+
+	public function getEquipmentListByModal($id){
+		$this->db->select('eq.id, eq.ctrl_no, eq.product_name, eq.serial_no, eq.procedures, eq.standard_criteria, eq.flag, rs.idEquipmentUnit, rs.firstremark, rs.secondremark, rs.summerremark, rs.year');
+		$this->db->from('equipment eq');
+		$this->db->join('remarkperequipmentunit rs', 'rs.idEquipmentUnit = eq.id', 'left');
+		$this->db->where('rs.id', $id);
+
+		$query = $this->db->get();
+
+		return $query->result();
 	}
 
 	public function updateFlag($id){
@@ -280,21 +291,11 @@ class Equipment_Model extends CI_Model
 			$temp = 'serial_no';
 			$value = $param['serial_no'];
 
-		}if(isset($param['procedures'])){
-
-			$temp = 'procedures';
-			$value = $param['procedures'];
-
-		}if(isset($param['standard_criteria'])){
-
-			$temp = 'standard_criteria';
-			$value = $param['standard_criteria'];
-
 		}
 
 		$equipmentTable = array(
 			$temp => $value,
-			);
+		);
 
 		$this->db->where('id', $param['id']);
 		$this->db->update('equipment', $equipmentTable);
@@ -325,5 +326,16 @@ class Equipment_Model extends CI_Model
 		$this->db->where('idEquipmentUnit', $param['id']);
 		$this->db->where('year', $param['yearone']);	
 		$this->db->update('remarkperequipmentunit', $remarkperequipmentunit);
+	}
+
+	public function updateEquipmentModal($param){
+
+		$equipment = array(
+			'procedures'		=>	$param['procedures'],
+			'standard_criteria'	=>	$param['standard_criteria'],
+		);
+
+		$this->db->where('id', $param['id']);
+		$this->db->update('equipment', $equipment);
 	}
 }

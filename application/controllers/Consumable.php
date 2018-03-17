@@ -42,7 +42,7 @@ class Consumable extends CI_Controller
 
 				$this->consumable_model->add_consumables_unit($param);
 				
-				redirect(base_url() . 'new-consumables-unit');
+				redirect(base_url() . 'consumables/new-consumables-unit');
 			}else{
 
 				$this->load->view('templates/header');
@@ -153,6 +153,7 @@ class Consumable extends CI_Controller
 	public function addConsumablesCSV(){
 
 		$this->form_validation->set_rules('category', 'Category', 'required');
+		$this->form_validation->set_rules('yearone', 'Year', 'required');
 
 		$data['category']		=	$this->consumable_model->getConsumablesCategory();
 
@@ -160,7 +161,8 @@ class Consumable extends CI_Controller
 			$data = array();
 			$filename=$_FILES["csvfile"]["tmp_name"];
 
-			$category = $this->input->post('category');			
+			$category 	= $this->input->post('category');
+			$year 		= $this->input->post('yearone');
 
 			if($_FILES["csvfile"]["size"] > 0){
 				$file = fopen($filename, "r");

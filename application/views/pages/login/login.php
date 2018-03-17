@@ -33,6 +33,8 @@
           <div class="row">
             <div class="col-xs-4">
               <button type="submit" class="btn btn-primary btn-block btn-flat" style="width: 320px ;background-color: maroon">Sign In</button>
+            </div>
+            <div class="col-sm-12">
               <?php
                   echo '<small class="text-danger">'.$this->session->flashdata("error");
               ?>

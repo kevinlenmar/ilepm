@@ -82,6 +82,12 @@ $route['equipments/list-display-of-equipments'] = 'equipment/getEquipmentTableLi
 $route['equipments/edit-equipments'] = 'equipment/editEquipmentTable';
 
 $route['equipments/edited-equipments'] = 'equipment/editEquipmentTableQuantity';
+
+$route['equipments/modal-list']	=	'equipment/get_equipment_modal';
+
+$route['equipments/update-modal']	=	'equipment/update_equipment_modal';
+
+$route['equipments/history']	=	'equipment/history';
 /* 				Users					 */
 
 $route['users/new'] = 'user/users_new';

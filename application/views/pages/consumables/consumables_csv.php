@@ -2,7 +2,7 @@
 	<div class="content-wrapper content-wrapper-2" style="border: 1px solid">
 		<h1><center>Import Consumables</center></h1>
 		<form action="<?php echo base_url();?>consumables/add-consumables-csv" method="POST" enctype="multipart/form-data">
-			<div class="col-sm-12">
+			<div class="col-sm-5">
 				<h5>Unit Name:</h5>
 				<select class="form-control" id="category" name="category" style="width: 300px; margin-bottom: 20px;">
 					<option value="">Not yet selected</option>

@@ -14,7 +14,7 @@ class Equipment extends CI_Controller
 				$param['category']	= $this->input->post('category');
 
 				$this->equipment_model->add_equipments_category($param);
-				redirect(base_url() . 'equipments/new-equipment-category');
+				redirect(base_url() . 'equipments/new-equipments-category');
 
 			}else{
 				$this->load->view('templates/header');
@@ -191,8 +191,6 @@ class Equipment extends CI_Controller
 				$items->ctrl_no,
 				$items->product_name,
 				$items->serial_no,
-				$items->procedures,
-				$items->standard_criteria,
 				$items->firstremark,
 				$items->secondremark,
 				$items->summerremark,
@@ -210,6 +208,14 @@ class Equipment extends CI_Controller
 
 		echo json_encode($output);
 		exit();
+	}
+
+	public function get_equipment_modal(){
+		$id = $this->input->post('id');
+
+		$data = $this->equipment_model->getEquipmentListByModal($id);
+
+		echo json_encode($data);
 	}
 
 	public function filter(){
@@ -260,8 +266,6 @@ class Equipment extends CI_Controller
 		$param['ctrl_no']			=	$this->input->post('ctrl_no');
 		$param['product_name']		=	$this->input->post('product_name');
 		$param['serial_no']			=	$this->input->post('serial_no');
-		$param['procedures']		=	$this->input->post('procedures');
-		$param['standard_criteria']	=	$this->input->post('standard_criteria');
 		$param['category']			=	$this->input->post('category');
 		$param['filter']			=	$this->input->post('filter');
 		$param['year']				=	$this->input->post('year');
@@ -292,5 +296,19 @@ class Equipment extends CI_Controller
 		$this->load->view('templates/header');
 		$this->load->view('templates/sidebar');
 		$this->load->view('pages/equipments/equipments_list', $data);
+	}
+
+	public function update_equipment_modal(){
+		$param['id']				=	$this->input->post('id');
+		$param['procedures'] 		= 	$this->input->post('procedures');
+		$param['standard_criteria']	=	$this->input->post('standard_criteria');
+
+		$this->equipment_model->updateEquipmentModal($param);
+	}
+
+	public function history(){
+
+		$this->load->view('templates/header');
+		$this->load->view('pages/equipments/history');	
 	}
 }

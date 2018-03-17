@@ -88,9 +88,8 @@ class Consumable_Model extends CI_Model
 
 		$this->db->select('cs.id, cs.part_number, cs.description, qs.first, qs.second, qs.summer, cs.flag');
 		$this->db->from('consumable cs');
-		$this->db->join('quantityperconsumableunit qs', 'qs.idConsumableUnit = cs.id ', 'left');
-		$this->db->where('flag', 0);
-		$this->db->group_by('cs.part_number');
+		$this->db->join('quantityperconsumableunit qs', 'qs.idConsumableUnit = cs.id ', 'inner');
+		$this->db->where('year', NULL);
 
 		$query = $this->db->get();
 

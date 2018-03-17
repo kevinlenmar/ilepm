@@ -59,6 +59,7 @@
                         </div>
                         <div class="dataTable_wrapper col-sm-12" style="border:1px solid; padding: 8px">
                             <table id="consumableTable" class="table table-striped table-bordered" width="100%" cellspacing="0">
+                                <label id="labelYear" style="font-size: 25px"></label>
                                 <thead>
                                     <tr>
                                         <th>Part Number</th>
@@ -66,521 +67,523 @@
                                         <th>1st Semester</th>
                                         <th>2nd Semester</th>
                                         <th>Summer</th>
-                                        <th class="text-center" data-priority="2"><i class="fa fa-wrench fa-fw"></i></th>
-                                        <th class="text-center" data-priority="3"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php 
-                                    foreach($table as $item){
-                                        echo '<tr>
-                                        <td>'.$item->part_number.'</td>
-                                        <td>'.$item->description.'</td>
-                                        <td>'.$item->first.'</td>
-                                        <td>'.$item->second.'</td>
-                                        <td>'.$item->summer.'</td>
-                                        <td>
-                                            <div class="text-center">
-                                                <input type="checkbox" name="check_list[]" value="'.$item->id.'">
-                                            </div>
-                                        </td>';
-                                        if($item->flag != 1){
-                                            echo '<td><button type="button" class="btn btn-primary" onclick="consumable_hide('."'".$item->id."'".');">Hide</button></td>';
-                                        }else{
-                                            echo '<td><button type="button" class="btn btn-primary" onclick="consumable_unhide('."'".$item->id."'".');">Unhide</button></td>';
+                                        <th data-priority="2" style="width: 78px;">
+                                            <input type="checkbox" name="check_all" class="pull-left">Select All</label></th>
+                                            <th class="text-center" data-priority="3"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php 
+                                        foreach($table as $item){
+                                            echo '<tr>
+                                            <td>'.$item->part_number.'</td>
+                                            <td>'.$item->description.'</td>
+                                            <td>'.$item->first.'</td>
+                                            <td>'.$item->second.'</td>
+                                            <td>'.$item->summer.'</td>
+                                            <td>
+                                                <div class="text-center">
+                                                    <input type="checkbox" name="check_list[]" value="'.$item->id.'">
+                                                </div>
+                                            </td>';
+                                            if($item->flag != 1){
+                                                echo '<td><button type="button" class="btn btn-primary" onclick="consumable_hide('."'".$item->id."'".');">Hide</button></td>';
+                                            }else{
+                                                echo '<td><button type="button" class="btn btn-primary" onclick="consumable_unhide('."'".$item->id."'".');">Unhide</button></td>';
+                                            }
+                                            echo '</tr>';
                                         }
-                                        echo '</tr>';
-                                    }
-                                    ?> 
-                                </tbody>
-                            </table>
-                            <div class="col-sm-1" style="margin:10px 0px 0px 1000px">
-                                <input type="button" class="btn btn-primary" name="btnEdit2" id="btnEdit2" value="Edit">
+                                        ?> 
+                                    </tbody>
+                                </table>
+                                <div class="col-sm-1" style="margin:10px 0px 0px 1000px">
+                                    <input type="button" class="btn btn-primary" name="btnEdit2" id="btnEdit2" value="Edit">
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 
-<script type="text/javascript">
-    var editor;
-    var formCreate = $("#consumableForm");
-    $(document).ready(function() {
-        $('#consumableTable').DataTable({
-            'dom': "<'row'<'col-sm-4'l><'col-sm-5 text-center visible-lg'B><'col-sm-3'f>>" +
-            "<'row'<'col-sm-12'tr>>" +
-            "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-            'buttons': [
+    <script type="text/javascript">
+        var editor;
+        var formCreate = $("#consumableForm");
+        $(document).ready(function() {
+            $('#consumableTable').DataTable({
+                'dom': "<'row'<'col-sm-4'l><'col-sm-5 text-center visible-lg'B><'col-sm-3'f>>",
+                'buttons': [
                 {
-                    'extend': 'excel',
+                    'extend': 'excelHtml5',
                     'text': '<i class="fa fa-file-excel-o fg-green"></i>&nbsp;Excel',
+                    'title': 'Consumables ' + $('#yearone').val() + " - " + $('#yeartwo').val(),
                     'exportOptions': {
-                        'columns': ':visible'
+                        columns: [ 0, 1, 2, 3, 4 ]
                     }
                 },
-            ],
-            'order': [[0, 'asc']],
-            "aoColumns": [
+                ],
+                'order': [[0, 'asc']],
+                "aoColumns": [
                 { "sType": "num" },
                 { "render": function(data, type, row){
                     return data.split('\n').join("<br/>");
-                    }
-                },
-                null,
-                null,
-                null,
-                null,
-                null,
+                }
+            },
+            null,
+            null,
+            null,
+            null,
+            null,
             ],
             'fnRowCallback': function(nRow, aData, iDisplayIndex, iDisplayIndexFull){
                 var flag = aData['flag'];
-                
+
                 if(flag === '1'){
                     $(nRow).addClass('bg-lightBlue');
                 }
             },
         });
 
-        jQuery.validator.setDefaults({
-            debug: true,
-            success: "valid"
-        });
+            jQuery.validator.setDefaults({
+                debug: true,
+                success: "valid"
+            });
 
-        formCreate.validate({
-            ignore: ".input-sm",
-            rules: {
-                yearone: {
-                    required: true
+            formCreate.validate({
+                ignore: ".input-sm",
+                rules: {
+                    yearone: {
+                        required: true
+                    },
                 },
-            },
 
-            messages: {
-                yearone: {
-                    required: "<span style='font-family: calibri; color: red;'>The Year field is empty</span>"
+                messages: {
+                    yearone: {
+                        required: "<span style='font-family: calibri; color: red;'>The Year field is empty</span>"
+                    },
+                }
+            });
+        });
+
+        function getTable(data){
+            var newData = $(data).find('#consumableTable').html();
+            $('#consumableTable').DataTable().destroy();
+            $('#consumableTable').html(newData);
+            $('#consumableTable').DataTable({
+                'dom': "<'row'<'col-sm-1'l><'col-sm-8 text-center visible-lg'B><'col-sm-3'f>>",
+                'buttons': [
+                {
+                    'extend': 'excelHtml5',
+                    'text': '<i class="fa fa-file-excel-o fg-green"></i>&nbsp;Excel',
+                    'title': 'Consumables ' + $('#yearone').val() + " - " + $('#yeartwo').val(),
+                    'exportOptions': {
+                        columns: [ 0, 1, 2, 3, 4 ]
+                    }
                 },
-            }
-        });
-    });
+                ],
+                'order': [[0, 'asc']],
+                "aoColumns": [
+                { "sType": "num" },
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                ],
+            }).draw();
+            
+            $(':checkbox[name=check_all]').click(function(){
+                $(':checkbox[name="check_list[]"]').prop('checked', this.checked);
+            });
+        }
 
-    function getTable(data){
-        var newData = $(data).find('#consumableTable').html();
-        $('#consumableTable').DataTable().destroy();
-        $('#consumableTable').html(newData);
-        $('#consumableTable').DataTable({
-            'dom': "<'row'<'col-sm-4'l><'col-sm-5 text-center visible-lg'B><'col-sm-3'f>>" +
-            "<'row'<'col-sm-12'tr>>" +
-            "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-            'buttons': [
-            {
-                'extend': 'excel',
-                'text': '<i class="fa fa-file-excel-o fg-green"></i>&nbsp;Excel',
-                'exportOptions': {
-                    'columns': ':visible'
-                }
-            },
-            ],
-            'order': [[0, 'asc']],
-            "aoColumns": [
-            { "sType": "num" },
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            ],
-            'fnRowCallback': function(nRow, aData, iDisplayIndex, iDisplayIndexFull){
-                var flag = aData['cs.flag'];
-                
-                if(flag === '1'){
-                    $(nRow).addClass('bg-lightBlue');
-                }
-            },
-        }).draw();
-    }
+        function getYear(sel){
+            var yearData = parseInt($('#yearone').val());
+            var newValue = (isNaN(yearData) ? 0 : yearData);
 
-    function getYear(sel){
-        var yearData = parseInt($('#yearone').val());
-        var newValue = (isNaN(yearData) ? 0 : yearData);
-        
-        var yearData = parseInt($('#yearone').val()) || 0;
+            var yearData = parseInt($('#yearone').val()) || 0;
 
-        $('#yeartwo').val(yearData + 1);
-        
+            $('#yeartwo').val(yearData + 1);
 
-        $.ajax({
-            type: "POST",
-            url: '<?php echo base_url();?>consumables/create-consumables-button',
-            data: $('#consumableForm').serialize(),
-            success: function(data){
-                if(data == 'true'){
-                    $('#btnCreate').hide();
-                    $('#btnDuplicate').hide();
-                }else{
-                    $('#btnCreate').show();
-                    $('#btnDuplicate').show();
-                }
-            }
-        });
-    }
-
-    $('#btnShow').click(function(){
-        var url = "<?php echo base_url();?>consumables/show-consumables";
-
-        if(formCreate.valid() === false){
-
-        }else{
             $.ajax({
                 type: "POST",
-                url: url,
+                url: '<?php echo base_url();?>consumables/create-consumables-button',
                 data: $('#consumableForm').serialize(),
                 success: function(data){
-                    if(data == 'false'){
-                        $.alert('No data for this year');
+                    if(data == 'true'){
+                        $('#btnCreate').hide();
+                        $('#btnDuplicate').hide();
                     }else{
-                        getTable(data);
+                        $('#btnCreate').show();
+                        $('#btnDuplicate').show();
                     }
                 }
             });
         }
-        
-    });
 
-    $('#btnCreate').click(function(){
+        $('#btnShow').click(function(){
+            var url = "<?php echo base_url();?>consumables/show-consumables";
 
-        if(formCreate.valid() === false){
+            if(formCreate.valid() === false){
 
-        }else{
-            $.confirm({
-                title: 'There is no data for this year. Do you want to create?',
-                content: '',
-                buttons: {
-                    confirm: {
-                        btnClass: 'btn-blue',
-                        action: function(){
-                            createTableForYear();
+            }else{
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: $('#consumableForm').serialize(),
+                    success: function(data){
+                        if(data == 'false'){
+                            $.alert('No data for this year');
+                        }else{
+                            getTable(data);
+                            document.getElementById("labelYear").innerHTML = "SY: " + $('#yearone').val() + " - " + $('#yeartwo').val();
                         }
-                    },
-                    cancel: {
-                     btnClass: 'btn-red',
-                     action: function(){
-                        $.alert('Canceled!');
                     }
-                },
-            }
-        });
-        }
-    });
-
-    function createTableForYear(){
-        var url = "<?php echo base_url();?>consumables/list-of-consumables-year-create";
-        var year = $('#yearone').val();
-        $.ajax({
-            type: 'POST',
-            url: url,
-            data: {
-                'year': year,
-            },
-            success: function(data){
-                $.alert('Success!');
-                $('#btnCreate').hide();
-                $('#btnDuplicate').hide();
-                getTable(data);
-            }
-        });
-    }
-
-    $('#btnDuplicate').click(function(){
-        if(formCreate.valid() === false){
-
-        }else{
-            $.confirm({
-                title: 'There is no data for this year. Do you want to duplicate?',
-                content: '',
-                buttons: {
-                    confirm: {
-                        btnClass: 'btn-blue',
-                        action: function(){
-                            duplicateTableForYear();
-                        }
-                    },
-                    cancel: {
-                     btnClass: 'btn-red',
-                     action: function(){
-                        $.alert('Canceled!');
-                    }
-                },
-            }
-        });
-        }
-    });
-
-    function duplicateTableForYear(){
-        var url = "<?php echo base_url();?>consumables/duplicate-table";
-        $.confirm({
-            title: 'Enter year:',
-            content: '' +
-            '<form action="" class="formName" id="duplicateForm" method="post">' +
-            '<div class="col-sm-4">' +
-            '<select class="form-control" id="year" class="year" onchange="changeYearTwo(this)">' +
-            '<?php
-            foreach ($list_year as $item) {
-                echo '<option value="'.$item->year.'">'.$item->year.'</option>';
-            }?>'+
-            '</select>' +
-            '</div>' +
-            '<div class="pull-left" style="margin-top: 10px;"> to' +
-            '</div>' +
-            '<div class="col-sm-4">' +
-            '<input type="text" class="form-control input-style" name="yeartwoo" id="yeartwoo" readonly="true">' +
-            '</div>' +
-            '</form>',
-            buttons: {
-                formSubmit: {
-                    text: 'Submit',
-                    btnClass: 'btn-blue',
-                    action: function () {
-                        $.ajax({
-                            type: 'POST',
-                            url: url,
-                            data:{
-                                year: $('#year').val(),
-                                yearone: $('#yearone').val(),
-                            },
-                            success: function(data){
-                                $.alert('Success!');
-                                getTable(data);
-                                $('#btnCreate').hide();
-                                $('#btnDuplicate').hide();
-                            }
-                        });
-                    }
-                },
-                cancel: function () {
-                    $.alert('Canceled!');
-                },
-            },
-            onContentReady: function () {
-                var jc = this;
-                var yearData = parseInt($('#year').val());
-
-                $('#yeartwoo').val(yearData + 1);
-                this.$content.find('form').on('submit', function (e) {
-
-                    e.preventDefault();
-                    jc.$$formSubmit.trigger('click');
                 });
             }
-        });
-    }
 
-    function changeYearTwo(sel){
-        var yearData = parseInt($('#year').val());
-
-        $('#yeartwoo').val(yearData + 1);
-    }
-
-    $('#btnEdit1').click(function(){
-
-        if(formCreate.valid() === false){
-
-        }else{
-            if($('input:checkbox').is(':checked')){
-                $('#anotherTable').show();
-                getOtherTable();
-            }else{
-                $.alert('No item is selected!');
-            }
-            
-        }
-    });
-
-    $('#btnEdit2').click(function(){
-        if(formCreate.valid() === false){
-
-        }else{
-            if($('input:checkbox').is(':checked')){
-                $('#anotherTable').show();
-                getOtherTable();
-            }else{
-                $.alert('No item is selected!');
-            }
-        }
-    });
-
-    function getOtherTable(){
-        var url = "<?php echo base_url();?>consumables/list-display-of-consumables";
-        document.getElementById("anotherTable").style.border = '1px solid black';
-        document.getElementById("anotherTable").style.marginBottom = '30px';
-        document.getElementById("anotherTable").innerHTML = "<h3>Editting Table</h3> <div style='padding:8px'><table id='consumableTableByCheck' class='table table-striped table-bordered' width='100%' cellspacing='0'>" +
-        "<thead>" +
-        "<tr>" + 
-        "<th name='partNo'>Part Number</th>" +
-        "<th name='description'>Description</th>" +
-        "<th name='first'>1st Semester</th>" +
-        "<th name='second'>2nd Semester</th>" +
-        "<th name='summer'>Summer</th>" +
-        "</tr>" +
-        "</thead>"+
-        "<tbody>" +
-        "</tbody>"+
-        "</table>"+ 
-        "<button class='btn btn-primary' type='submit' id='btnConfirm' style='margin-left:966px'>Confirm</button>"
-        "</div>";
-
-        var searchIDs = $("#consumableTable input:checkbox:checked").map(function(){
-          return $(this).val();
-      }).get();
-
-        var table = $('#consumableTableByCheck').DataTable({
-            "bProcessing": true,
-            "bServerSide": true,
-            "ajax":{
-                url: url,
-                type: 'POST',
-                data: function(d){
-                    d.id = searchIDs;
-                    d.year = $('#yearone').val();
-                },
-                select: true,
-            },
         });
 
-        $('#consumableTableByCheck').on('click', 'td', function() {
-          var $this = $(this);
+        $('#btnCreate').click(function(){
 
-          var id = table.row( this ).data();
-          var year = table.row(this).data();
-          var partNumber;
-          var description;
-          var first;
-          var second;
-          var summer;
-          var idx = table.cell( this ).index().column;
-          var title = table.column(idx).header();
+            if(formCreate.valid() === false){
 
-          var colName = title.getAttribute("name");
-          var $input = $('<input>', {
-            value: $this.text(),
-            type: 'text',
-            name: $(title).html(),
-            blur: function() {
-             $this.text(this.value);
-             var val = this.value;
-
-             if(colName == "partNo"){
-                partNumber = val;
-            } else if(colName == "description"){
-                description = val;
-            } else if(colName == "first"){
-                first = val;
-            } else if(colName == "second"){
-                second = val;
-            } else if(colName == "summer"){
-                summer = val;
+            }else{
+                $.confirm({
+                    title: 'There is no data for this year. Do you want to create?',
+                    content: '',
+                    buttons: {
+                        confirm: {
+                            btnClass: 'btn-blue',
+                            action: function(){
+                                createTableForYear();
+                            }
+                        },
+                        cancel: {
+                         btnClass: 'btn-red',
+                         action: function(){
+                            $.alert('Canceled!');
+                        }
+                    },
+                }
+            });
             }
+        });
+
+        function createTableForYear(){
+            var url = "<?php echo base_url();?>consumables/list-of-consumables-year-create";
+            var year = $('#yearone').val();
             $.ajax({
                 type: 'POST',
-                url : '<?php echo base_url();?>consumables/edit-consumables',
+                url: url,
                 data: {
-                    'id': id[5],
-                    'part_number': partNumber,
-                    'description': description,
+                    'year': year,
+                },
+                success: function(data){
+                    $.alert('Success!');
+                    $('#btnCreate').hide();
+                    $('#btnDuplicate').hide();
+                    getTable(data);
+                    document.getElementById("labelYear").innerHTML = "SY: " + $('#yearone').val() + " - " + $('#yeartwo').val();
+                }
+            });
+        }
+
+        $('#btnDuplicate').click(function(){
+            if(formCreate.valid() === false){
+
+            }else{
+                $.confirm({
+                    title: 'There is no data for this year. Do you want to duplicate?',
+                    content: '',
+                    buttons: {
+                        confirm: {
+                            btnClass: 'btn-blue',
+                            action: function(){
+                                duplicateTableForYear();
+                            }
+                        },
+                        cancel: {
+                         btnClass: 'btn-red',
+                         action: function(){
+                            $.alert('Canceled!');
+                        }
+                    },
+                }
+            });
+            }
+        });
+
+        function duplicateTableForYear(){
+            var url = "<?php echo base_url();?>consumables/duplicate-table";
+            $.confirm({
+                title: 'Enter year:',
+                content: '' +
+                '<form action="" class="formName" id="duplicateForm" method="post">' +
+                '<div class="col-sm-4">' +
+                '<select class="form-control" id="year" class="year" onchange="changeYearTwo(this)">' +
+                '<?php
+                foreach ($list_year as $item) {
+                    echo '<option value="'.$item->year.'">'.$item->year.'</option>';
+                }?>'+
+                '</select>' +
+                '</div>' +
+                '<div class="pull-left" style="margin-top: 10px;"> to' +
+                '</div>' +
+                '<div class="col-sm-4">' +
+                '<input type="text" class="form-control input-style" name="yeartwoo" id="yeartwoo" readonly="true">' +
+                '</div>' +
+                '</form>',
+                buttons: {
+                    formSubmit: {
+                        text: 'Submit',
+                        btnClass: 'btn-blue',
+                        action: function () {
+                            $.ajax({
+                                type: 'POST',
+                                url: url,
+                                data:{
+                                    year: $('#year').val(),
+                                    yearone: $('#yearone').val(),
+                                },
+                                success: function(data){
+                                    $.alert('Success!');
+                                    getTable(data);
+                                    $('#btnCreate').hide();
+                                    $('#btnDuplicate').hide();
+                                    document.getElementById("labelYear").innerHTML = "SY: " + $('#yearone').val() + " - " + $('#yeartwo').val();
+                                }
+                            });
+                        }
+                    },
+                    cancel: function () {
+                        $.alert('Canceled!');
+                    },
+                },
+                onContentReady: function () {
+                    var jc = this;
+                    var yearData = parseInt($('#year').val());
+
+                    $('#yeartwoo').val(yearData + 1);
+                    this.$content.find('form').on('submit', function (e) {
+
+                        e.preventDefault();
+                        jc.$$formSubmit.trigger('click');
+                    });
+                }
+            });
+        }
+
+        function changeYearTwo(sel){
+            var yearData = parseInt($('#year').val());
+
+            $('#yeartwoo').val(yearData + 1);
+        }
+
+        $(':checkbox[name=check_all]').click(function(){
+            $(':checkbox[name="check_list[]"]').prop('checked', this.checked);
+        });
+
+        $('#btnEdit1').click(function(){
+
+            if(formCreate.valid() === false){
+
+            }else{
+                if($('input:checkbox').is(':checked')){
+                    $('#anotherTable').show();
+                    getOtherTable();
+                }else{
+                    $.alert('No item is selected!');
+                }
+
+            }
+        });
+
+        $('#btnEdit2').click(function(){
+            if(formCreate.valid() === false){
+
+            }else{
+                if($('input:checkbox').is(':checked')){
+                    $('#anotherTable').show();
+                    getOtherTable();
+                }else{
+                    $.alert('No item is selected!');
+                }
+            }
+        });
+
+        function getOtherTable(){
+            var url = "<?php echo base_url();?>consumables/list-display-of-consumables";
+            document.getElementById("anotherTable").style.border = '1px solid black';
+            document.getElementById("anotherTable").style.marginBottom = '30px';
+            document.getElementById("anotherTable").innerHTML = "<h3>Editting Table</h3> <div style='padding:8px'><table id='consumableTableByCheck' class='table table-striped table-bordered' width='100%' cellspacing='0'>" +
+            "<thead>" +
+            "<tr>" + 
+            "<th name='partNo'>Part Number</th>" +
+            "<th name='description'>Description</th>" +
+            "<th name='first'>1st Semester</th>" +
+            "<th name='second'>2nd Semester</th>" +
+            "<th name='summer'>Summer</th>" +
+            "</tr>" +
+            "</thead>"+
+            "<tbody>" +
+            "</tbody>"+
+            "</table>"+ 
+            "<button class='btn btn-primary' type='submit' id='btnConfirm' style='margin-left:966px'>Confirm</button>"
+            "</div>";
+
+            var searchIDs = $("#consumableTable input:checkbox:checked").map(function(){
+              return $(this).val();
+          }).get();
+
+            var table = $('#consumableTableByCheck').DataTable({
+                "bProcessing": true,
+                "bServerSide": true,
+                "ajax":{
+                    url: url,
+                    type: 'POST',
+                    data: function(d){
+                        d.id = searchIDs;
+                        d.year = $('#yearone').val();
+                    },
+                    select: true,
+                },
+            });
+
+            $('#consumableTableByCheck').on('click', 'td', function() {
+              var $this = $(this);
+
+              var id = table.row( this ).data();
+              var year = table.row(this).data();
+              var partNumber;
+              var description;
+              var first;
+              var second;
+              var summer;
+              var idx = table.cell( this ).index().column;
+              var title = table.column(idx).header();
+
+              var colName = title.getAttribute("name");
+              var $input = $('<input>', {
+                value: $this.text(),
+                type: 'text',
+                name: $(title).html(),
+                blur: function() {
+                 $this.text(this.value);
+                 var val = this.value;
+
+                 if(colName == "partNo"){
+                    partNumber = val;
+                } else if(colName == "description"){
+                    description = val;
+                } else if(colName == "first"){
+                    first = val;
+                } else if(colName == "second"){
+                    second = val;
+                } else if(colName == "summer"){
+                    summer = val;
+                }
+                $.ajax({
+                    type: 'POST',
+                    url : '<?php echo base_url();?>consumables/edit-consumables',
+                    data: {
+                        'id': id[5],
+                        'part_number': partNumber,
+                        'description': description,
+                        'category': $('#category').val(),
+                        'filter': $('#filter').val(),
+                        'year': $('#yearone').val(),
+                    },
+                    success: function(data){
+                        getTable(data);
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url : '<?php echo base_url();?>consumables/edited-consumables',
+                    data: {
+                        'id': id[5],
+                        'first': first,
+                        'second': second,
+                        'summer': summer,
+                        'year': year[6],
+                        'category': $('#category').val(),
+                        'filter': $('#filter').val(),
+                        'yearone': $('#yearone').val(),
+                    },
+                    success: function(data){
+                        getTable(data);
+                    },
+                });
+            },
+            keyup: function(e) {
+             if (e.which === 13) $input.blur();
+         }
+     }).appendTo( $this.empty() ).focus();
+          });
+
+            $('#btnConfirm').click(function(){
+                $('#anotherTable').hide();
+            });
+        }
+
+        function getFilter(sel){
+
+            $.ajax({
+                type: 'POST',
+                url: "<?php echo base_url();?>filter-consumables",
+                data: $('#consumableForm').serialize(),
+                success: function(data){
+                    getTable(data);
+                }
+            });
+        }
+
+        function consumable_hide(id){
+            $.ajax({
+                type: 'POST',
+                url: "<?php echo base_url();?>consumables/flag",
+                data: {
+                    'id': id,
                     'category': $('#category').val(),
-                    'filter': $('#filter').val(),
                     'year': $('#yearone').val(),
+                    'filter': $('#filter').val(),
                 },
                 success: function(data){
                     getTable(data);
                 }
             });
+        }
 
+        function consumable_unhide(id){
             $.ajax({
                 type: 'POST',
-                url : '<?php echo base_url();?>consumables/edited-consumables',
+                url: "<?php echo base_url();?>consumables/unflag",
                 data: {
-                    'id': id[5],
-                    'first': first,
-                    'second': second,
-                    'summer': summer,
-                    'year': year[6],
+                    'id': id,
                     'category': $('#category').val(),
+                    'year': $('#yearone').val(),
                     'filter': $('#filter').val(),
-                    'yearone': $('#yearone').val(),
                 },
                 success: function(data){
                     getTable(data);
-                },
+                }
             });
-        },
-        keyup: function(e) {
-         if (e.which === 13) $input.blur();
-     }
- }).appendTo( $this.empty() ).focus();
-      });
-
-        $('#btnConfirm').click(function(){
-            $('#anotherTable').hide();
-        });
-    }
-
-    function getFilter(sel){
-
-        $.ajax({
-            type: 'POST',
-            url: "<?php echo base_url();?>filter-consumables",
-            data: $('#consumableForm').serialize(),
-            success: function(data){
-                getTable(data);
-            }
-        });
-    }
-
-    function consumable_hide(id){
-        $.ajax({
-            type: 'POST',
-            url: "<?php echo base_url();?>consumables/flag",
-            data: {
-                'id': id,
-                'category': $('#category').val(),
-                'year': $('#yearone').val(),
-                'filter': $('#filter').val(),
-            },
-            success: function(data){
-                getTable(data);
-            }
-        });
-    }
-
-    function consumable_unhide(id){
-        $.ajax({
-            type: 'POST',
-            url: "<?php echo base_url();?>consumables/unflag",
-            data: {
-                'id': id,
-                'category': $('#category').val(),
-                'year': $('#yearone').val(),
-                'filter': $('#filter').val(),
-            },
-            success: function(data){
-                getTable(data);
-            }
-        });
-    }
-</script>
-<script src="<?php echo base_url(); ?>assets/dist/js/jquery.dataTables.min.js"></script>
-<script src="<?php echo base_url(); ?>assets/dist/js/dataTables.bootstrap.min.js"></script>
-<script src="<?php echo base_url(); ?>assets/dist/js/dataTables.buttons.min.js"></script>
-<script src="<?php echo base_url(); ?>assets/dist/js/dataTables.select.min.js"></script>
-<script src="<?php echo base_url(); ?>assets/dist/js/buttons.flash.min.js"></script>
-<script src="<?php echo base_url(); ?>assets/dist/js/jszip.min.js"></script>
-<script src="<?php echo base_url(); ?>assets/dist/js/vfs_fonts.js"></script>
-<script src="<?php echo base_url(); ?>assets/dist/js/buttons.html5.min.js"></script>
-<script src="<?php echo base_url(); ?>assets/dist/js/buttons.print.min.js"></script>
+        }
+    </script>
+    <script src="<?php echo base_url(); ?>assets/dist/js/jquery.dataTables.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/dist/js/dataTables.bootstrap.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/dist/js/dataTables.buttons.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/dist/js/dataTables.select.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/dist/js/buttons.flash.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/dist/js/jszip.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/dist/js/vfs_fonts.js"></script>
+    <script src="<?php echo base_url(); ?>assets/dist/js/buttons.html5.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/dist/js/buttons.print.min.js"></script>
 </body>
 </html>
 
